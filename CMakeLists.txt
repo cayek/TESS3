@@ -126,6 +126,6 @@ add_library(spatialRegularizationToolslib STATIC ${spatialRegularizationTools_SR
 SET_TARGET_PROPERTIES( spatialRegularizationToolslib PROPERTIES LINKER_LANGUAGE CXX)
 
 #add sNMF main
-add_executable(sNMF src/main/main_sNMF.c )
-SET_TARGET_PROPERTIES(sNMF PROPERTIES LINKER_LANGUAGE C)
-target_link_libraries (sNMF sNMFlib lapack createDataSetlib crossEntropylib iolib nnlsmlib bituintlib statslib matrixlib spatialRegularizationToolslib)
+add_executable(TESS3 src/main/main_sNMF.c )
+SET_TARGET_PROPERTIES(TESS3 PROPERTIES LINKER_LANGUAGE C)
+target_link_libraries (TESS3 sNMFlib lapack createDataSetlib crossEntropylib iolib nnlsmlib bituintlib statslib matrixlib spatialRegularizationToolslib)
