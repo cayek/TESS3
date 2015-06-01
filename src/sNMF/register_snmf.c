@@ -32,6 +32,7 @@ void analyse_param_snmf(int argc, char *argv[], sNMF_param param)
 {
 	int i;
 	int g_data = -1;
+	int c_data = -1;
 	char *tmp_file;
 	char tmp[512];
 	int g_c = 0;
@@ -63,16 +64,7 @@ void analyse_param_snmf(int argc, char *argv[], sNMF_param param)
 			case 'a':
 				i++;
 				if (argc == i || argv[i][0] == '-')
-					print_error_nmf("cmd", "alpha (regularization parameter)", 0);
-				param->alpha = (double)atof(argv[i]);
-				if (param->alpha < 0) {
-					param->alpha = 0;
-				}
-				break;
-			case 'b':
-				i++;
-				if (argc == i || argv[i][0] == '-')
-					print_error_nmf("cmd", "beta (normalized regularization parameter)", 0);
+					print_error_nmf("cmd", "alpha (normalized regularization parameter)", 0);
 				param->beta = (double)atof(argv[i]);
 				if (param->beta < 0) {
 					param->beta = 0;
@@ -132,6 +124,7 @@ void analyse_param_snmf(int argc, char *argv[], sNMF_param param)
 				i++;
 				if (argc == i || argv[i][0] == '-')
 					print_error_nmf("cmd", "r (coordinates file)", 0);
+				c_data = 0;
 				strcpy(param->coord_input_file, argv[i]);
 				break;
 			case 'q':
@@ -168,6 +161,7 @@ void analyse_param_snmf(int argc, char *argv[], sNMF_param param)
 				i++;
 				if (argc == i || argv[i][0] == '-')
 					print_error_nmf("cmd", "W (W graph weigth matrix file)", 0);
+				c_data = 0;
 				strcpy(param->input_file_W, argv[i]);
 				break;
 			case 'z':
@@ -187,6 +181,9 @@ void analyse_param_snmf(int argc, char *argv[], sNMF_param param)
 	if (g_data == -1)
 		print_error_nmf("option", "-x genotype_file", 0);
 
+	if (c_data == -1)
+		print_error_nmf("option", "-r coordinate_file or -W graph_weight_file ", 0);
+
 	if (param->K <= 0)
 		print_error_nmf("missing", NULL, 0);
 
@@ -201,6 +198,11 @@ void analyse_param_snmf(int argc, char *argv[], sNMF_param param)
 
 	if (g_c && (param->pourcentage <= 0 || param->pourcentage >= 1))
 		print_error_nmf("missing", NULL, 0);
+
+	if (param->neighborProportion <= 0 || param->neighborProportion >= 1)
+		print_error_nmf("missing", NULL, 0);
+
+
 
 	// write output file name
 	tmp_file = remove_ext(param->input_file, '.', '/');
@@ -225,10 +227,10 @@ void init_param_snmf(sNMF_param param)
 {
 	// default values 
 	param->K = 0;
-	param->beta = 1.0/8.0;
+	param->beta = 0.001;
+	param->alpha = 0.0;
 	param->maxiter = 200;
 	param->num_thrd = 1;
-	param->alpha = 10;
 	param->tolerance = 0.0000001;
 	strcpy(param->output_file_F, "");
 	strcpy(param->output_file_Q, "");

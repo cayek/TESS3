@@ -34,7 +34,7 @@ void print_error_nmf(char* msg, char*file, int n)
 	        printf("ERROR: the following option is mandatory: %s.\n\n",file);
 		print_help_snmf();
 	} else if (!strcmp(msg,"missing")) {
-	        printf("ERROR: one of the following options is missing or not positive: -K / -c / -i / -m / -p.\n\n");
+	        printf("ERROR: one of the following options is missing or not in the good range: -K / -c / -i / -m / -p / -z.\n\n");
 		print_help_snmf();
 	} else if (!strcmp(msg,"missing")) {
 	        printf("ERROR: one of the following options is missing: -e / -a / -m \n\n");

@@ -58,7 +58,7 @@ typedef struct _snmf_param {
 	int nnlsm_Q; /**< @brief if true use algo nnlsm to update Q*/
 
 	// model parameters
-	double alpha;     	/**< @brief the regularization parameter */
+	double alpha;			 /**< @brief obsolete */
 	double beta;			 /**< @brief alpha penalization for the regularization using coordinates information */
 	double neighborProportion;
 

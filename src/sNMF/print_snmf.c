@@ -27,7 +27,7 @@
 
 void print_licence_snmf() 
 {
-        printf("sNMF Copyright (C) 2013 François Mathieu, Eric Frichot\n"
+        printf("TESS3 Copyright (C) 2015 K. Caye\n"
     "This program is free software: you can redistribute it and/or modify\n"
     "it under the terms of the GNU General Public License as published by\n"
     "the Free Software Foundation, either version 3 of the License, or\n"
@@ -47,10 +47,10 @@ void print_licence_snmf()
 
 void print_head_licence_snmf() 
 {
-    printf("sNMF  Copyright (C) 2013 François Mathieu, Eric Frichot\n"
+    printf("TESS3 Copyright (C) 2015 K. Caye\n"
     "This program comes with ABSOLUTELY NO WARRANTY; for details type './sNMF -l'.\n"
     "This is free software, and you are welcome to redistribute it\n"
-    "under certain conditions; type './sNMF -l' for details.\n\n");
+    "under certain conditions; type './TESS3 -l' for details.\n\n");
 
 }
 
@@ -59,35 +59,42 @@ void print_head_licence_snmf()
 void print_head_snmf() 
 {
         print_head_licence_snmf();
-        printf("****                      sNMF Version 1.2                                     *****\n"
-               "****   E. Frichot , F. Mathieu, T. Trouillon, G. Bouchard, O. Francois         *****\n"
+        printf("****                      TESS3 version 1.0                                     *****\n"
+               "****   K. Caye, T. Deist, H. Martins, O. Michel, O. Francois         *****\n"
                "****                    Please cite our paper !                                *****\n"
-               "****   Information at http://membres-timc.imag.fr/Olivier.Francois/snmf.html   *****\n\n");
+               "****   Information at ????   *****\n\n");
 }
 
 // print_help_snmf
 
 void print_help_snmf()
 {
-   printf("\nHELP: ./sNMF options \n\n"
+   printf("\nHELP: ./TESS3 options \n\n"
          "mandatory:\n"
          "        -x genotype_file      -- genotype file (in .geno format)\n"
-         "        -K K                  -- number K of ancestral populations\n\n"
-
+         "        -K K                  -- number K of ancestral populations\n"
+		 
+		 "        -r coordinates_file   -- coordinates input file\n"
+		 " OR \n"
+		 "        -W graph_weight_file  -- graph weight input file\n"
+		 
          "optional:\n"
          "        -h                    -- help\n"
-         "        -a alpha              -- regularization parameter       (default: 0)\n"
+         "        -a alpha              -- normalized regularization parameter       (default: 0.001)\n"
          "        -q output_Q           -- individual admixture file      (default: genotype_file.K.Q)\n"
          "        -g output_G           -- ancestral frequencies file     (default: genotype_file.K.G)\n"
          "        -c perc               -- cross-entropy with 'perc'                         \n"
          "                              of masked genotypes               (default: 0.05)\n"
-         "        -e tol                -- tolerance error                (default: 0.0001)\n"
+         "        -e tol                -- tolerance error                (default: 0.0000001)\n"
          "        -i iterations         -- number max of iterations       (default: 200)\n"
          "        -I nb_SNPs            -- number of SNPs used to init Q  (default: min(10000,L/10)\n"
          "        -Q input_Q            -- individual admixture initialisation file\n" 
          "        -s seed               -- seed random init               (default: random)\n"
          "        -m ploidy             -- 1 if haploid, 2 if diploid     (default: 2)\n"
-         "        -p num_proc           -- number of processes (CPU)      (default: 1)\n\n"
+         "        -p num_proc           -- number of processes (CPU)      (default: 1)\n"
+		 "        -z                    -- size of neighborhood                        \n"
+		 "                                 to construct the graph                   \n"
+		 "                                 if necessary                   (default: 0.05)\n"
         );
 }
 
@@ -104,15 +111,13 @@ void print_summary_snmf (sNMF_param param)
          "        -q (individual admixture file)         %s\n"
          "        -g (ancestral frequencies file)        %s\n"
          "        -i (number max of iterations)          %d\n"
-         "        -a (regularization parameter)          %G\n"
-		 "        -b (coordinates regularization parameter)          %G\n"
+		 "        -a (normalized regularization parameter)          %G\n"
          "        -s (seed random init)                  %llu\n"
          "        -e (tolerance error)                   %G\n"
-         "        -p (number of processes)               %d\n"
-		 "        -k (1 to use nnlsm algo)               %d\n",
+         "        -p (number of processes)               %d\n",
 	 param->n, param->L, param->K, param->input_file, param->output_file_Q, 
-	 param->output_file_F, param->maxiter, param->alpha, param->beta,
-	 (long long)(param->seed), param->tolerance, param->num_thrd,param->nnlsm_Q);
+	 param->output_file_F, param->maxiter, param->beta,
+	 (long long)(param->seed), param->tolerance, param->num_thrd);
         
         if (param->pourcentage != 0)
                 printf("        -c (cross-Entropy criterion)           %G\n", 
