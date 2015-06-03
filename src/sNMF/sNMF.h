@@ -72,6 +72,7 @@ typedef struct _snmf_param {
 	double *coordMatrix;	/**< @brief matrix for individual coordinates (of size n x 2) */
 	double *Laplacian;			/**< @brief Laplacian matrix (of size n x n) */
 	double *W;			/**< @brief Adjacency matrix W  (of size n x n) */
+	double *Fst;			/**< @brief Fst matrix  (of size L x 1) */
 	bituint *X;             /**< @brief the data matrix (of size nxMp) */
 	bituint *Xi;             /**< @brief the init data matrix (of size nxMpi) */
 
@@ -83,6 +84,7 @@ typedef struct _snmf_param {
 	char coord_input_file[512]; /**< @brief coord input file */
 	char input_file_W[512]; /**< @brief W matrix input file */
 	char data_file[512];     /**< @brief data file */
+	char output_file_Fst[512];  /**< @brief output file for Fst */
 
 	// output criterion parameters
 	double all_ce;             /**< @brief cross-entropy of all data */

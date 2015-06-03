@@ -35,6 +35,7 @@
 #include "../createDataSet/createDataSet.h"
 #include "../crossEntropy/crossEntropy.h"
 #include "../spatialRegularizationTools/spatialRegularizationTools.h"
+#include "../Fst/Fst.h"
 
 void sNMF(sNMF_param param)
 {
@@ -197,6 +198,9 @@ void sNMF(sNMF_param param)
 	like = least_square(param);
 	printf("\nLeast-square error: %f\n", like);
 
+	// compute Fst
+	computeFst(param->Q, param->F, param->n, param->L, param->K, param->m, &param->Fst);
+
 	// write Q
 	write_data_double(param->output_file_Q, n, K, param->Q);
 	printf("Write individual ancestry coefficient file %s:"
@@ -206,6 +210,13 @@ void sNMF(sNMF_param param)
 	write_data_double(param->output_file_F, Mc, K, param->F);
 	printf("Write ancestral allele frequency coefficient file %s:"
 		"\tOK.\n\n", param->output_file_F);
+
+	// write Fst
+	if (param->Fst) {
+		write_data_double(param->output_file_Fst, param->L, 1, param->Fst);
+		printf("Write Fst file %s:"
+			"\tOK.\n\n", param->output_file_Fst);
+	}
 
 	// cross-entropy
 	if (param->pourcentage) {

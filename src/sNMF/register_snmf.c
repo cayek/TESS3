@@ -218,6 +218,12 @@ void analyse_param_snmf(int argc, char *argv[], sNMF_param param)
 		strcat(param->output_file_F, tmp);
 		strcat(param->output_file_F, ".G");
 	}
+	if (!strcmp(param->output_file_Fst, "")) {
+		strcpy(param->output_file_Fst, tmp_file);
+		strcat(param->output_file_Fst, ".");
+		strcat(param->output_file_Fst, tmp);
+		strcat(param->output_file_Fst, ".Fst");
+	}
 	free(tmp_file);
 }
 
@@ -237,6 +243,7 @@ void init_param_snmf(sNMF_param param)
 	strcpy(param->input_file_Q, "");
 	strcpy(param->input_file_W, "");
 	strcpy(param->coord_input_file, "");
+	strcpy(param->output_file_Fst, "");
 	param->seed = -1;
 	param->m = 0;
 	param->pourcentage = 0.0;
@@ -257,6 +264,9 @@ void free_param_snmf(sNMF_param param)
 	// F
 	if (param->F)
 		free(param->F);
+	// Fst
+	if (param->Fst)
+		free(param->Fst);
 	// X
 	if (param->X)
 		free(param->X);

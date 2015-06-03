@@ -125,7 +125,17 @@ file(GLOB spatialRegularizationTools_SRC
 add_library(spatialRegularizationToolslib STATIC ${spatialRegularizationTools_SRC})
 SET_TARGET_PROPERTIES( spatialRegularizationToolslib PROPERTIES LINKER_LANGUAGE CXX)
 
+#add Fst
+file(GLOB Fst_SRC
+    "src/Fst/*.h"
+    "src/Fst/*.cpp"
+)
+
+add_library(Fstlib STATIC ${Fst_SRC})
+SET_TARGET_PROPERTIES( Fstlib PROPERTIES LINKER_LANGUAGE CXX)
+
+
 #add sNMF main
 add_executable(TESS3 src/main/main_sNMF.c )
 SET_TARGET_PROPERTIES(TESS3 PROPERTIES LINKER_LANGUAGE C)
-target_link_libraries (TESS3 sNMFlib lapack createDataSetlib crossEntropylib iolib nnlsmlib bituintlib statslib matrixlib spatialRegularizationToolslib)
+target_link_libraries (TESS3 sNMFlib lapack createDataSetlib crossEntropylib iolib nnlsmlib bituintlib statslib matrixlib spatialRegularizationToolslib Fstlib)
