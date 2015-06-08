@@ -6,7 +6,7 @@
 extern "C" {
 #endif
 
-	void computeFst(double *Q, double *F, unsigned int n, unsigned int L, unsigned int K, unsigned int m, double **Fst);
+	void computeFst(double *Q, double *F, unsigned int n, unsigned int L, unsigned int K, unsigned int m, double *Fst);
 
 #ifdef __cplusplus
 }

@@ -200,7 +200,7 @@ void sNMF(sNMF_param param)
 
 	// compute Fst
 	param->Fst = (double *)calloc(param->L * 1, sizeof(double));    
-	computeFst(param->Q, param->F, param->n, param->L, param->K, param->m, &param->Fst);
+	computeFst(param->Q, param->F, param->n, param->L, param->K, param->m, param->Fst);
 
 	// write Q
 	write_data_double(param->output_file_Q, n, K, param->Q);

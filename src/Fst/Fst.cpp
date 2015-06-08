@@ -23,7 +23,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <Eigen/Eigen>
 typedef Eigen::Matrix < double, Eigen::Dynamic, Eigen::Dynamic, Eigen::RowMajor > Matrixd;
 
-void computeFst(double *Q, double *F, unsigned int n, unsigned int L, unsigned int K, unsigned int m, double **Fst) {
+void computeFst(double *Q, double *F, unsigned int n, unsigned int L, unsigned int K, unsigned int m, double *Fst) {
 
 	// Fst = 1 - sigma2_s / sigma2_T
 	// sigma2_s = Sum_k( q_k * f_k * ( 1 - f_k ) )
@@ -34,12 +34,9 @@ void computeFst(double *Q, double *F, unsigned int n, unsigned int L, unsigned i
 		return;
 	}
 
-	//Allocate memory for Fst
-	*Fst = (double*)calloc(L, sizeof(double));
-
 	Eigen::Map < Matrixd > QEigen(Q, n, K);
 	Eigen::Map < Matrixd > FEigen(F, L * m, K);
-	Eigen::Map < Matrixd > FstEigen(*Fst, L, 1);
+	Eigen::Map < Matrixd > FstEigen(Fst, L, 1);
 
 	//Compute q
 	Matrixd q(1, K);
