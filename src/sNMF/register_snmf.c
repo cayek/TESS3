@@ -145,6 +145,12 @@ void analyse_param_snmf(int argc, char *argv[], sNMF_param param)
 					print_error_nmf("cmd", "g (ancestral genotype frequencies file)", 0);
 				strcpy(param->output_file_F, argv[i]);
 				break;
+			case 'f':
+				i++;
+				if (argc == i || argv[i][0] == '-')
+					print_error_nmf("cmd", "f (Fst file)", 0);
+				strcpy(param->output_file_Fst, argv[i]);
+				break;
 			case 'p':
 				i++;
 				if (argc == i || argv[i][0] == '-')
