@@ -23,13 +23,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <Eigen/Eigen>
 typedef Eigen::Matrix < double, Eigen::Dynamic, Eigen::Dynamic, Eigen::RowMajor > Matrixd;
 
-void computeFst(double *Q, double *F, unsigned int n, unsigned int L, unsigned int K, unsigned int m, double *Fst) {
+void computeFst(double *Q, double *F, unsigned int n, unsigned int L, unsigned int K, unsigned int nc, double *Fst) {
 
 	// Fst = 1 - sigma2_s / sigma2_T
 	// sigma2_s = Sum_k( q_k * f_k * ( 1 - f_k ) )
 	// sigma2_T = ( Sum_k( q_k * f_k ) * ( 1 - Sum_k( q_k * f_k ) ) )
 
-	if (m != 2 && m != 3) {
+	if (nc != 2 && nc != 3) {
 		//Formula more complicated for any m TODO
 		return;
 	}

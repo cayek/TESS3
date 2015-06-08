@@ -44,7 +44,7 @@ typedef struct _snmf_param {
 	int L;                  /**< @brief the number of loci */
 	int nc;			/**< @brief ploidy + 1, 3 if 0,1,2 , 2 if 0,1 (number of factors) */
 	int Mc;			/**< @brief number of binary elements per line */
-	int m;			/**< @brief ploidy + 1, 3 if 0,1,2 , 2 if 0,1 (number of factors) */
+	int m;			/**< @brief ploidy */
 	int Mp;			/**< @brief the number of columns of X */
 	int Mpi;		/**< @brief the number of columns of Xi */
 

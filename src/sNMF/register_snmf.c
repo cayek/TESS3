@@ -57,7 +57,7 @@ void analyse_param_snmf(int argc, char *argv[], sNMF_param param)
 			case 'm':
 				i++;
 				if (argc == i || argv[i][0] == '-')
-					print_error_nmf("cmd", "m (number of alleles)", 0);
+					print_error_nmf("cmd", "m (ploidy)", 0);
 				param->m = atoi(argv[i]);
 				g_m = 1;
 				break;
