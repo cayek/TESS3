@@ -35,7 +35,7 @@ void computeFst(double *Q, double *F, unsigned int n, unsigned int L, unsigned i
 	}
 
 	Eigen::Map < Matrixd > QEigen(Q, n, K);
-	Eigen::Map < Matrixd > FEigen(F, L * m, K);
+	Eigen::Map < Matrixd > FEigen(F, L * nc, K);
 	Eigen::Map < Matrixd > FstEigen(Fst, L, 1);
 
 	//Compute q
@@ -48,7 +48,7 @@ void computeFst(double *Q, double *F, unsigned int n, unsigned int L, unsigned i
 
 	//compute f
 	Matrixd f(L, K);
-	if (m == 2) {
+	if (nc == 2) {
 		for (unsigned int l = 0; l < L; l++) {
 			for (unsigned int k = 0; k < K; k++) {
 				f(l, k) = FEigen(2 * l + 1, k);
