@@ -199,6 +199,7 @@ void sNMF(sNMF_param param)
 	printf("\nLeast-square error: %f\n", like);
 
 	// compute Fst
+	param->Fst = (double *)calloc(param->L * 1, sizeof(double));    
 	computeFst(param->Q, param->F, param->n, param->L, param->K, param->m, &param->Fst);
 
 	// write Q
@@ -217,6 +218,7 @@ void sNMF(sNMF_param param)
 		printf("Write Fst file %s:"
 			"\tOK.\n\n", param->output_file_Fst);
 	}
+
 
 	// cross-entropy
 	if (param->pourcentage) {
