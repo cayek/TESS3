@@ -86,7 +86,6 @@ void computeFst(double *Q, double *F, unsigned int n, unsigned int L, unsigned i
 
 	
 	//Compute Fst
-	//FstEigen = (1 - sigma2_s.array() / sigma2_T.array());
-	FstEigen = f.col(0);
+	FstEigen = (1 - sigma2_s.array() / sigma2_T.array());
 	return;
 }
