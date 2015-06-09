@@ -151,6 +151,12 @@ void analyse_param_snmf(int argc, char *argv[], sNMF_param param)
 					print_error_nmf("cmd", "f (Fst file)", 0);
 				strcpy(param->output_file_Fst, argv[i]);
 				break;
+			case 'y':
+				i++;
+				if (argc == i || argv[i][0] == '-')
+					print_error_nmf("cmd", "y (summary results output file)", 0);
+				strcpy(param->output_file_summary, argv[i]);
+				break;
 			case 'p':
 				i++;
 				if (argc == i || argv[i][0] == '-')
@@ -230,6 +236,12 @@ void analyse_param_snmf(int argc, char *argv[], sNMF_param param)
 		strcat(param->output_file_Fst, tmp);
 		strcat(param->output_file_Fst, ".Fst");
 	}
+	if (!strcmp(param->output_file_summary, "")) {
+		strcpy(param->output_file_summary, tmp_file);
+		strcat(param->output_file_summary, ".");
+		strcat(param->output_file_summary, tmp);
+		strcat(param->output_file_summary, ".sum");
+	}
 	free(tmp_file);
 }
 
@@ -250,6 +262,7 @@ void init_param_snmf(sNMF_param param)
 	strcpy(param->input_file_W, "");
 	strcpy(param->coord_input_file, "");
 	strcpy(param->output_file_Fst, "");
+	strcpy(param->output_file_summary, "");
 	param->seed = -1;
 	param->m = 0;
 	param->pourcentage = 0.0;

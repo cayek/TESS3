@@ -227,4 +227,7 @@ void sNMF(sNMF_param param)
 			param->output_file_F, K, param->m, &(param->all_ce), &(param->masked_ce));
 		printf("\n >>>>>>\n\n");
 	}
+
+	// write summary results
+	write_summary_results_snmf(param->output_file_summary, like, param->all_ce, param->masked_ce);
 }

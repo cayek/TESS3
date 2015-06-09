@@ -110,14 +110,15 @@ void print_summary_snmf (sNMF_param param)
          "        -x (input file)                        %s\n"
          "        -q (individual admixture file)         %s\n"
          "        -g (ancestral frequencies file)        %s\n"
-		 "        -f (ancestral frequencies file)        %s\n"
+		 "        -f (Fst file)        %s\n"
+		 "        -y (summary results file)        %s\n"
          "        -i (number max of iterations)          %d\n"
 		 "        -a (normalized regularization parameter)          %G\n"
          "        -s (seed random init)                  %llu\n"
          "        -e (tolerance error)                   %G\n"
          "        -p (number of processes)               %d\n",
 	 param->n, param->L, param->K, param->input_file, param->output_file_Q,
-	 param->output_file_F, param->output_file_Fst, param->maxiter, param->beta,
+	 param->output_file_F, param->output_file_Fst, param->output_file_summary, param->maxiter, param->beta,
 	 (long long)(param->seed), param->tolerance, param->num_thrd);
         
         if (param->pourcentage != 0)
@@ -143,3 +144,18 @@ void print_summary_snmf (sNMF_param param)
 
 }
 
+
+void write_summary_results_snmf(char *output_file_summary, double like, double all_ce, double masked_ce) {
+
+	FILE *m_File = NULL;
+
+	// open file
+	m_File = fopen_write(output_file_summary);
+
+	fprintf(m_File, "Least-square error: %f\n", like);
+	
+	fprintf(m_File, "Cross-Entropy (all data): %f\n", all_ce);
+
+	fprintf(m_File, "Cross-Entropy (masked data): %f\n", masked_ce);
+
+}

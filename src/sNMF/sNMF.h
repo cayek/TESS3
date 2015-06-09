@@ -85,6 +85,7 @@ typedef struct _snmf_param {
 	char input_file_W[512]; /**< @brief W matrix input file */
 	char data_file[512];     /**< @brief data file */
 	char output_file_Fst[512];  /**< @brief output file for Fst */
+	char output_file_summary[512];  /**< @brief output file for summary */
 
 	// output criterion parameters
 	double all_ce;             /**< @brief cross-entropy of all data */
