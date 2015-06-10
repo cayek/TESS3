@@ -172,7 +172,7 @@ void analyse_param_snmf(int argc, char *argv[], sNMF_param param)
 			case 'W':
 				i++;
 				if (argc == i || argv[i][0] == '-')
-					print_error_nmf("cmd", "W (W graph weigth matrix file)", 0);
+					print_error_nmf("cmd", "W (W edge weigth matrix of the graph input)", 0);
 				c_data = 0;
 				strcpy(param->input_file_W, argv[i]);
 				break;

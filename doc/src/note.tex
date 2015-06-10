@@ -15,13 +15,13 @@
 \usepackage{fancyvrb}
 \usepackage{hyperref}
 
-\title{\bf \Large A short manual for {\tt sNMF}:
-a program to estimate ancestry coefficients\\
-\large (command-line version)
+\title{\bf \Large A short manual for {\tt TESS3}:
+a program to estimate spatial population structure\\
+\large (command-line and R wrapper)
 }
 
 \author{
-        Eric Frichot (eric.frichot@imag.fr)\\
+        Kevin Caye (kevin.caye@imag.fr)\\
         Olivier François (olivier.francois@imag.fr)\\
 }
 
@@ -38,30 +38,21 @@ a program to estimate ancestry coefficients\\
 \end{center}
 
 \noindent
-This short manual aims to help users to run {\tt sNMF} command-line engine on Mac and Linux. 
+This short manual aims to help users to run {\tt TESS3} command-line engine on Mac and Linux. 
 
 \section{Description} 
-Inference of individual ancestry coefficients, which is important for population genetic and association studies, is commonly performed using computer-intensive likelihood algorithms. With the availability of large population genomic data sets, fast versions of likelihood algorithms have attracted considerable attention. 
-\noindent
-{\tt sNMF} is a fast and efficient method for estimating individual ancestry coefficients based on sparse non-negative matrix factorization algorithms. In [1], the performances of {\tt sNMF} were compared to the likelihood algorithm implemented in the computer program {\tt ADMIXTURE}.  Without loss of accuracy, {\tt sNMF} computed estimates of ancestry coefficients with run-times approximately 10 to 30 times shorter than those of {\tt ADMIXTURE}.
-\\
-\\
-\noindent
-[1] Eric Frichot, François Mathieu, Théo Trouillon, Guillaume Bouchard, Olivier François. (2014) {\it Fast and efficient estimation of individual ancestry coefficients}. Genetics 196: 973 -- 983. 
+
+Inference of spatial population structure are commonly perform with computer program based on intensive stochastic simulation. These methods do not scale with the dimension of the data sets generated from next-generation sequencing technologies. The computer program {\tt TESS3} has functionalities similar to the spatial bayesian clustering program  {\tt TESS}~\cite{durand2009spatial}, but has run-times several order faster than those of {\tt TESS} 2.3. The method is based on geographically constrained non-negative matrix factorization, and provides similar results that with {\tt TESS} 2.3. In addition {\tt TESS3} computes an ancestral allele frequency differentiation statistic that can be used to perform selection scans.
 
 \section{Installation} 
 
 \noindent
-To install the {\tt sNMF} command-line version, unzip the sNMF\_CL.zip file, and run the 
-install script (install.command) from the {\tt sNMF} directory.
-From a terminal shell, go to the {\tt sNMF} main directory and type ``./install.command''.
-If the script is not executable, type ``chmod +x install.command'' and then ``./install.command''.
-A set of binaries should be created in the {\tt bin} directory.
+TO DO 
 
 \section{Data format}
 
 \subsection{input file}
-The {\tt sNMF} input file consists of a single genotype file in the {\bf geno} format. 
+The {\tt sNMF} input file consists of a genotype file in the {\bf geno} format and coordinate file in the {\bf coord} format. 
 \begin{itemize}
 \item {\bf geno} (example.geno)
 
@@ -82,133 +73,30 @@ Below, an example of a geno file for $n=3$ individuals and $L=4$ loci.
 121
 \end{Verbatim}
 \end{center}
+
+
+\item {\bf coord} (example.coord)
+
+The {\bf coord} format has one row for each individual. Each row contain the \verb|longitude latitude| information of the individual.
+
+Below, an example of a geno file for $n=3$ individuals and $L=4$ loci.
+\begin{center}
+\footnotesize
+\begin{Verbatim}[frame=single]
+2.515455200203690111e+01 5.439077948590419709e+01
+-8.429345306090160861e+00 4.019713388759510053e+01
+1.351129055178800087e+01 5.585331731335860184e+01
+\end{Verbatim}
+\end{center}
+
 \end{itemize}
 
 \noindent
-{\tt sNMF} also proposes C functions to convert the following formats to the geno format.
-\begin{itemize}
-\item {\bf ped} (example.ped)
-
-The {\bf ped} format has one row for each individual. Each row contains 6 columns of information for each individual, plus two genotype columns for each SNP. Each column must be separated by spaces or tabulations. Genotype format must be either 0ACGT or 01234, where 0 means missing data. The first 6 columns of the genotype file are: 1st column is family ID, 2nd column is sample ID, 3rd and 4th columns are sample IDs of parents, 5th column is gender (male is 1, female is 2), 6th column is case/control status (1 is control, 2 is case), quantitative trait value or population group label. 
-The ped format is also described at the following \href{http://pngu.mgh.harvard.edu/~purcell/plink/data.shtml#ped}{link}.
-
-Below, an example of a ped file for $n=3$ individuals and $L=4$ loci.
-\begin{center}
-\footnotesize
-\begin{Verbatim}[frame=single]
-1 SAMPLE0 0 0 2 2 1 2 3 3 1 1 2 1
-2 SAMPLE1 0 0 1 2 2 1 1 3 0 4 1 1
-3 SAMPLE2 0 0 2 1 2 2 3 3 1 4 1 2
-\end{Verbatim}
-\end{center}
-
-The format of the command line is:
-\begin{Verbatim}[frame=single]
-./bin/ped2geno  input_file [output_file]
-\end{Verbatim}
-where 
-\begin{itemize}
-\item \verb|input_file| is the path for the input file (in ped format).
-\item \verb|output_file| is the path for the output\_file (in geno format). 
-By default, the name of the output file is the name of the input\_file with the .geno extension.
-
-\end{itemize}
-
-\item {\bf ancestrymap} (example.ancestrymap)\\
-The {\bf ancestrymap} format has one row for each genotype. Each row has 3 columns: 1st column is SNP name, 2nd column is sample ID, 3rd column is number of alleles. It is assumed that the genotypes for a given SNP name are written in consecutive lines. It is also assumed that the genotypes for a set of individuals are given in the same order as lines. The number of alleles can be the number of reference alleles or the number of derived alleles as long as it is the same choice for an entire SNP. It is assumed that missing genotypes are encoded by the value 9.
-
-Below, an example of an ancestrymap file for $n=3$ individuals and $L=4$ loci.
-\begin{center}
-\footnotesize
-\begin{Verbatim}[frame=single]
-rs0000  SAMPLE0 1
-rs0000  SAMPLE1 1
-rs0000  SAMPLE2 2
-rs1111  SAMPLE0 0
-rs1111  SAMPLE1 1
-rs1111  SAMPLE2 0
-rs2222  SAMPLE0 0
-rs2222  SAMPLE1 9
-rs2222  SAMPLE2 1
-rs3333  SAMPLE0 1
-rs3333  SAMPLE1 2
-rs3333  SAMPLE3 1
-\end{Verbatim}
-\end{center}
-
-The format of the command line is:
-\begin{Verbatim}[frame=single]
-./bin/ancestrymap2geno  input_file [output_file]
-\end{Verbatim}
-where 
-\begin{itemize}
-\item \verb|input_file| is the path for the input file (in ancestrymap format).
-\item \verb|output_file| is the path for the output\_file (in geno format). 
-By default, the name of the output file is the name of the input\_file with the .geno extension.
-\end{itemize}
-
-\item {\bf vcf} (example.vcf)\\
-The {\bf vcf} format is described at the following \href{http://www.1000genomes.org/wiki/Analysis/Variant\%20Call\%20Format/vcf-variant-call-format-version-41}{link}.
-
-Below, an example of vcf file for $n=3$ individuals and $L=4$ loci.
-\begin{center}
-\footnotesize
-\begin{Verbatim}[frame=single]
-##fileformat=VCFv4.1 
-##FORMAT=<ID=GM,Number=1,Type=Integer,Description="Genotype meta"> 
-##INFO=<ID=VM,Number=1,Type=Integer,Description="Variant meta"> 
-##INFO=<ID=SM,Number=1,Type=Integer,Description="SampleVariant meta"> 
-#CHROM POS ID REF ALT QUAL FILTER INFO FORMAT SAMPLE0 SAMPLE1 SAMPLE2 
-1 1001 rs0000 T C 999 . VM=1;SM=100 GT:GM 1/0:1 0/1:2 1/1:3 
-1 1002 rs1111 G A 999 . VM=2;SM=101 GT:GM 0/0:6 0/1:7 0/0:8 
-1 1003 notres G AA 999 . VM=3;SM=102 GT:GM 0/0:11 ./.:12 0/1:13 
-1 1004 rs2222 G A 999 . VM=3;SM=102 GT:GM 0/0:11 . 1/0:13
-1 1003 notres GA A 999 . VM=3;SM=102 GT:GM 0/0:11 ./.:12 0/1:13 
-1 1005 rs3333 G A 999 . VM=3;SM=102 GT:GM 1/0:11 1/1:12 0/1:13 
-\end{Verbatim}
-\end{center}
-
-The format of the command line is:
-\begin{Verbatim}[frame=single]
-./bin/vcf2geno  input_file [output_file]
-\end{Verbatim}
-where 
-\begin{itemize}
-\item \verb|input_file| is the path for the input file (in vcf format).
-\item \verb|output_file| is the path for the output\_file (in geno format). 
-By default, the name of the output file is the name of the input\_file with the extension .geno.
-\end{itemize}
-
-\item {\bf lfmm} (example.lfmm)\\
-The {\bf lfmm} format has one row for each individual. Each row contains one value for each locus (separated by spaces or tabulations): the number of alleles. The number of alleles can be the number of reference alleles or the number of derived alleles. Missing genotypes are encoded by the values 9 or -9. 
-
-
-Below, an example of a lfmm file for $n=3$ individuals and $L=4$ loci.
-\begin{center}
-\footnotesize
-\begin{Verbatim}[frame=single]
-1 0 0 1
-1 1 -9 2
-2 0 1 1
-\end{Verbatim}
-\end{center}
-
-The format of the command line is:
-\begin{Verbatim}[frame=single]
-./bin/lfmm2geno  input_file [output_file]
-\end{Verbatim}
-where 
-\begin{itemize}
-\item \verb|input_file| is the path for the input file (in lfmm format).
-\item \verb|output_file| is the path for the output\_file (in geno format). 
-By default, the name of the output file is the name of the input\_file with the extension .geno.
-\end{itemize}
-
-\end{itemize}
+Other formats for the genotype data sets can be used thanks to the {\tt LEA} R package~\cite{frichot2015lea}. Indeed, {\tt LEA} enable to convert into {\bf geno} format the following usual formats : {\bf ped}, {\bf ancestrymap}, {\bf vcf} and {\bf lfmm}.
 
 \subsection{output files}
 \noindent
-There are 2 {\bf output files}.
+There are three main {\bf output files}.
 
 \begin{itemize}
 \item The file with the extension the {\bf .Q} contains individual admixture coefficients.
@@ -221,30 +109,43 @@ For a diploid SNP, the first line contains the ancestral frequencies for the num
 of allele equals to 0, the second line contains the ancestral frequencies for the 
 number allele equals to 1, the third line contains the ancestral frequencies for 
 the number of alleles equal to 2.
+\item The file with the extension {\bf .Fst} contains ancestral allele frequency differentiation statistic. In this file each row is the statistic estimate for each loci. 
+\end{itemize}
+
+There also are less important {\bf output files}, but that can be useful to have information on the graph computed, the least-squared criterion and the cross-entropy criterion.
+
+\begin{itemize}
+\item The file with the extension the {\bf .W} contains the edge weight matrix of the nearest-neighbor graph computed from coordinates data.
+\item The file with the extension the {\bf .sum} contains the value of least-squared criterion, the cross entropy criteria on all data and only on masked data if the user asked it.
 \end{itemize}
 
 \section{Run the program}
-The {\tt sNMF} program can be executed from a command line. The format is:
+\subsection{Command-line}
+The {\tt TESS3} program can be executed from a command line. The format is:
 \begin{Verbatim}[frame=single]
-./bin/sNMF -x genotype_file.geno -K number_of_ancestral_populations 
+./TESS3 -x genotype_file.geno -K number_of_ancestral_populations  -r coordinates_file
 \end{Verbatim}
 
 \noindent
-All the options are mandatory. There is no ordering for the options in the command line. 
-Here is a description of all options:
+Only these three options are mandatory. There is no ordering for the options in the command line. 
+Here is a description of these options:
 \begin{itemize}
 \item \verb|-x genotype_file.geno| is the path to the genotype file (in .geno format).
 \item \verb|-K number_of_ancestral_populations| is the number of ancestral populations. 
+\item \verb|-r coordinates_file| is the path to the coordinate file (in .coord format). 
 \end{itemize}
 
 \noindent
 Additional options are available:
 \begin{itemize}
-\item \verb|-a alpha| is the value of the regularization parameter (by default: 10). The results can depend on the value of this parameter, especially for small data sets. 
+\item \verb|-a alpha| is the value of the normalized regularization parameter (by default: 0.001). This parameter control the spatial regularity of the ancestry estimates.
+\item \verb|-W edge_weight_input| is the path to the file that contains a edge weight matrix of the spatial graph. The file has to contain each element of the matrix separates by a space row by row. The program use this graph in place of the one computed if no edge weight input file is given.
 \item \verb|-q output_Q| is the path for the output file containing the ancestry coefficients. By default, the name of the output file is the same name as the input file with the extension .K.Q.
-\item \verb|-g output_G| is the path to the output file containing the ancestral genotype frequencies. By default, the name of the output file is the same name as the input file with the extension .K.G.
-\item \verb|-c perc| is the percentage of masked genotypes. If this option is set, the cross-entropy criterion is calculated (see section Cross-Entropy criterion). The default percentage is $5\%$.
-\item \verb|-e tolerance| is the tolerance error in the {\tt sNMF} optimization algorithm (by default: 0.0001). 
+\item \verb|-g output_G| is the path to the output file containing the ancestral genotype frequencies. By default, the name of the output file is the same name as the input genotype file with the extension .K.G.
+\item \verb|-f output_FST| is the path to the output file containing the ancestral allele frequency differentiation statistic. By default, the name of the output file is the same name as the input genotype file with the extension .K.Fst.
+\item \verb|-y output_FST| is the path to the output file containing the value of least-squared criterion, the cross entropy criteria on all data and only on masked data. By default, the name of the output file is the same name as the input genotype file with the extension .K.sum.
+\item \verb|-c perc| is the percentage of masked genotypes. If this option is set, the cross-entropy criterion is calculated (see\cite{frichot2014fast} for more details on the cross-entropy criterion). The default percentage is $5\%$.
+\item \verb|-e tolerance| is the tolerance error in the {\tt sNMF} optimization algorithm (by default: 0.0000001). 
 \item \verb|-i iteration_number| is the max number of iterations of the algorithm (default: 200). 
 \item \verb|-I nb_SNPs| starts the algorithm with a run of sNMF using a subset of nb\_SNPs random SNPs. This option can speed up sNMF estimation for very large data sets.
 \item \verb|-Q input_Q| is the path to an initial file for the $Q$ matrix containing individual admixture coefficients. If both \verb|-I| and \verb|-Q| are set, \verb|-Q| is chosen.
@@ -253,6 +154,7 @@ Additional options are available:
 \item \verb|-p p| is the number of CPUs to use when the algorithm is run on a multiprocessor system.
 Be aware that the number of processes has to be lower or equal to the number 
 of CPU units available on your computer (default: 1).
+
 \end{itemize}
 
 
@@ -265,80 +167,83 @@ If you need a summary of options, you can use the \verb|-h| option by typing the
 \noindent
 \normalsize
 
+\subsection{R wrapper}
+The {\tt TESS3} program can be executed using a wrapper in R software environment. The wrapper and helper functions are defined in the R script \verb|src/Rwrapper/TESS3.R|, the user can directly source this script in a R session. We now present function define in this script: 
+
+
+\begin{itemize}
+
+\item \verb|TESS3|
+
+\paragraph{Description}
+The wrapper function that call the command-line program. This function create a directory \verb|TESS3_workingDirectory| to store input and output file.
+\paragraph{Usage}
+\begin{Verbatim}
+project = TESS3( genotype,
+                 spatialData,
+                 K,
+                 ploidy=1,
+                 seed=-1, 
+                 rep = 1, 
+                 maskedProportion = 0.0, 
+                 alpha = 0.001 )
+\end{Verbatim}
+\paragraph{Arguments}
+\begin{itemize}
+\item \verb|genotype|: genotype R matrix of size $n$ individual by $L$ loci or the .geno format file name.
+\item \verb|spatialData|: coordinate R matrix of size $n$ individual by $2$ or the .coord format file name.
+\item \verb|K|: vector of number of ancestral cluster. The {\tt TESS3} program is run for each element od the vector.
+\item \verb|ploidy|: 1 if haploid, 2 if diploid
+\item \verb|rep|: number of run for each number of ancestral population.
+\item \verb|maskedProportion|: if \verb|maskedProportion > 0|, the cross-entropy criterion is calculated for this percentage of masked genotypes
+\item \verb|alpha|: value of the normalized regularization parameter. This parameter control the spatial regularity of the ancestry estimates.
+\end{itemize}
+
+\item \verb|Getter|
+
+\paragraph{Description}
+Functions useful to fetch results of \verb|TESS3| R function.
+\paragraph{Usage}
+\begin{Verbatim}
+getQ( project, K, run = "best" )
+ 
+getG( project, K, run = "best" )
+  
+getFst( project, K, run = "best" )
+  
+getCrossEntropy( project, func = mean ) 
+
+getLeastSquared( project, func = mean )
+\end{Verbatim}
+\paragraph{Arguments}
+\begin{itemize}
+\item \verb|project|: object returned by the \verb|TESS3| R function.
+\item \verb|K|: number of ancestral cluster.
+\item \verb|run|: number of the run, or \verb|"best"| if you want the best result with respect to the least-squared criterion.
+\item \verb|func|: function used to summarize data over all run.
+
+\end{itemize}
+
+\item \verb|Reader|
+
+\paragraph{Description}
+Function useful to read data from file.
+\paragraph{Usage}
+\begin{verbatim}
+read.coord( file )
+\end{verbatim}
+\paragraph{Arguments}
+\begin{itemize}
+\item \verb|file| name of the file to read.
+\end{itemize}
+
+
+\end{itemize}
+
 \noindent
-A full example is available at the end of this note.
+A full example in R is available at the end of this note.
 
-\section{Cross-Entropy criterion}
 
-\paragraph{Goal}
-The cross-entropy criterion is based on the prediction of masked genotypes to evaluate
-the quality of ancestry estimation. This criterion will help to choose the 
-number of ancestral populations ($K$) or the best run among a set of runs. A smaller value
-of the cross-entropy criterion means a better run. An example is displayed in the tutorial section.
-
-\paragraph{programs}
-The cross-entropy criterion for a single {\tt sMNF} run can be calculated using the \verb|-c| option in {\tt sNMF}. 
-We also provide two programs that can compute the cross-entropy criterion for the data separately. 
-\begin{itemize}
-\item A first program creates a data set with a given percentage of masked data from your original data set.
-The command line is
-\begin{Verbatim}[frame=single]
-./bin/createDataSet -x genotype_file.geno
-\end{Verbatim}
-
-The mandatory option is
-\begin{itemize}
-\item \verb|-x genotype_file.geno|, which is the path to the genotype file (in .geno format).
-\end{itemize}
-
-This command will create a file with around 5 \% of masked data with the name genotype\_file{\bf\_I}.geno. 
-The {\bf\_I} extension differentiates this file from the original file. 
-
-\noindent
-Other options (not mandatory):
-\begin{itemize}
-\item \verb|-r percentage| is the percentage of masked data in your data set (default: 0.05). 
-\item \verb|-e tolerance| is the tolerance error (by default: 0.0001). 
-\item \verb|-s seed| is the initialization for the random parameter (by default: random). 
-\item \verb|-m ploidy| is 1 if haploid, 2 if diploid (default: 2). 
-\end{itemize}
-
-\item A second program calculates the cross-entropy criterion for all data and for the masked data from the 
-output of {\tt sNMF}. The cross-entropy criterion is useful to choose the number of 
-ancestral populations ($K$) and the values of the regularization parameter ($\alpha$). 
-A smaller value of the cross-entropy criterion using masked data means a better prediction of the masked data.
-The command line is
-\begin{Verbatim}[frame=single]
-./bin/crossEntropy -x genotype_file.geno -K number_of_ancestral_populations
-\end{Verbatim}
-
-The mandatory options are
-\begin{itemize}
-\item \verb|-x genotype_file.geno|, which is the path to the genotype file (in .geno format).
-\item \verb|-K number_of_ancestral_populations|, which is the number of ancestral populations.
-\end{itemize}
-
-The outputs of {\tt sNMF}, the files with masked data, the original files and the results files 
-are stored in a unique folder.
-
-\noindent
-Other option (not mandatory):
-\begin{itemize}
-\item \verb|-m ploidy|  1 if haploid, 2 if diploid (default: 2). 
-\end{itemize}
-
-\end{itemize}
-
-To summarize, the following two sets of command-lines calculate cross-entropy criteria. 
-\begin{Verbatim}[frame=single]
-./bin/sNMF -x genotype_file.geno -K K -c
-\end{Verbatim}
-
-\begin{Verbatim}[frame=single]
-./bin/createDataSet -x genotype_file.geno 
-./bin/sNMF -x genotype_file_I.geno -K K
-./bin/crossEntropy -x genotype_file.geno -K K
-\end{Verbatim}
 
 \section{Tutorial}
 
@@ -458,12 +363,12 @@ To choose a value for $K$, we launch {\tt sNMF} for each value of $K$ from 2 to 
 \begin{Verbatim}[frame=single]
 for K in 1 2 3 4 5 6 7 8 9 10 
 do 
-	echo K=$K; ./bin/sNMF -x examples/panel11.geno -K $K -c > examples/panel11.$K.log
+	echo K=K; ./bin/sNMF -x examples/panel11.geno -K K -c > examples/panel11.K.log
 done
 grep "Cross-Entropy (masked data):" examples/panel11.*.log
 \end{Verbatim}
 
-\centerline{\includegraphics[width=15cm]{ce.pdf}}
+%\centerline{\includegraphics[width=15cm]{ce.pdf}}
 \noindent{\bf Figure.}  {\bf Values of the cross-entropy criterion for 10 {\tt sNMF} runs (dataset HGDP01224).} 
 \\
 \\
@@ -505,5 +410,9 @@ Genschoreck, Teresa Webster, and David Reich. (2012) {\it Ancient admixture in h
 \\
 \noindent
 [4] Noah A. Rosenberg. (2004) {\it DISTRUCT: a program for the graphical display of population structure}. Molecular Ecology Notes, 4(1): 137--138.
+
+
+\bibliographystyle{plain}
+\bibliography{biblio}
 
 \end{document}
