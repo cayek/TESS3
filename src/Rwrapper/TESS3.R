@@ -212,7 +212,7 @@ getCrossEntropy <- function( project, func = mean  ) {
   
 }
 
-getError <- function( project, func = mean  ) {
+getLeastSquared <- function( project, func = mean  ) {
   
   res = c()
   

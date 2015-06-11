@@ -27,15 +27,15 @@ Fst = getFst( project, K = 3 )
 Fst[Fst < 0.0] = 0.0
 
 #### Convert Fst into t score
-t.scores = sqrt(Fst*(n-2)/(1-Fst))
+squared.t.scores = Fst*(n-2)/(1-Fst)
 
 #### recalibrated p-values
 gif = 25
-adj.p.values = pf( (t.scores)^2/gif , df1 = 2, df2 = n-3, lower = FALSE )
+adj.p.values = pf( squared.t.scores/gif , df1 = 2, df2 = n-3, lower = FALSE )
 
 hist(adj.p.values,prob=TRUE)
 
-#### benjamini hochberg procedure
+#### Benjamini Hochberg procedure
 alpha = 1e-10
 L = length(adj.p.values)
 # return a list of candidates with an expected FDR of alpha.

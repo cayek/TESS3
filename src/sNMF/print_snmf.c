@@ -76,13 +76,14 @@ void print_help_snmf()
 		 
 		 "        -r coordinates_file   -- coordinates input file\n"
 		 " OR \n"
-		 "        -W graph_weight_file  -- graph weight input file\n"
+		 "        -W edge_weight_file  -- edge weight matrix of the graph input file\n"
 		 
          "optional:\n"
          "        -h                    -- help\n"
          "        -a alpha              -- normalized regularization parameter       (default: 0.001)\n"
          "        -q output_Q           -- individual admixture file      (default: genotype_file.K.Q)\n"
          "        -g output_G           -- ancestral frequencies file     (default: genotype_file.K.G)\n"
+		 "        -f					-- Fst file                       (default: genotype_file.F.Fst)\n"
          "        -c perc               -- cross-entropy with 'perc'                         \n"
          "                              of masked genotypes               (default: 0.05)\n"
          "        -e tol                -- tolerance error                (default: 0.0000001)\n"
@@ -92,9 +93,6 @@ void print_help_snmf()
          "        -s seed               -- seed random init               (default: random)\n"
          "        -m ploidy             -- 1 if haploid, 2 if diploid     (default: 2)\n"
          "        -p num_proc           -- number of processes (CPU)      (default: 1)\n"
-		 "        -z                    -- size of neighborhood                        \n"
-		 "                                 to construct the graph                   \n"
-		 "                                 if necessary                   (default: 0.05)\n"
         );
 }
 
@@ -126,10 +124,9 @@ void print_summary_snmf (sNMF_param param)
 			param->pourcentage);
 	if (strcmp(param->coord_input_file, "")) {
 	  printf("        -r (coordinates input file)                        %s\n", param->coord_input_file);
-	  printf("        -z (number of neighbor in the graph in percentage)                        %G\n", param->neighborProportion);
 }
 		if (strcmp(param->input_file_W, ""))
-			printf("        -W (graph weight input file)                        %s\n", param->input_file_W);
+			printf("        -W (edge weight input file)                        %s\n", param->input_file_W);
         if (strcmp(param->input_file_Q,""))
                  printf("        -Q (admixture initialisation file)     %s\n", param->input_file_Q);
         else if (param->I)
