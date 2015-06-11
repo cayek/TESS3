@@ -15,7 +15,7 @@ TESS3 <- function( genotype,  spatialData, K, ploidy=1, seed=-1, rep = 1, masked
     stop("Can not read or execute TESS3. Please check in TESS3.R if TESS3_cmd=absolute_path/TESS3")
   }
   if (file.access( TESS3_cmd, mode = 1 )) {
-    stop("Can not read or execute TESS3. Please check in TESS3.R if TESS3_cmd=absolute_path/TESS3")
+    stop("Can not read or execute TESS3. Please check in TESS3.R if TESS3_cmd=absolute_path/TESS3 and if TESS3 program was generated and can be executed")
     
   }
   
