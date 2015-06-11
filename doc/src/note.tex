@@ -38,7 +38,7 @@ a program to estimate spatial population structure\\
 \end{center}
 
 \noindent
-This short manual aims to help users to run {\tt TESS3} command-line engine on Mac and Linux. 
+This short manual aims to help users to run {\tt TESS3} command-line engine and R wrapper function on Mac, Linux and Windows.
 
 \section{Description} 
 
@@ -46,8 +46,9 @@ Inference of spatial population structure are commonly perform with computer pro
 
 \section{Installation} 
 
-\noindent
-TO DO 
+The source code of {\tt TESS3} can be download on github: 
+ \url{https://github.com/cayek/TESS3/archive/master.zip}.
+Then you just need to follow instructions on the github project page \url{https://github.com/cayek/TESS3}.
 
 \section{Data format}
 
@@ -77,7 +78,7 @@ Below, an example of a geno file for $n=3$ individuals and $L=4$ loci.
 
 \item {\bf coord} (example.coord)
 
-The {\bf coord} format has one row for each individual. Each row contain the \verb|longitude latitude| information of the individual.
+The {\bf coord} format has one row for each individual. Each row contains the \verb|longitude latitude| information of the individual.
 
 Below, an example of a geno file for $n=3$ individuals and $L=4$ loci.
 \begin{center}
@@ -92,7 +93,7 @@ Below, an example of a geno file for $n=3$ individuals and $L=4$ loci.
 \end{itemize}
 
 \noindent
-Other formats for the genotype data sets can be used thanks to the {\tt LEA} R package~\cite{frichot2015lea}. Indeed, {\tt LEA} enable to convert into {\bf geno} format the following usual formats : {\bf ped}, {\bf ancestrymap}, {\bf vcf} and {\bf lfmm}.
+Other formats for genotype data sets can be used thanks to the {\tt LEA} R package~\cite{frichot2015lea}. Indeed, {\tt LEA} enable to convert into {\bf geno} format the following usual formats : {\bf ped}, {\bf ancestrymap}, {\bf vcf} and {\bf lfmm}.
 
 \subsection{output files}
 \noindent
@@ -192,10 +193,10 @@ project = TESS3( genotype,
 \begin{itemize}
 \item \verb|genotype|: genotype R matrix of size $n$ individual by $L$ loci or the .geno format file name.
 \item \verb|spatialData|: coordinate R matrix of size $n$ individual by $2$ or the .coord format file name.
-\item \verb|K|: vector of number of ancestral cluster. The {\tt TESS3} program is run for each element od the vector.
-\item \verb|ploidy|: 1 if haploid, 2 if diploid
+\item \verb|K|: vector of number of ancestral cluster. The {\tt TESS3} program is run for each element of this vector.
+\item \verb|ploidy|: 1 if haploid, 2 if diploid.
 \item \verb|rep|: number of run for each number of ancestral population.
-\item \verb|maskedProportion|: if \verb|maskedProportion > 0|, the cross-entropy criterion is calculated for this percentage of masked genotypes
+\item \verb|maskedProportion|: if \verb|maskedProportion > 0|, the cross-entropy criterion is calculated for this percentage of masked genotypes.
 \item \verb|alpha|: value of the normalized regularization parameter. This parameter control the spatial regularity of the ancestry estimates.
 \end{itemize}
 
@@ -248,169 +249,125 @@ A full example in R is available at the end of this note.
 \section{Tutorial}
 
 \subsection{Data set}
-The data set that we analyze in this tutorial is an Asian human data set.
-This data is a worldwide sample of genomic DNA (10757 SNPs) from 934 individuals,
-taken from the Harvard Human Genome Diversity Project - Centre
-Etude Polymorphism Humain (Harvard HGDP-CEPH). 
-In those data, each marker has been ascertained in samples of Mongolian
-ancestry (referenced population HGDP01224) \cite{Patterson_2012}. 
+The data set that we analyse in this tutorial is a simulated dataset from a {\it Arabidopsis thaliana} Data set used in~\cite{atwell2010genome}. We obtain a haploid data set of $n = 170$ individual and $L = 26943$ loci.
 
-\subsection{Example}
-\paragraph{Create a data set with masked data}
+\subsection{Example of analysis using {\tt TESS3}}
 
-In the main directory, type:
+This tutorial example describe how to run {\tt TESS3} in R for different values of $K$ the number of ancestral populations. Then we plot the cross entropy criterion with respect to $K$. Finally we use R script available on {\tt POPS} website (see http://membres-timc.imag.fr/Olivier.Francois/pops.html) to plot the ancestry coefficient with the $K$ found with the cross entropy criteria~\cite{jay2012forecasting}. You need to change \verb|TESS3_directory| and \verb|POPS_directory| by the directory path of {\tt TESS3} and {\tt POPS}.
+
 \begin{Verbatim}[frame=single]
-./bin/createDataSet -x examples/panel11.geno
-\end{Verbatim}
-\noindent
-output for createDataSet
-\begin{Verbatim}[frame=single]
-summary of the options:
+source("TESS3_directory/src/Rwrapper/TESS3.R")
+library(LEA)
 
-        -n (number of individuals)                 934
-        -L (number of loci)                        10757
-        -s (seed random init)                      11162993670188721480
-        -r (percentage of masked data)             0.05
-        -x (genotype file)                         examples/panel11.geno
-        -o (output file)                           examples/panel11_I.geno
-        - diploid
+setwd( "TESS3_directory/data/simulated/Athaliana" )
+###########################################################################
+# Run TESS3 on a data set simualted from an Arabidopsis Athalina data set #
+###########################################################################
 
-Write genotype file with masked data examples/panel11_I.geno:		OK.
-\end{Verbatim}
-\noindent
-A file with 5 \% of masked data \verb|examples/panel11_I.geno| has been created.
+#read data
+spatialData = read.coord("Athaliana.coord")
+n = nrow(spatialData)
 
-\paragraph{Run {\tt sNMF}}
+project = TESS3( genotype = "Athaliana.geno", 
+                 spatialData = "Athaliana.coord", 
+                 K = 1:5, 
+                 ploidy = 1, 
+                 rep = 1, 
+                 maskedProportion = 0.2)
 
-Then, run {\tt sNMF} with 5 \% of masked data and $K=5$
-\begin{Verbatim}[frame=single]
-./bin/sNMF -x examples/panel11_I.geno -K 5
-\end{Verbatim}
-\noindent
-The output for sNMF is
-\begin{Verbatim}[frame=single]
-./bin/sNMF -x examples/panel11_I.geno -K 5 
-summary of the options:
 
-        -n (number of individuals)             934
-        -L (number of loci)                    10757
-        -K (number of ancestral pops)          5
-        -x (input file)                        examples/panel11_I.geno
-        -q (individual admixture file)         examples/panel11_I.5.Q
-        -g (ancestral frequencies file)        examples/panel11_I.5.G
-        -i (number max of iterations)          200
-        -a (regularization parameter)          0
-        -s (seed random init)                  11162857829069388553
-        -e (tolerance error)                   0.0001
-        -p (number of processes)               1
-        - diploid
+###########################################
+# Chose of K with cross-entropy criterion #
+###########################################
 
-Read genotype file examples/panel11_I.geno:		OK.
+plot( 1:5, 
+      getCrossEntropy( project ), 
+      main  = "Cross entropy",
+      type="b", 
+      xlab = "K", 
+      ylab = "corss entropy" )
 
-Main algorithm:
-[                                                                           ]
-[===============================================]
-Number of iterations: 142
+################################
+# Plot result on map for K = 3 #
+################################
 
-Least-square error: 4597146.245722
-Write individual ancestry coefficient file examples/panel11_I.5.Q:		OK.
-Write ancestral allele frequency coefficient file examples/panel11_I.5.G:	OK.
+# R script available on http://membres-timc.imag.fr/Olivier.Francois/pops.html
+source("POPS_direction/R/POPSutilities.r")
+
+asciiFile="/home/cayek/Projects/TESS3/data/simulated/Athaliana/down_etopo1.asc"
+grid=createGridFromAsciiRaster(asciiFile)
+# To display only altitudes above 0:
+constraints=getConstraintsFromAsciiRaster(asciiFile,cell_value_min=0)
+
+maps(matrix = getQ( project, K = 3 ),
+     coord = spatialData,
+     grid=grid,constraints=constraints,method="max",main="ancestry coefficient with K = 3")
+
 \end{Verbatim}
 
-\noindent
-The results files \verb|examples/panel11_I.Q| and \verb|examples/panel11_I.G| have been created.
-{\tt sNMF} also dislpays the number of iterations and the least-squares error: $||X - QG||_F^2$
-(see [1]).
 
-\paragraph{Compute the cross-entropy criterion}
 
-Finally, calculate the cross-entropy criterion:
+\subsection{Example of genome-scan for selection using {\tt TESS3}}
+This tutorial show an example in R of use of the ancestral allele frequency differentiation statistic computed by {\tt TESS3}. We first run {\tt TESS3} with $K = 3$ ancestral populations. Then using standard population genetic theory the $F_{\tt ST}$-statistic is transformed into squared t-score and p-value are computed using a fisher distribution. The test inflation due to neutral population structure is corrected by recalibrating the $t^2$-score to have uniform distribution under the null hypothesis. Finally, we control the false discovery rate using a Benjamini Hochberg procedure and plot the Manhattan plot. You need to change \verb|TESS3_directory| by the directory path of {\tt TESS3}.
+
 \begin{Verbatim}[frame=single]
-./bin/crossEntropy -x examples/panel11.geno -K 5
+source("TESS3_directory/src/Rwrapper/TESS3.R")
+library(LEA)
+
+setwd( "TESS3_directory/data/simulated/Athaliana" )
+###########################################################################
+# Run TESS3 on a data set simualted from an Arabidopsis Athalina data set #
+###########################################################################
+
+#read data
+spatialData = read.coord("Athaliana.coord")
+genotype = read.geno("Athaliana.geno")
+n = nrow(spatialData)
+
+project = TESS3( genotype = genotype, 
+                 spatialData = spatialData, 
+                 K = 3, 
+                 ploidy = 1, 
+                 rep = 5 )
+
+
+#############################
+# Genome scan for selection #
+#############################
+
+#### Fst with TESS3 
+Fst = getFst( project, K = 3 )
+Fst[Fst < 0.0] = 0.0
+
+#### Convert Fst into t score
+squared.t.scores = Fst*(n-2)/(1-Fst)
+
+#### recalibrated p-values
+gif = 25
+adj.p.values = pf( squared.t.scores/gif , df1 = 2, df2 = n-3, lower = FALSE )
+
+hist(adj.p.values,prob=TRUE)
+
+#### Benjamini Hochberg procedure
+alpha = 1e-10
+L = length(adj.p.values)
+# return a list of candidates with an expected FDR of alpha.
+w = which(sort(adj.p.values) < alpha * (1:L) / L)
+candidates = order(adj.p.values)[w]
+limite = max(adj.p.values[candidates])
+
+#### Manhattan plot 
+plot( 1:length(adj.p.values),-log10(adj.p.values) , 
+      main = "Manhattan Plot" , 
+      xlab = "indices", 
+      ylab="- Log P-value", 
+      pch=19, cex = .5) 
+#add limite
+abline( -log10(limite), 0, col = "green", lty = 6, lwd = 3 )
 \end{Verbatim}
-\noindent
-log for crossEntropy:
-\begin{Verbatim}[frame=single]
-summary of the options:
-
-        -n (number of individuals)         934
-        -L (number of loci)                10757
-        -K (number of ancestral pops)      5
-        -x (genotype file)                 examples/panel11.geno
-        -q (individual admixture)          examples/panel11_I.5.Q
-        -g (ancestral frequencies)         examples/panel11_I.5.G
-        -i (with masked genotypes)         examples/panel11_I.geno
-        - diploid
-
-Cross-Entropy (all data):	 0.746568
-Cross-Entropy (masked data):	 0.756867
-\end{Verbatim}
-\noindent
-The {\tt crossEntropy} program displays the cross-entropy calculated for all data and for the masked data.
-The cross-entropy for all data is always lower than the cross-entropy for the masked data. 
-The value useful to compare runs is the {\bf cross-entropy for the masked data}.
-
-
-\paragraph{All in once}
-We can also run all in once using the \verb|-c| option:
-\begin{Verbatim}[frame=single]
-./bin/sNMF -x examples/panel11.geno -K 5 -c
-\end{Verbatim}
-
-\subsection{How to choose $K$}
-
-To choose a value for $K$, we launch {\tt sNMF} for each value of $K$ from 2 to 10. The Figure displays the cross-entropy value obtained for each value of $K$. $K=6$ is the best value according to the cross-entropy criterion because the cross-entropy does not decrease for $K$ greater than 6. This analysis can be completed by displaying the $Q$-matrices associated with each run. 
-\begin{Verbatim}[frame=single]
-for K in 1 2 3 4 5 6 7 8 9 10 
-do 
-	echo K=K; ./bin/sNMF -x examples/panel11.geno -K K -c > examples/panel11.K.log
-done
-grep "Cross-Entropy (masked data):" examples/panel11.*.log
-\end{Verbatim}
-
-%\centerline{\includegraphics[width=15cm]{ce.pdf}}
-\noindent{\bf Figure.}  {\bf Values of the cross-entropy criterion for 10 {\tt sNMF} runs (dataset HGDP01224).} 
-\\
-\\
-
-\noindent
-The ancestry coefficients for $K=6$ are available in the file examples/panel11.6.Q. The format of the file containing the ancestry coefficients is the format used by the software {\tt STRUCTURE}. This file can be used as input into CLUMPP, the software to gather output runs [3] and into distruct to display admixture plots [4].\\
-\\
-\noindent
-Below, the first three lines of examples/panel11.6.Q.
-\begin{center}
-\footnotesize
-\begin{Verbatim}[frame=single]
-0.150569 0.0135955 0.0103463 0.779787 0.00755981 0.0381422
-0.156673 0.0584628 0.0543375 0.682024 9.9991E-05 0.0484029
-0.280393 0.00873713 0.0120376 0.635205 0.0635271 9.9991E-05
-\end{Verbatim}
-\end{center}
-{\it Tips:} It is clearly useful to perform several runs of {\tt sNMF} for the same value of $K$ and to choose the run with the smallest value of the cross-entropy criterion.
-
-
 
 \section{Contact}
-If you need assistance, do not hesitate to send us an email (eric.frichot@imag.fr or olivier.francois@imag.fr). 
-A FAQ (Frequently Asked Questions) section is available 
-on our webpage (http://membres-timc.imag.fr/Olivier.Francois/snmf.html). 
-{\tt sNMF} software is still under development. All your comments and feedbacks are more than welcome.\\
-\\
-\noindent
-[1] Eric Frichot, François Mathieu, Théo Trouillon, Guillaume Bouchard, Olivier François. (2014) {\it Fast and efficient estimation of individual ancestry coefficients}. Genetics 196: 973 -- 983.\\ 
-\\
-\noindent
-[2]  Nick J. Patterson, Priya Moorjani, Yontao Luo, Swapan Mallick, Nadin Rohland, Yiping Zhan, Teri
-Genschoreck, Teresa Webster, and David Reich. (2012) {\it Ancient admixture in human history}. Genetics
-192: 1065 -- 1093.\\
-\\
-\noindent
-[3] Mattias Jakobsson, Noah A. Rosenberg. (2007) {\it CLUMPP: a cluster matching and permutation program for dealing with label switching and multimodality in analysis of population structure}. Bioinformatics, 23(14): 1801--1806.
-\\
-\\
-\noindent
-[4] Noah A. Rosenberg. (2004) {\it DISTRUCT: a program for the graphical display of population structure}. Molecular Ecology Notes, 4(1): 137--138.
-
+If you need assistance, do not hesitate to send us an email (kevin.caye@imag.fr or olivier.francois@imag.fr). 
 
 \bibliographystyle{plain}
 \bibliography{biblio}

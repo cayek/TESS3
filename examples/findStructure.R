@@ -28,6 +28,7 @@ plot( 1:5, getCrossEntropy( project ), main  = "Cross entropy",type="b", xlab = 
 # Plot result on map for K = 3 #
 ################################
 
+# R script available on http://membres-timc.imag.fr/Olivier.Francois/pops.html
 source("/home/cayek/Téléchargements/R/POPSutilities.r")
 
 asciiFile="/home/cayek/Projects/TESS3/data/simulated/Athaliana/down_etopo1.asc"
