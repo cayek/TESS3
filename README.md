@@ -23,12 +23,12 @@ The repository is organized as follows:
 Program documentation
 ---------------------
 
-The program documentation is available `here<>`_
+The program documentation is available [here]().
 
 Installation
 ------------
 
-The first step is to generate compilation build environment to compile source code using `cmake<http://www.cmake.org/download/>`_. 
+The first step is to generate compilation build environment to compile source code using [cmake](<http://www.cmake.org/download/>). 
 
 * On Linux or Mac OS, in TESS3 directory use these bash commands to generate makefile: 
 
