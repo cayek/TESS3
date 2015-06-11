@@ -50,7 +50,7 @@ Then, you can build the program.
 	make TESS3
 ```
 	
-Finally, if you want to use the R wrapper function and execute R script examples (see `program documentation<>`_) you need to set the absolute path of TESS3 command-line program in [src/Rwrapper/TESS3.R](https://github.com/cayek/TESS3/blob/master/src/Rwrapper/TESS3.R):
+Finally, if you want to use the R wrapper function and execute R script examples (see the section Tutorial of the [program documentation](https://github.com/cayek/TESS3/blob/master/doc/documentation.pdf)) you need to set the absolute path of TESS3 command-line program in src/Rwrapper/[TESS3.R](https://github.com/cayek/TESS3/blob/master/src/Rwrapper/TESS3.R):
 
 ```
 TESS3_cmd <- "TESS3_directory/build/TESS3"
