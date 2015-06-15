@@ -4,7 +4,7 @@
 
 
 #TESS3 executable location : absolute_path/TESS3
-TESS3_cmd <- "TESS3_directory/build/TESS3"
+TESS3.cmd <- "/home/cayek/Projects/TESS3/build/TESS3"
 
 ##########################################################################
 
@@ -18,6 +18,8 @@ TESS3 <- function( genotype,  spatialData, K, ploidy=1, seed=-1, rep = 1, masked
     stop("Can not read or execute TESS3. Please check in TESS3.R if TESS3_cmd=absolute_path/TESS3 and if TESS3 program was generated and can be executed")
     
   }
+  
+  res = vector("list",length=length(K))
   
   #creating TESS3 working directory
   if ( !file.exists(file = "TESS3_workingDirectory") ) {
@@ -36,6 +38,7 @@ TESS3 <- function( genotype,  spatialData, K, ploidy=1, seed=-1, rep = 1, masked
   } else if( class( genotype ) == "character" ) {
     
     genotype_file = genotype
+    attr(res,"genotype" ) = genotype_file
     
   }
   
@@ -50,7 +53,7 @@ TESS3 <- function( genotype,  spatialData, K, ploidy=1, seed=-1, rep = 1, masked
   } else if( class( spatialData ) == "character" ) {
     
     spatialData_file  = spatialData
-    
+    attr(res,"spatialData" ) = spatialData_file
   }
   
   #optionnal arg
@@ -66,8 +69,12 @@ TESS3 <- function( genotype,  spatialData, K, ploidy=1, seed=-1, rep = 1, masked
     
   }
   
-  res = vector("list",length=length(K))
+  
   attr(res,"K") = K
+  attr(res,"alpha") = alpha
+  attr(res,"rep" ) = rep
+  attr(res,"proportion of masked data" ) = maskedProportion
+  attr(res,"ploidy" ) = ploidy
   
   for( k in 1:length(K)) {
     
@@ -116,8 +123,43 @@ TESS3 <- function( genotype,  spatialData, K, ploidy=1, seed=-1, rep = 1, masked
     
   }
   
-  
+  #create an object of type TESS3
+  class(res) = "tess3"
   return(res)
+  
+}
+
+summary.tess3 <- function( obj ) {
+  K = attr(obj,"K")
+  cat(paste("Number of ancestral populations from",K[1],'to',K[length(K)],"\n"))
+  cat(paste("Number of repetition:",attr(obj,"rep"),"\n"))
+  cat(paste("Regularization parameter:",attr(obj,"alpha"),"\n"))
+  cat(paste("Proportion of masked data:",attr(obj,"proportion of masked data"),"\n"))
+  cat(paste("Ploidy:",attr(obj,"ploidy"),"\n"))
+  
+  if( !is.null( attr(obj,"genotype") ) ) {
+    
+    cat(paste("Genotype file:",attr(obj,"genotype"),"\n"))
+    
+  }
+  
+  if( !is.null( attr(obj,"spatialData") ) ) {
+    
+    cat(paste("Coordinate file:",attr(obj,"spatialData"),"\n"))
+    
+  }
+  
+}
+
+plot.tess3 <- function( obj ) {
+  
+  
+  
+}
+
+print.tess3 <- function( obj ) {
+  
+  print.default( obj )
   
 }
 
@@ -126,7 +168,13 @@ TESS3 <- function( genotype,  spatialData, K, ploidy=1, seed=-1, rep = 1, masked
 ##########################Result Getter###################################
 ##########################################################################
 
-getQ <- function( project, K, run = "best" ) {
+qmatrix <- function( project, K, run = "best" ) {
+  
+  if( class(project) != "tess3" ) {
+    
+    stop( "Project should be an object of class tess3" )
+    
+  }
   
   k = which(attr(project, "K") == K )
   
@@ -138,19 +186,36 @@ getQ <- function( project, K, run = "best" ) {
     k=k[1]
     if (class(run) == "numeric") {
       
-      return( project[[k]]$Q[[run]] )
+      res = list( Q = project[[k]]$Q[[run]], K = K )
+      class(res) = "qmatrix"
+      return( res )
       
     } else if( run  == "best"  ) {
       
       best = which.min( project[[k]]$error )
       
-      return( project[[k]]$Q[[ best ]] )
+      res = list( Q = project[[k]]$Q[[ best ]], K = K )
+      class(res) = "qmatrix"
+      return( res )
       
     }
   }
 }
 
-getG <- function( project, K, run = "best" ) {
+plot.qmatrix <- function(obj) {
+  
+  barplot( t( obj$Q ), col = 1:obj$K )
+  
+}
+
+
+gmatrix <- function( project, K, run = "best" ) {
+  
+  if( class(project) != "tess3" ) {
+    
+    stop( "Project should be an object of class tess3" )
+    
+  }
   
   k = which(attr(project, "K") == K )
   
@@ -174,7 +239,13 @@ getG <- function( project, K, run = "best" ) {
   }
 }
 
-getFst <- function( project, K, run = "best" ) {
+fst <- function( project, K, run = "best" ) {
+  
+  if( class(project) != "tess3" ) {
+    
+    stop( "Project should be an object of class tess3" )
+    
+  }
   
   k = which(attr(project, "K") == K )
   
@@ -198,7 +269,13 @@ getFst <- function( project, K, run = "best" ) {
   }
 }
 
-getCrossEntropy <- function( project, func = mean  ) {
+crossEntropy <- function( project, func = mean  ) {
+  
+  if( class(project) != "tess3" ) {
+    
+    stop( "Project should be an object of class tess3" )
+    
+  }
   
   res = c()
   
@@ -212,7 +289,13 @@ getCrossEntropy <- function( project, func = mean  ) {
   
 }
 
-getLeastSquared <- function( project, func = mean  ) {
+leastSquared <- function( project, func = mean  ) {
+  
+  if( class(project) != "tess3" ) {
+    
+    stop( "Project should be an object of class tess3" )
+    
+  }
   
   res = c()
   
@@ -243,18 +326,53 @@ read.coord <- function( file ) {
   
 }
 
-read.tess <- function( file ) {
+tess2tess3 = function( file = "data.tess" ){
+  
+  library(LEA)
+  
+  # read data for 2 diploid organisms and 10 multiallelic markers 
+  # diploid individuals encoded using two rows of data
+  # data in the "TESS" format
+  # Missing data are coded as "-9" ("-1" works as well)
   
   
-  if (file.exists( file = file )) {
-    
-    return(as.matrix(read.table( file = file )))
-    
-  } else {
-    
-    stop(paste("Can not find the file:", file))
+  dat = read.table(file)
+  
+  n = dim(dat)[1]
+  coord = dat[seq(1,n,by = 2), 1:2]
+  
+  dat = dat[,-(1:2)]
+  
+  # Convert allelic data into absence/presence data at each locus
+  # Results are stored in the "dat.binary" object 
+  
+  L = dim(dat)[2]
+  dat.binary = NULL
+  for (j in 1:L){
+    allele = unique(dat[,j])
+    for (i in allele[allele > 0]) dat.binary=cbind(dat.binary, dat[,j]==i)
+    LL = dim(dat.binary)[2]
+    ind = which(allele < 0)
+    if (length(ind) != 0){dat.binary[ind, (LL - length(allele) + 2):LL] = -9}
+  } 
+  
+  # Compute a genotype for each allele (0,1,2 or 9 for a missing value)
+  # results are stored in the "genotype" object (2 rows, 26 columns)
+  
+  n = dim(dat.binary)[1]/2
+  genotype = matrix(NA,nrow=n,ncol=dim(dat.binary)[2])
+  for(i in 1:n){
+    genotype[i,]= dat.binary[2*i-1,]+dat.binary[2*i,]
+    genotype[i, (genotype[i,] < 0)] = 9
   }
   
+  
+  
+  # Export genotypes in an external file in the "geno" format
+  write.table(file="genotype.geno",t(genotype),row.names=F,col.names=F,quote=F, sep = "")
+  
+  # Export spatial coordinates in an external file in the "coord" format
+  write.table(file="coordinates.coord",coord,row.names=F,col.names=F,quote=F)
   
 }
 

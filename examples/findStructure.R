@@ -1,7 +1,10 @@
-source("TESS3_directory/src/Rwrapper/TESS3.R")
+Tess3wrapper.dirrectory <- "/home/cayek/Projects/TESS3/src/Rwrapper/TESS3.R"
+Athaliana.dirrectory <- "/home/cayek/Projects/TESS3/data/simulated/Athaliana"
+source( Tess3wrapper.dirrectory )
 library(LEA)
 
-setwd( "TESS3_directory/data/simulated/Athaliana" )
+setwd( Athaliana.dirrectory )
+>>>>>>> 358aaf4aa4fd30b32cd147a540dc8e02d77dca5c
 ###########################################################################
 # Run TESS3 on a data set simualted from an Arabidopsis Athalina data set #
 ###########################################################################
@@ -22,7 +25,7 @@ project = TESS3( genotype = "Athaliana.geno",
 # Chose of K with cross-entropy criterion #
 ###########################################
 
-plot( 1:5, getCrossEntropy( project ), main  = "Cross entropy",type="b", xlab = "K", ylab = "corss entropy" )
+plot( 1:5, crossEntropy( project ), main  = "Cross entropy",type="b", xlab = "K", ylab = "corss entropy" )
 
 ################################
 # Plot result on map for K = 3 #
@@ -36,6 +39,6 @@ grid=createGridFromAsciiRaster(asciiFile)
 # To display only altitudes above 0:
 constraints=getConstraintsFromAsciiRaster(asciiFile,cell_value_min=0)
 
-maps(matrix = getQ( project, K = 3 ),
+maps(matrix = qmatrix( project, K = 3 )$Q,
      coord = spatialData,
      grid=grid,constraints=constraints,method="max",main="ancestry coefficient with K = 3")

@@ -53,7 +53,7 @@ Then you just need to follow instructions on the github project page \url{https:
 \section{Data format}
 
 \subsection{input file}
-The {\tt sNMF} input file consists of a genotype file in the {\bf geno} format and coordinate file in the {\bf coord} format. 
+The {\tt TESS3} input file consists of a genotype file in the {\bf geno} format and coordinate file in the {\bf coord} format. 
 \begin{itemize}
 \item {\bf geno} (example.geno)
 
@@ -146,9 +146,9 @@ Additional options are available:
 \item \verb|-f output_FST| is the path to the output file containing the ancestral allele frequency differentiation statistic. By default, the name of the output file is the same name as the input genotype file with the extension .K.Fst.
 \item \verb|-y output_FST| is the path to the output file containing the value of least-squared criterion, the cross entropy criteria on all data and only on masked data. By default, the name of the output file is the same name as the input genotype file with the extension .K.sum.
 \item \verb|-c perc| is the percentage of masked genotypes. If this option is set, the cross-entropy criterion is calculated (see\cite{frichot2014fast} for more details on the cross-entropy criterion). The default percentage is $5\%$.
-\item \verb|-e tolerance| is the tolerance error in the {\tt sNMF} optimization algorithm (by default: 0.0000001). 
+\item \verb|-e tolerance| is the tolerance error in the {\tt TESS3} optimization algorithm (by default: 0.0000001). 
 \item \verb|-i iteration_number| is the max number of iterations of the algorithm (default: 200). 
-\item \verb|-I nb_SNPs| starts the algorithm with a run of sNMF using a subset of nb\_SNPs random SNPs. This option can speed up sNMF estimation for very large data sets.
+\item \verb|-I nb_SNPs| starts the algorithm with a run of {\tt TESS3} using a subset of nb\_SNPs random SNPs. This option can speed up {\tt TESS3} estimation for very large data sets.
 \item \verb|-Q input_Q| is the path to an initial file for the $Q$ matrix containing individual admixture coefficients. If both \verb|-I| and \verb|-Q| are set, \verb|-Q| is chosen.
 \item \verb|-s seed| is a seed to initialize the random number generator. 
 \item \verb|-m ploidy|  1 if haploid, 2 if diploid (default: 2). 
@@ -163,7 +163,7 @@ of CPU units available on your computer (default: 1).
 If you need a summary of options, you can use the \verb|-h| option by typing the following command
 \footnotesize
 \begin{Verbatim}[frame=single]
-./bin/sNMF -h
+./TESS3 -h
 \end{Verbatim}
 \noindent
 \normalsize
