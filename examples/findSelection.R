@@ -1,7 +1,9 @@
-source("/home/cayek/Projects/TESS3/src/Rwrapper/TESS3.R")
+Tess3wrapper.dirrectory <- "/home/cayek/Projects/TESS3/src/Rwrapper/TESS3.R"
+Athaliana.dirrectory <- "/home/cayek/Projects/TESS3/data/simulated/Athaliana"
+source( Tess3wrapper.dirrectory )
 library(LEA)
 
-setwd( "/home/cayek/Projects/TESS3/data/simulated/Athaliana" )
+setwd( Athaliana.dirrectory )
 ###########################################################################
 # Run TESS3 on a data set simualted from an Arabidopsis Athalina data set #
 ###########################################################################
@@ -23,7 +25,7 @@ project = TESS3( genotype = genotype,
 #############################
 
 #### Fst with TESS3 
-Fst = getFst( project, K = 3 )
+Fst = fst( project, K = 3 )
 Fst[Fst < 0.0] = 0.0
 
 #### Convert Fst into t score
