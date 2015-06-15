@@ -1,7 +1,7 @@
-source("/home/cayek/Projects/TESS3/src/Rwrapper/TESS3.R")
+source("TESS3_directory/src/Rwrapper/TESS3.R")
 library(LEA)
 
-setwd( "/home/cayek/Projects/TESS3/data/simulated/Athaliana" )
+setwd( "TESS3_directory/data/simulated/Athaliana" )
 ###########################################################################
 # Run TESS3 on a data set simualted from an Arabidopsis Athalina data set #
 ###########################################################################

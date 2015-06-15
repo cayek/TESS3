@@ -1,7 +1,7 @@
-source("/home/cayek/Projects/TESS3/src/Rwrapper/TESS3.R")
+source("TESS3_directory/src/Rwrapper/TESS3.R")
 library(LEA)
 
-setwd( "/home/cayek/Projects/TESS3/data/simulated/Athaliana" )
+setwd( "TESS3_directory/data/simulated/Athaliana" )
 ###########################################################################
 # Run TESS3 on a data set simualted from an Arabidopsis Athalina data set #
 ###########################################################################
@@ -29,7 +29,7 @@ plot( 1:5, getCrossEntropy( project ), main  = "Cross entropy",type="b", xlab = 
 ################################
 
 # R script available on http://membres-timc.imag.fr/Olivier.Francois/pops.html
-source("/home/cayek/Téléchargements/R/POPSutilities.r")
+source("POPS_directory/R/POPSutilities.r")
 
 asciiFile="/home/cayek/Projects/TESS3/data/simulated/Athaliana/down_etopo1.asc"
 grid=createGridFromAsciiRaster(asciiFile)
