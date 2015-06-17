@@ -80,6 +80,7 @@ void free_nnlsm(Nnlsm_param param)
 	free(param->Y);
 	free(param->AtA);
 	free(param->FtXtVec);
+
 }
 
 // nnlsm_blockpivot
