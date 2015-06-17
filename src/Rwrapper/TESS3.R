@@ -4,7 +4,7 @@
 
 
 #TESS3 executable location : absolute_path/TESS3
-TESS3.cmd <- "/Users/cayek/Projects/TESS3/buildt/TESS3.exe"
+TESS3.cmd <- "/home/cayek/Projects/TESS3/build/TESS3"
 
 ##########################################################################
 
