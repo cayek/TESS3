@@ -50,7 +50,8 @@ Nnlsm_param allocate_nnlsm(int N, int K)
 	param->inVsAtA = (double *)calloc(K*K,sizeof(double));
         param->tempSortIx = (int *)calloc(N,sizeof(int));
         param->Y = (double *)calloc(K*N,sizeof(double));
-
+	param->AtA = (double *)calloc(N*K * N*K, sizeof(double));
+	param->FtXtVec = (double *)calloc(N*K, sizeof(double));
 	return param;
 }
 
@@ -77,6 +78,8 @@ void free_nnlsm(Nnlsm_param param)
 	free(param->inVsAtA);
 	free(param->tempSortIx);
 	free(param->Y);
+	free(param->AtA);
+	free(param->FtXtVec);
 }
 
 // nnlsm_blockpivot

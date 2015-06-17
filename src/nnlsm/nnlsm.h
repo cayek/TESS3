@@ -48,6 +48,8 @@ typedef struct _nnlsm_param{
         double* inVsAtA;
         int* tempSortIx;
         double* Y;
+        double* AtA;
+        double * FtXtVec;
 } nnlsm_param;
 
 Nnlsm_param allocate_nnlsm(int N, int K);

@@ -93,8 +93,8 @@ double update_nnlsm_spatial_Q(sNMF_param param, Nnlsm_param n_param)
 	double res;
 
 	//To optimize : can be do outside of this function
-	double * AtA = (double *)calloc(N*K * N*K, sizeof(double));
-	double * FtXtVec = (double *)calloc(N*K, sizeof(double));
+	double * AtA = n_param->AtA;
+	double * FtXtVec = n_param->FtXtVec;
 
 	// compute temp1 = AtA
 	compute_spatial_AtA(param->Laplacian, param->F, param->n, param->Mc, param->K, param->beta, AtA);
