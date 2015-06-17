@@ -1,10 +1,9 @@
-Tess3wrapper.dirrectory <- "/home/cayek/Projects/TESS3/src/Rwrapper/TESS3.R"
-Athaliana.dirrectory <- "/home/cayek/Projects/TESS3/data/simulated/Athaliana"
+Tess3wrapper.dirrectory <- "/Users/cayek/Projects/TESS3/src/Rwrapper/TESS3.R"
+Athaliana.dirrectory <- "/Users/cayek/Projects/TESS3/data/simulated/Athaliana"
 source( Tess3wrapper.dirrectory )
 library(LEA)
 
 setwd( Athaliana.dirrectory )
->>>>>>> 358aaf4aa4fd30b32cd147a540dc8e02d77dca5c
 ###########################################################################
 # Run TESS3 on a data set simualted from an Arabidopsis Athalina data set #
 ###########################################################################

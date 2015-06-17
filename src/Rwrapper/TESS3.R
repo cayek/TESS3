@@ -4,20 +4,20 @@
 
 
 #TESS3 executable location : absolute_path/TESS3
-TESS3.cmd <- "/home/cayek/Projects/TESS3/build/TESS3"
+TESS3.cmd <- "/Users/cayek/Projects/TESS3/buildt/TESS3.exe"
 
 ##########################################################################
 
 TESS3 <- function( genotype,  spatialData, K, ploidy=1, seed=-1, rep = 1, maskedProportion = 0.0, alpha = 0.001 ) {
   
   #test if we can found sNMF
-  if (!(class(TESS3_cmd)=="character")) {
-    stop("Can not read or execute TESS3. Please check in TESS3.R if TESS3_cmd=absolute_path/TESS3")
+  if (!(class(TESS3.cmd)=="character")) {
+    stop("Can not read or execute TESS3. Please check in TESS3.R if TESS3.cmd=absolute_path/TESS3")
   }
-  if (file.access( TESS3_cmd, mode = 1 )) {
-    stop("Can not read or execute TESS3. Please check in TESS3.R if TESS3_cmd=absolute_path/TESS3 and if TESS3 program was generated and can be executed")
-    
-  }
+   if (file.access( TESS3.cmd, mode = 1 )) {
+     stop("Can not read or execute TESS3. Please check in TESS3.R if TESS3.cmd=absolute_path/TESS3 and if TESS3 program was generated and can be executed")
+     
+   }
   
   res = vector("list",length=length(K))
   
@@ -31,7 +31,7 @@ TESS3 <- function( genotype,  spatialData, K, ploidy=1, seed=-1, rep = 1, masked
     
     #cat("---------------------WRITTING GENOTYPE-----------------------\n")
     #write genotype and spatial data into file
-    genotype_file  = paste( TESS3_workingDirectory, "/aux.geno", sep="" )
+    genotype_file  = paste( TESS3_workingDirectory, "/genotype.geno", sep="" )
     write.table(file = genotype_file,
                 t(genotype), row.names = F, col.names = F, quote = F, sep = "")
     
@@ -46,7 +46,7 @@ TESS3 <- function( genotype,  spatialData, K, ploidy=1, seed=-1, rep = 1, masked
     
     #cat("---------------------WRITTING GENOTYPE-----------------------\n")
     #write genotype and spatial data into file
-    spatialData_file  = paste( TESS3_workingDirectory, "/aux.coord", sep="" )
+    spatialData_file  = paste( TESS3_workingDirectory, "/coordinate.coord", sep="" )
     write.table(file = spatialData_file,
                 spatialData, row.names = F, col.names = F, quote = F, sep = " ")
     
@@ -85,16 +85,16 @@ TESS3 <- function( genotype,  spatialData, K, ploidy=1, seed=-1, rep = 1, masked
     res[[k]]$all.ce = 1:rep
     res[[k]]$masked.ce = 1:rep
 
-    output_Q = paste( TESS3_workingDirectory,"/aux" ,".",K[k],".Q",sep="")
-    output_G = paste( TESS3_workingDirectory,"/aux" ,".",K[k],".G",sep="")
-    output_Fst = paste( TESS3_workingDirectory,"/aux" ,".",K[k],".Fst",sep="")
-    output_summary = paste( TESS3_workingDirectory,"/aux" ,".",K[k],".sum",sep="")
+    output_Q = paste( TESS3_workingDirectory,"/genotype" ,".",K[k],".Q",sep="")
+    output_G = paste( TESS3_workingDirectory,"/genotype" ,".",K[k],".G",sep="")
+    output_Fst = paste( TESS3_workingDirectory,"/genotype" ,".",K[k],".Fst",sep="")
+    output_summary = paste( TESS3_workingDirectory,"/genotype" ,".",K[k],".sum",sep="")
     
     for( r in 1:rep) {
       
       #launch TESS3 
       cat("---------------------RUNNING TESS3-----------------------\n")
-      system( paste( TESS3_cmd, 
+      system( paste( TESS3.cmd, 
                      "-x", genotype_file,
                      "-r", spatialData_file,
                      "-K", K[k],

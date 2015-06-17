@@ -62,4 +62,4 @@ sed -i "s|^[ ]*Athaliana.dirrectory[ ]*<-.*|Athaliana.dirrectory <- \"$Athalina_
 sed -i "s|^[ ]*Tess3wrapper.dirrectory[ ]*<-.*|Tess3wrapper.dirrectory <- \"$Rwrapper_path\"|g" $findStructure_path
 sed -i "s|^[ ]*Athaliana.dirrectory[ ]*<-.*|Athaliana.dirrectory <- \"$Athalina_path\"|g" $findStructure_path
 
-sed -i "s|^[ ]*TESS3.cmd[ ]*<-.*|TESS3.cmd <- \"$tess3_absolute\"|g" $findStructure_path
+sed -i "s|^[ ]*TESS3.cmd[ ]*<-.*|TESS3.cmd <- \"$tess3_absolute\"|g" $Rwrapper_path
