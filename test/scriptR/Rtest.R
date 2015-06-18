@@ -7,7 +7,7 @@ cat("******************************************************\n")
 cat("**************TESTS of TESS3 cmd line R***************\n")
 cat("******************************************************\n")
 
-source(Tess3wrapper.dirrectory)
+source(Tess3wrapper.directory)
 
 ok <- function(res) {	
   
@@ -69,7 +69,7 @@ ok( nonRegressionTesting( "/home/cayek/Projects/TESS3/data/simulated/admixedPopD
 
 
 
-ok( nonRegressionTesting( Athaliana.dirrectory,
+ok( nonRegressionTesting( Athaliana.directory,
                       "Athaliana.geno", 
                       "Athaliana.coord",
                       2,
@@ -77,7 +77,7 @@ ok( nonRegressionTesting( Athaliana.dirrectory,
                       "1.res")
 )
 
-ok( nonRegressionTesting( Athaliana.dirrectory,
+ok( nonRegressionTesting( Athaliana.directory,
                           "Athaliana.geno", 
                           "Athaliana.coord",
                           2,
@@ -86,7 +86,7 @@ ok( nonRegressionTesting( Athaliana.dirrectory,
                           maskedProportion = 0.1)
 )
 
-ok( nonRegressionTesting( Athaliana.dirrectory,
+ok( nonRegressionTesting( Athaliana.directory,
                           "Athaliana.geno", 
                           "Athaliana.coord",
                           2,
@@ -96,7 +96,7 @@ ok( nonRegressionTesting( Athaliana.dirrectory,
 )
 
 
-ok( nonRegressionTesting( Athaliana.dirrectory,
+ok( nonRegressionTesting( Athaliana.directory,
                           "Athaliana.geno", 
                           "Athaliana.coord",
                           2,
@@ -106,7 +106,7 @@ ok( nonRegressionTesting( Athaliana.dirrectory,
 )
 
 
-ok( nonRegressionTesting( Athaliana.dirrectory,
+ok( nonRegressionTesting( Athaliana.directory,
                           "Athaliana.geno", 
                           "Athaliana.coord",
                           5,
@@ -117,7 +117,7 @@ ok( nonRegressionTesting( Athaliana.dirrectory,
 
 
 
-source(findSelection.dirrectory)
-source(findStructure.dirrectory)
+source(findSelection.directory)
+source(findStructure.directory)
 
 
