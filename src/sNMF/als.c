@@ -151,5 +151,7 @@ void ALS(sNMF_param param)
 	// free memory
 	free_nnlsm(n_param);
 	free(n_param);
+	free_nnlsm(n_param_spatial);
+	free(n_param_spatial);
 }
 
