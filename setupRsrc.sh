@@ -47,8 +47,8 @@ fi
 
 #find Rwrapper and example 
 Rwrapper_path="$dir/src/Rwrapper/TESS3.R"
-findSelection_path="$dir/examples/findSelection.R"
-findStructure_path="$dir/examples/findStructure.R"
+findSelection_path="$dir/tutorial/findSelection.R"
+findStructure_path="$dir/tutorial/findStructure.R"
 Athalina_path="$dir/data/simulated/Athaliana"
 admixedPopDiploid_path="$dir/data/simulated/admixedPopDiploid"
 testR_path="$dir/test/scriptR/Rtest.R"
@@ -58,19 +58,19 @@ if [ ! -e "$Athalina_path" ] || [ ! -e "$Rwrapper_path" ] || [ ! -e "$findSelect
 fi
 
 # findSelection
-sed -i "s|^[ ]*Tess3wrapper.dirrectory[ ]*<-.*|Tess3wrapper.directory <- \"$Rwrapper_path\"|g" $findSelection_path
-sed -i "s|^[ ]*Athaliana.dirrectory[ ]*<-.*|Athaliana.directory <- \"$Athalina_path\"|g" $findSelection_path
+sed -i "s|^[ ]*Tess3wrapper.directory[ ]*<-.*|Tess3wrapper.directory <- \"$Rwrapper_path\"|g" $findSelection_path
+sed -i "s|^[ ]*Athaliana.directory[ ]*<-.*|Athaliana.directory <- \"$Athalina_path\"|g" $findSelection_path
 
 # findStructure
-sed -i "s|^[ ]*Tess3wrapper.dirrectory[ ]*<-.*|Tess3wrapper.directory <- \"$Rwrapper_path\"|g" $findStructure_path
-sed -i "s|^[ ]*Athaliana.dirrectory[ ]*<-.*|Athaliana.directory <- \"$Athalina_path\"|g" $findStructure_path
+sed -i "s|^[ ]*Tess3wrapper.directory[ ]*<-.*|Tess3wrapper.directory <- \"$Rwrapper_path\"|g" $findStructure_path
+sed -i "s|^[ ]*Athaliana.directory[ ]*<-.*|Athaliana.directory <- \"$Athalina_path\"|g" $findStructure_path
 
 # Rwrapper
 sed -i "s|^[ ]*TESS3.cmd[ ]*<-.*|TESS3.cmd <- \"$tess3_absolute\"|g" $Rwrapper_path
 
 # Rtest
-sed -i "s|^[ ]*Tess3wrapper.dirrectory[ ]*<-.*|Tess3wrapper.directory <- \"$Rwrapper_path\"|g" $testR_path
-sed -i "s|^[ ]*Athaliana.dirrectory[ ]*<-.*|Athaliana.directory <- \"$Athalina_path\"|g" $testR_path
-sed -i "s|^[ ]*admixedPopDiploid.dirrectory[ ]*<-.*|admixedPopDiploid.directory <- \"$admixedPopDiploid_path\"|g" $testR_path
-sed -i "s|^[ ]*findSelection.dirrectory[ ]*<-.*|findSelection.directory <- \"$findSelection_path\"|g" $testR_path
-sed -i "s|^[ ]*findStructure.dirrectory[ ]*<-.*|findStructure.directory <- \"$findStructure_path\"|g" $testR_path
+sed -i "s|^[ ]*Tess3wrapper.directory[ ]*<-.*|Tess3wrapper.directory <- \"$Rwrapper_path\"|g" $testR_path
+sed -i "s|^[ ]*Athaliana.directory[ ]*<-.*|Athaliana.directory <- \"$Athalina_path\"|g" $testR_path
+sed -i "s|^[ ]*admixedPopDiploid.directory[ ]*<-.*|admixedPopDiploid.directory <- \"$admixedPopDiploid_path\"|g" $testR_path
+sed -i "s|^[ ]*findSelection.directory[ ]*<-.*|findSelection.directory <- \"$findSelection_path\"|g" $testR_path
+sed -i "s|^[ ]*findStructure.directory[ ]*<-.*|findStructure.directory <- \"$findStructure_path\"|g" $testR_path

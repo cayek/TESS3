@@ -1,8 +1,8 @@
 Tess3wrapper.directory <- "/home/cayek/Projects/TESS3/src/Rwrapper/TESS3.R"
 Athaliana.directory <- "/home/cayek/Projects/TESS3/data/simulated/Athaliana"
 admixedPopDiploid.directory <- "/home/cayek/Projects/TESS3/data/simulated/admixedPopDiploid"
-findSelection.directory <- "/home/cayek/Projects/TESS3/examples/findSelection.R"
-findStructure.directory <- "/home/cayek/Projects/TESS3/examples/findStructure.R"
+findSelection.directory <- "/home/cayek/Projects/TESS3/tutorial/findSelection.R"
+findStructure.directory <- "/home/cayek/Projects/TESS3/tutorial/findStructure.R"
 cat("******************************************************\n")
 cat("**************TESTS of TESS3 cmd line R***************\n")
 cat("******************************************************\n")

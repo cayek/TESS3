@@ -1,5 +1,5 @@
-Tess3wrapper.dirrectory <- "/home/cayek/Projects/TESS3/src/Rwrapper/TESS3.R"
-Athaliana.dirrectory <- "/home/cayek/Projects/TESS3/data/simulated/Athaliana"
+Tess3wrapper.directory <- "/home/cayek/Projects/TESS3/src/Rwrapper/TESS3.R"
+Athaliana.directory <- "/home/cayek/Projects/TESS3/data/simulated/Athaliana"
 source( Tess3wrapper.dirrectory )
 library(LEA)
 
