@@ -25,7 +25,7 @@ project = TESS3( genotype = genotype,
 #############################
 
 #### Fst with TESS3 
-Fst = fst( project, K = 3 )
+Fst = fst( project, K = 3 )$Fst
 Fst[Fst < 0.0] = 0.0
 
 #### Convert Fst into t score

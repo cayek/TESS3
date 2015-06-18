@@ -227,15 +227,20 @@ gmatrix <- function( project, K, run = "best" ) {
     k=k[1]
     if (class(run) == "numeric") {
       
-      return( project[[k]]$G[[run]] )
+      res = list( G = project[[k]]$G[[run]], K = K )
+      class(res) = "gmatrix"
+      return( res )
       
     } else if( run  == "best"  ) {
       
       best = which.min( project[[k]]$error )
       
-      return( project[[k]]$G[[ best ]] )
+      res = list( G = project[[k]]$G[[ best ]], K = K )
+      class(res) = "gmatrix"
+      return( res )
       
     }
+    
   }
 }
 
@@ -257,13 +262,17 @@ fst <- function( project, K, run = "best" ) {
     k=k[1]
     if (class(run) == "numeric") {
       
-      return( project[[k]]$Fst[[run]] )
+      res = list( Fst = project[[k]]$Fst[[run]], K = K )
+      class(res) = "fstmatrix"
+      return( res )
       
     } else if( run  == "best"  ) {
       
       best = which.min( project[[k]]$error )
       
-      return( project[[k]]$Fst[[ best ]] )
+      res = list( Fst = project[[k]]$Fst[[ best ]], K = K )
+      class(res) = "fstmatrix"
+      return( res )
       
     }
   }

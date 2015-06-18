@@ -24,14 +24,14 @@ project = TESS3( genotype = "Athaliana.geno",
 # Chose of K with cross-entropy criterion #
 ###########################################
 
-plot( 1:5, crossEntropy( project ), main  = "Cross entropy",type="b", xlab = "K", ylab = "corss entropy" )
+plot( 1:5, crossEntropy( project ), main  = "Cross entropy",type="b", xlab = "K", ylab = "cross entropy" )
 
 ################################
 # Plot result on map for K = 3 #
 ################################
 
-# R script available on http://membres-timc.imag.fr/Olivier.Francois/pops.html
-source("POPS_directory/R/POPSutilities.r")
+# pops R script available on http://membres-timc.imag.fr/Olivier.Francois/pops.html
+source("../../../src/popsRScripts/POPSutilities.r")
 
 asciiFile="/home/cayek/Projects/TESS3/data/simulated/Athaliana/down_etopo1.asc"
 grid=createGridFromAsciiRaster(asciiFile)
