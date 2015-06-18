@@ -50,7 +50,7 @@ cd build
 test "cmake -DCMAKE_BUILD_TYPE=release ../ &> /dev/null"
 test "make TESS3 &> /dev/null"
 cd ../
-test "./setupRsrc &> /dev/null"
+test "./setupRsrc.sh &> /dev/null"
 
 #############
 # run tests #
