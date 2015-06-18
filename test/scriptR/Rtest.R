@@ -1,10 +1,15 @@
+Tess3wrapper.directory <- "/home/cayek/Projects/TESS3/src/Rwrapper/TESS3.R"
+Athaliana.directory <- "/home/cayek/Projects/TESS3/data/simulated/Athaliana"
+admixedPopDiploid.directory <- "/home/cayek/Projects/TESS3/data/simulated/admixedPopDiploid"
+findSelection.directory <- "/home/cayek/Projects/TESS3/examples/findSelection.R"
+findStructure.directory <- "/home/cayek/Projects/TESS3/examples/findStructure.R"
 cat("******************************************************\n")
 cat("**************TESTS of TESS3 cmd line R***************\n")
 cat("******************************************************\n")
 
-source("/home/cayek/Projects/TESS3/src/Rwrapper/TESS3.R")
+source(Tess3wrapper.dirrectory)
 
-ok <- function(res) {
+ok <- function(res) {	
   
   if(res) {
     
@@ -64,7 +69,7 @@ ok( nonRegressionTesting( "/home/cayek/Projects/TESS3/data/simulated/admixedPopD
 
 
 
-ok( nonRegressionTesting( "/home/cayek/Projects/TESS3/data/simulated/Athaliana/",
+ok( nonRegressionTesting( Athaliana.dirrectory,
                       "Athaliana.geno", 
                       "Athaliana.coord",
                       2,
@@ -72,7 +77,7 @@ ok( nonRegressionTesting( "/home/cayek/Projects/TESS3/data/simulated/Athaliana/"
                       "1.res")
 )
 
-ok( nonRegressionTesting( "/home/cayek/Projects/TESS3/data/simulated/Athaliana/",
+ok( nonRegressionTesting( Athaliana.dirrectory,
                           "Athaliana.geno", 
                           "Athaliana.coord",
                           2,
@@ -81,7 +86,7 @@ ok( nonRegressionTesting( "/home/cayek/Projects/TESS3/data/simulated/Athaliana/"
                           maskedProportion = 0.1)
 )
 
-ok( nonRegressionTesting( "/home/cayek/Projects/TESS3/data/simulated/Athaliana/",
+ok( nonRegressionTesting( Athaliana.dirrectory,
                           "Athaliana.geno", 
                           "Athaliana.coord",
                           2,
@@ -91,7 +96,7 @@ ok( nonRegressionTesting( "/home/cayek/Projects/TESS3/data/simulated/Athaliana/"
 )
 
 
-ok( nonRegressionTesting( "/home/cayek/Projects/TESS3/data/simulated/Athaliana/",
+ok( nonRegressionTesting( Athaliana.dirrectory,
                           "Athaliana.geno", 
                           "Athaliana.coord",
                           2,
@@ -101,7 +106,7 @@ ok( nonRegressionTesting( "/home/cayek/Projects/TESS3/data/simulated/Athaliana/"
 )
 
 
-ok( nonRegressionTesting( "/home/cayek/Projects/TESS3/data/simulated/Athaliana/",
+ok( nonRegressionTesting( Athaliana.dirrectory,
                           "Athaliana.geno", 
                           "Athaliana.coord",
                           5,
@@ -112,7 +117,7 @@ ok( nonRegressionTesting( "/home/cayek/Projects/TESS3/data/simulated/Athaliana/"
 
 
 
-source("/home/cayek/Projects/TESS3/tutorial/findSelection.R")
-source("/home/cayek/Projects/TESS3/tutorial/findStructure.R")
+source(findSelection.dirrectory)
+source(findStructure.dirrectory)
 
 
