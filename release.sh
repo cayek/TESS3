@@ -31,19 +31,6 @@ echo -e "$ROUGE" "commit in develop branch before release"
 exit 1
 fi
 
-# compile documentation
-# cd doc/src/
-# test "latex note.tex &> /dev/null"
-# test "bibtex note &> /dev/null"
-# test "latex note.tex &> /dev/null"
-# test "latex note.tex &> /dev/null"
-# test "dvipdf note.dvi &> /dev/null"
-# rm -f ../documentation.pdf
-# cp -f note.pdf ../documentation.pdf 
-# git add ../documentation.pdf
-# git commit -m "documentation"
-# cd "$dir_TESS3"
-
 #git push
 git push
 
@@ -81,6 +68,26 @@ cd "$dir_TESS3"
 
 git checkout master
 git merge develop
+
+# start release #
+
+# compile documentation
+# cd doc/src/
+# test "latex note.tex &> /dev/null"
+# test "bibtex note &> /dev/null"
+# test "latex note.tex &> /dev/null"
+# test "latex note.tex &> /dev/null"
+# test "dvipdf note.dvi &> /dev/null"
+# rm -f ../documentation.pdf
+# cp -f note.pdf ../documentation.pdf 
+# git add ../documentation.pdf
+# cd "$dir_TESS3"
+
+# remove file which are not suppose to be in the release version
+cat releaseRemove | xargs git rm --cached 
+
+DATE=`date +%Y-%m-%d`
+git commit -m "Release date: $DATE"
 
 #push on github
 ssh cayek@patator.imag.fr <<EOF
