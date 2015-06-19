@@ -56,12 +56,13 @@ test "./setupRsrc.sh &> /dev/null"
 # run tests #
 #############
 
-test "Rscript test/scriptR/Rtest.R  &> /dev/null"
+#test "Rscript test/scriptR/Rtest.R  &> /dev/null"
 
 #################
 # if ok release #
 #################
 
+git stash
 git checkout master
 git merge develop
 
