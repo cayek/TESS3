@@ -58,13 +58,9 @@ test "./setupRsrc.sh &> /dev/null"
 
 test "Rscript test/scriptR/Rtest.R  &> /dev/null"
 
-cd ~/Téléchargements/
-rm -rf TESS3_testdeploy
-
 #################
 # if ok release #
 #################
-cd "$dir_TESS3"
 
 git checkout master
 git merge develop
@@ -84,10 +80,11 @@ git merge develop
 # cd "$dir_TESS3"
 
 # remove file which are not suppose to be in the release version
-cat releaseRemove | xargs git rm --cached 
+cat releaseRemove | xargs git rm  
 
 DATE=`date +%Y-%m-%d`
 git commit -m "Release date: $DATE"
+git push
 
 #push on github
 ssh cayek@patator.imag.fr <<EOF
@@ -95,4 +92,6 @@ cd noBackup/TESS3.git
 git push 
 logout
 EOF
-git checkout develop
+
+cd ~/Téléchargements/
+rm -rf TESS3_testdeploy
