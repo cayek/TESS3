@@ -67,9 +67,6 @@ echo -e "$VERT" "OK"
 #################
 # try to deploy #
 #################
-if [ -z "$DEPLOY" ]; then
-echo -e "$NORMAL" "*** Deployment testing :"
-
 cd ~/Téléchargements/
 
 rm -rf TESS3_testdeploy
@@ -77,13 +74,14 @@ git clone ssh://cayek@patator.imag.fr/home/cayek/noBackup/TESS3.git TESS3_testde
 cd TESS3_testdeploy/
 git checkout develop &> /dev/null
 
+if [ -z "$DEPLOY" ]; then
+echo -e "$NORMAL" "*** Deployment testing :"
 mkdir build
 cd build
 test "cmake -DCMAKE_BUILD_TYPE=release ../ &> /dev/null"
 test "make TESS3 &> /dev/null"
 cd ../
 test "./setupRsrc.sh &> /dev/null"
-
 echo -e "$VERT" "OK"
 fi
 #############
