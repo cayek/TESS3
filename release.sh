@@ -3,6 +3,7 @@
 cd /home/cayek/Projects/TESS3
 ROUGE="\\033[1;31m"
 VERT="\\033[1;32m"
+NORMAL="\\033[0;39m"
 dir_TESS3=`pwd`
 
 function test {
@@ -19,9 +20,9 @@ function test {
 ###############################
 # push all changes to develop #
 ###############################
-echo "*** Push changes :"
+echo -e "$NORMAL" "*** Push changes :"
 
-git checkout develop
+test "git checkout develop &> /dev/null"
 # check if there are not commited file
 status=`git status 2>&1 | tee`
 dirty=`echo -n "${status}" 2> /dev/null | grep "modified:" &> /dev/null; echo "$?"`
@@ -35,7 +36,7 @@ exit 1
 fi
 
 #git push
-git push
+test "git push &> /dev/null"
 
 echo -e "$VERT" "OK"
 #################
@@ -81,23 +82,23 @@ git merge develop &> /dev/null
 
 # compile documentation
 cd doc/src/
-wget http://mirrors.ctan.org/macros/latex/contrib/lineno.zip  &> /dev/null
-unzip lineno.zip &> /dev/null
-mv lineno/lineno.sty
-wget http://mirrors.ctan.org/macros/latex/contrib/ccaption.zip &> /dev/null
-unzip ccaption.zip &> /dev/null
-cd ccaption/
-latex ccaption.ins &> /dev/null
-mv ccaption.sty ../
+test "wget http://mirrors.ctan.org/macros/latex/contrib/lineno.zip  &> /dev/null"
+test "unzip lineno.zip &> /dev/null"
+test "mv lineno/lineno.sty  &> /dev/null"
+test "wget http://mirrors.ctan.org/macros/latex/contrib/ccaption.zip &> /dev/null"
+test "unzip ccaption.zip &> /dev/null"
+test "cd ccaption/"
+test "latex ccaption.ins &> /dev/null"
+test "mv ccaption.sty ../"
 cd ..
 test "latex note.tex &> /dev/null"
 test "bibtex note &> /dev/null"
 test "latex note.tex &> /dev/null"
 test "latex note.tex &> /dev/null"
 test "dvipdf note.dvi &> /dev/null"
-rm -f ../documentation.pdf
-cp note.pdf ../documentation.pdf 
-git add ../documentation.pdf
+test "rm -f ../documentation.pdf"
+test "cp note.pdf ../documentation.pdf"
+test "git add ../documentation.pdf"
 cd ../../
 
 # remove file which are not suppose to be in the release version
