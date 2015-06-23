@@ -31,9 +31,9 @@ plot( 1:5, crossEntropy( project ), main  = "Cross entropy",type="b", xlab = "K"
 ################################
 
 # pops R script 
-source("../../../src/popsRScripts/POPSutilities.r")
+source("../../../src/popsRScripts/POPSutilities.r") # WARNING : this script may require to be sourced 2 times !
 
-asciiFile="/home/cayek/Projects/TESS3/data/simulated/Athaliana/down_etopo1.asc"
+asciiFile=paste(Athaliana.directory, "/lowEurope.asc",sep="")
 grid=createGridFromAsciiRaster(asciiFile)
 # To display only altitudes above 0:
 constraints=getConstraintsFromAsciiRaster(asciiFile,cell_value_min=0)

@@ -93,6 +93,7 @@ Users that want to process allelic data, such as microsatellite markers or AFLPs
 \item {\bf geno} (example.geno)
 
 The {\bf geno} format has one row for each SNP. Each row contains 1 character per individual. For diploid genomes,  0 means zero copies of the reference allele, 1 means one copy of the reference allele, 2 means two copies of the reference allele, and 9 codes for some missing data. Here is an example of a geno file for $n=3$ individuals and $L=4$ loci.
+\\
 \begin{center}
 \footnotesize
 \begin{Verbatim}[frame=single]
@@ -107,7 +108,7 @@ The {\bf geno} format has one row for each SNP. Each row contains 1 character pe
 \item {\bf coord} (example.coord)
 
 The {\bf coord} format has one row for each individual. Each row contains the \verb|longitude latitude| information of each individual.
-
+\\
 \begin{center}
 \footnotesize
 \begin{Verbatim}[frame=single]
@@ -321,7 +322,7 @@ We illustrate the use of {\tt TESS3} and the {\tt R} functions using simulated {
 
 \subsection{Example of visualization of ancestry coefficients using {\tt TESS3}}
 
-This example describes how to run {\tt TESS3} from the {\tt R} command line for several values of the number of ancestral populations, and how to plot a graph of the cross-entropy criterion as function of $K$. It also uses scripts available from {\tt POPS} web-site (\url{http://membres-timc.imag.fr/Olivier.Francois/pops.html}) to display geographic representations of ancestry coefficient maps using raster maps \cite{jay2012forecasting}. 
+This example describes how to run {\tt TESS3} from the {\tt R} command line for several values of the number of ancestral populations, and how to plot a graph of the cross-entropy criterion as function of $K$ (see figure 1). It also uses scripts available from {\tt POPS} web-site (\url{http://membres-timc.imag.fr/Olivier.Francois/pops.html}) to display geographic representations of ancestry coefficient maps using raster maps \cite{jay2012forecasting} (see Figure 1). 
 
 \begin{Verbatim}[frame=single]
 Tess3wrapper.directory <- "TESS3-master/src/Rwrapper/TESS3.R"
@@ -358,9 +359,10 @@ plot( 1:5, crossEntropy( project ), main  = "Cross entropy",type="b",
 ################################
 
 # pops R scripts
-source("../../../src/popsRScripts/POPSutilities.r")
+source("../../../src/popsRScripts/POPSutilities.r") # WARNING : this 
+script may require to be sourced 2 times !
 
-asciiFile="/home/cayek/Projects/TESS3/data/simulated/Athaliana/down_etopo1.asc"
+asciiFile=paste(Athaliana.directory, "/lowEurope.asc",sep="")
 grid=createGridFromAsciiRaster(asciiFile)
 # To display only altitudes above 0:
 constraints=getConstraintsFromAsciiRaster(asciiFile,cell_value_min=0)
@@ -373,8 +375,19 @@ maps(matrix = qmatrix( project, K = 3 )$Q,
 %$
 
 
+\begin{figure}[h!]\centering
+\begin{minipage}{0.49\textwidth}
+\includegraphics[width=\linewidth]{crossEntropy.pdf}
+\end{minipage}
+\begin {minipage}{0.49\textwidth}
+\includegraphics[width=\linewidth]{map.pdf}
+\end{minipage}
+\caption{Graphs generated with the R script {\tt turorial/findStructure.R}.}
+\end{figure} 
+
+
 \subsection{Example of a genome scan for selection using {\tt TESS3}}
-This section shows an example of the use of {\tt TESS3} to perform a genome scan for selection based on the computation of ancestral allele frequency differentiation statistics. Here {\tt TESS3} was run with $K = 3$ ancestral populations. The $F_{\rm ST}$ statistics were transformed into squared $t$-scores and $p$-value using a Fisher distribution. Inflation of the test statistic caused by population structure was corrected by recalibrating the $t^2$-scores to follow a uniform distribution under the null hypothesis. The false discovery rate was controlled using the Benjamini-Hochberg procedure and plot the Manhattan plot.
+This section shows an example of the use of {\tt TESS3} to perform a genome scan for selection based on the computation of ancestral allele frequency differentiation statistics. Here {\tt TESS3} was run with $K = 3$ ancestral populations. The $F_{\rm ST}$ statistics were transformed into squared $t$-scores and $p$-value using a Fisher distribution. Inflation of the test statistic caused by population structure was corrected by recalibrating the $t^2$-scores to follow a uniform distribution under the null hypothesis. The false discovery rate was controlled using the Benjamini-Hochberg procedure and plot the Manhattan plot (see Figure 2).
 
  %% You need to change \verb|TESS3_directory| by the directory path of {\tt TESS3}.
 
@@ -437,6 +450,11 @@ abline( -log10(limite), 0, col = "green", lty = 6, lwd = 3 )
 \end{Verbatim}
 
 %$
+
+\begin{figure}[h!]\centering
+\includegraphics[width=\linewidth]{manhattanPlot.pdf}
+\caption{Graph generated with the R script {\tt turorial/findSelection.R}.}
+\end{figure} 
 
 \section{Contact}
 If you need assistance, do not hesitate to send us an email (kevin.caye@imag.fr or olivier.francois@imag.fr). 
