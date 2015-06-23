@@ -1,6 +1,7 @@
 #!/bin/bash
 # TESS3 directory on my linux computer
-cd /home/cayek/Projects/TESS3
+myTESS3="/home/cayek/Projects/TESS3"
+cd "$myTESS3"
 ROUGE="\\033[1;31m"
 VERT="\\033[1;32m"
 NORMAL="\\033[0;39m"
@@ -128,7 +129,7 @@ test "git add ../documentation.pdf"
 cd ../../
 
 # remove file which are not suppose to be in the release version
-cat releaseRemove | xargs git rm  
+cat "$myTESS3/releaseRemove" | xargs git rm  
 
 DATE=`date +%Y-%m-%d`
 git commit -am "Release date: $DATE"
