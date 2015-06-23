@@ -69,16 +69,16 @@ git merge develop
 # start release #
 
 # compile documentation
-# cd doc/src/
-# test "latex note.tex &> /dev/null"
-# test "bibtex note &> /dev/null"
-# test "latex note.tex &> /dev/null"
-# test "latex note.tex &> /dev/null"
-# test "dvipdf note.dvi &> /dev/null"
-# rm -f ../documentation.pdf
-# cp -f note.pdf ../documentation.pdf 
-# git add ../documentation.pdf
-# cd "$dir_TESS3"
+cd doc/src/
+test "latex note.tex &> /dev/null"
+test "bibtex note &> /dev/null"
+test "latex note.tex &> /dev/null"
+test "latex note.tex &> /dev/null"
+test "dvipdf note.dvi &> /dev/null"
+rm -f ../documentation.pdf
+cp note.pdf ../documentation.pdf 
+git add ../documentation.pdf
+cd ../../
 
 # remove file which are not suppose to be in the release version
 cat releaseRemove | xargs git rm  
