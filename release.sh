@@ -110,7 +110,7 @@ git merge develop &> /dev/null
 cd doc/src/
 test "wget http://mirrors.ctan.org/macros/latex/contrib/lineno.zip  &> /dev/null"
 test "unzip lineno.zip &> /dev/null"
-test "mv lineno/lineno.sty  &> /dev/null"
+test "mv lineno/lineno.sty . &> /dev/null"
 test "wget http://mirrors.ctan.org/macros/latex/contrib/ccaption.zip &> /dev/null"
 test "unzip ccaption.zip &> /dev/null"
 test "cd ccaption/"
