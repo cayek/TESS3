@@ -14,7 +14,7 @@ The repository is organized as follows:
 
 * test: scripts to test the program (for developers only).
 
-* examples: some examples of use of TESS3 program.
+* tutorial: some examples of use of TESS3 program.
 
 * doc: program documentation.
 
@@ -27,6 +27,7 @@ The program documentation is available [here](https://github.com/cayek/TESS3/blo
 
 Installation
 ------------
+You need to download the master source directory [here](https://github.com/cayek/TESS3/archive/master.zip).
 
 The first step is to generate compilation build environment to compile source code using cmake (can be install [here](<http://www.cmake.org/download/>)). 
 

@@ -61,7 +61,7 @@ The installation of {\tt TESS3} requires that {\tt CMake}, a the cross-platform 
 
 \item   {\tt external:} external libraries,
 
-\item   {\tt examples:} {\tt R} scripts that run example data analysis with the TESS3 program.
+\item   {\tt tutorial:} {\tt R} scripts that run example data analysis with the TESS3 program.
 
 \item     {\tt doc: }program documentation.
 
@@ -71,10 +71,10 @@ The installation of {\tt TESS3} requires that {\tt CMake}, a the cross-platform 
 
 \begin{Verbatim}[frame = single]
  mkdir build/
- cmake -DCMAKE_BUILD_TYPE=release ../
  cd build/
+ cmake -DCMAKE_BUILD_TYPE=release ../
  make TESS3
-  \end{Verbatim}
+\end{Verbatim}
 
  \noindent The executable program file {\tt TESS3} can be found in the {\tt build} directory.  
   
@@ -84,7 +84,7 @@ The installation of {\tt TESS3} requires that {\tt CMake}, a the cross-platform 
 
 {\tt TESS3} requires two input files, a first one recording individual genotype data and the second one containing the geographic coordinates of  each sampled individual. For organism genomes of arbitrary ploidy, the standard data type for {\tt TESS3} is the {\bf single nucleotide polymorphism} (SNP) type.  The genotype matrix must be formatted in the {\bf geno} format and the coordinate file must be formatted in the {\bf coord} format.
 
-Users that want to process allelic data, such as microsatellite markers or AFLPs, and have their data in the {\tt TESS} 2.3 format can also use {\tt TESS3}. They need to convert their data in the geno+coord data format, and can do this using the {\tt tess2tess3} function provided with the {\tt R} scripts in the {\tt example} directory.   
+Users that want to process allelic data, such as microsatellite markers or AFLPs, and have their data in the {\tt TESS} 2.3 format can also use {\tt TESS3}. They need to convert their data in the geno+coord data format, and can do this using the {\tt tess2tess3} function implemented in the {\tt R} script {\tt src/Rwrapper/TESS3.R}.
 
 
 
@@ -211,24 +211,28 @@ Those commands visualize the ancestry coefficient matrix computed by {\tt TESS3}
 
 
 \subsection{R wrapper functions}
-To facilitate the interpretation of results, the {\tt TESS3} program can be launched from the {\tt R} command line, using the functions in the  \verb|src/Rwrapper/TESS3.R| script. Users need to have {\tt TESS3} installed on their OS, and source this script from an {\tt R} session. The main {\tt R} functions are described below
+To facilitate the interpretation of results, the {\tt TESS3} program can be launched from the {\tt R} command line, using the functions in the  \verb|src/Rwrapper/TESS3.R| script. Users need to have {\tt TESS3} compiled and can use the bash script \verb|./setupRsrc.R| in the {\tt TESS3} directory to set path variables in the R script:
+\begin{Verbatim}[frame=single]
+./setupRsrc.sh -t TESS3_program
+\end{Verbatim}
+Then users need to source the \verb|src/Rwrapper/TESS3.R| script from an {\tt R} session. The main {\tt R} functions are described below.
 
 \begin{itemize}
 
 \item \verb|TESS3|
 
 \paragraph{Description:}
-A wrapper function that calls the {\tt TESS3} command-line program. This function creates a directory named \verb|TESS3_workingDirectory| to record all output files
+A wrapper function that calls the {\tt TESS3} command-line program. This function creates a directory named \verb|TESS3_workingDirectory| to record all output files. The function return an object of class \verb|tess3| which stores results of runs. Results can be retrieved thanks to getter functions describe below.
 \paragraph{Usage}
 \begin{Verbatim}
 object = TESS3( genotype,
-                 coordinates,
-                 K,
-                 ploidy=1,
-                 seed=-1, 
-                 rep = 1, 
-                 maskedProportion = 0.0, 
-                 alpha = 0.001 )
+                coordinates,
+                K,
+                ploidy=1,
+                seed=-1, 
+                rep = 1, 
+                maskedProportion = 0.0, 
+                alpha = 0.001 )
 \end{Verbatim}
 \paragraph{Arguments}
 \begin{itemize}
@@ -241,21 +245,32 @@ object = TESS3( genotype,
 \item \verb|alpha|: value of the normalized regularization parameter. This parameter controls the spatial regularity of the ancestry estimates.
 \end{itemize}
 
-\item \verb|Getter|
+\item \verb|Getter functions|
 
 \paragraph{Description}
-Functions useful to fetch results of \verb|TESS3| R function. UN PEU LEGER DETAILLER ON NE SAIT PAS CE QUE CA RETOURNE
+Functions useful to retrieve results of {\tt TESS3} runs. These functions must be use with an object of class \verb|tess3| created by \verb|TESS3| R function (see description above).
+
+\begin{itemize}
+  \item[] \verb|qmatrix| get the $Q$-matrix of ancestry coefficients.
+  \item[] \verb|qmatrix| get the $G$-matrix of ancestral genotype frequencies.
+  \item[] \verb|fst| get the vector of $F_{\rm st}$ statistic for each locus.
+  \item[] \verb|crossEntropy| if it has been computed, get the vector of cross entropy criterion for each run.
+  \item[] \verb|leastSquared| get the vector of least squared criterion for each run.
+\end{itemize}
+
+
 \paragraph{Usage}
 \begin{Verbatim}
-getQ( project, K, run = "best" )
+qmatrix( object, K, run = "best" )
  
-getG( project, K, run = "best" )
+gmatrix( object, K, run = "best" )
   
-getFst( project, K, run = "best" )
+fst( object, K, run = "best" )
   
-getCrossEntropy( project, FUN = mean ) 
+crossEntropy( object, FUNCTION = mean ) 
 
-getLeastSquareError( project, FUN = mean )
+leastSquared( object, FUNCTION = mean )
+
 \end{Verbatim}
 \paragraph{Arguments}
 \begin{itemize}
@@ -266,17 +281,24 @@ getLeastSquareError( project, FUN = mean )
 
 \end{itemize}
 
-\item \verb|Reader|
+\item \verb|Reader functions|
 
 \paragraph{Description}
-Function useful to read data from file.
+Function useful to read and convert data from file.
+
+\begin{itemize}
+  \item[] \verb|read.coord| read coord file and return a the coordinates matrix.
+  \item[] \verb|tess2tess3| convert a file in the {\tt TESS} 2.3 data format into geno+coord files which can be use with {\tt TESS3}
+\end{itemize}
+
 \paragraph{Usage}
 \begin{verbatim}
 read.coord( file )
+tess2tess3( file )
 \end{verbatim}
 \paragraph{Arguments}
 \begin{itemize}
-\item \verb|file| name of the file to read.
+\item \verb|file| name of the file to read or convert.
 \end{itemize}
 
 
@@ -288,6 +310,11 @@ read.coord( file )
 
 \section{Tutorial}
 
+The R tutorial scripts are available in the directory \verb|turorial/| but need to know the data and {\tt TESS3} program directory paths. You can use the bash script \verb|./setupRsrc.R| in the {\tt TESS3} directory to set path variables in the R scripts:
+\begin{Verbatim}[frame=single]
+./setupRsrc.sh -t TESS3_program
+\end{Verbatim}
+
 \subsection{Data set}
 
 We illustrate the use of {\tt TESS3} and the {\tt R} functions using simulated {\it Arabidopsis thaliana} data as in a previous sections ~\cite{atwell2010genome}. We consider a data set of $n = 170$ (haploid) individuals genotyped at $L = 26943$ SNPs.
@@ -296,15 +323,15 @@ We illustrate the use of {\tt TESS3} and the {\tt R} functions using simulated {
 
 This example describes how to run {\tt TESS3} from the {\tt R} command line for several values of the number of ancestral populations, and how to plot a graph of the cross-entropy criterion as function of $K$. It also uses scripts available from {\tt POPS} web-site (\url{http://membres-timc.imag.fr/Olivier.Francois/pops.html}) to display geographic representations of ancestry coefficient maps using raster maps \cite{jay2012forecasting}. 
 
-%%You need to change \verb|TESS3_directory| and \verb|POPS_directory| by the directory path of {\tt TESS3} and {\tt POPS}.
-
 \begin{Verbatim}[frame=single]
-source("TESS3-master/src/Rwrapper/TESS3.R")
+Tess3wrapper.directory <- "TESS3-master/src/Rwrapper/TESS3.R"
+Athaliana.directory <- "TESS3-master/data/simulated/Athaliana"
+source( Tess3wrapper.directory )
 library(LEA)
 
-setwd( "TESS3-master/data/simulated/Athaliana" )
+setwd( Athaliana.directory )
 ###########################################################################
-# Run TESS3 on a data set simulated from Arabidopsis thaliana #
+# Run TESS3 on a data set simualted from an Arabidopsis Athalina data set #
 ###########################################################################
 
 #read data
@@ -312,7 +339,7 @@ spatialData = read.coord("Athaliana.coord")
 n = nrow(spatialData)
 
 project = TESS3( genotype = "Athaliana.geno", 
-                 coordinates = "Athaliana.coord", 
+                 spatialData = "Athaliana.coord", 
                  K = 1:5, 
                  ploidy = 1, 
                  rep = 1, 
@@ -320,34 +347,30 @@ project = TESS3( genotype = "Athaliana.geno",
 
 
 ###########################################
-# Choose  K using the cross-entropy criterion #
+# Chose of K with cross-entropy criterion #
 ###########################################
 
-plot( 1:5, 
-      getCrossEntropy( project ), 
-      main  = "Cross entropy",
-      type="b", 
-      xlab = "K", 
-      ylab = "cross entropy" )
+plot( 1:5, crossEntropy( project ), main  = "Cross entropy",type="b", 
+      xlab = "K", ylab = "cross entropy" )
 
 ################################
-# Display results  for K = 3 #
+# Plot result on map for K = 3 #
 ################################
 
-# R script available on http://membres-timc.imag.fr/Olivier.Francois/pops.html
-source("POPS_direction/R/POPSutilities.r")
+# pops R scripts
+source("../../../src/popsRScripts/POPSutilities.r")
 
 asciiFile="/home/cayek/Projects/TESS3/data/simulated/Athaliana/down_etopo1.asc"
 grid=createGridFromAsciiRaster(asciiFile)
 # To display only altitudes above 0:
 constraints=getConstraintsFromAsciiRaster(asciiFile,cell_value_min=0)
 
-maps(matrix = getQ( project, K = 3 ),
+maps(matrix = qmatrix( project, K = 3 )$Q,
      coord = spatialData,
      grid=grid,constraints=constraints,method="max",main="ancestry coefficient with K = 3")
-
 \end{Verbatim}
 
+%$
 
 
 \subsection{Example of a genome scan for selection using {\tt TESS3}}
@@ -356,12 +379,14 @@ This section shows an example of the use of {\tt TESS3} to perform a genome scan
  %% You need to change \verb|TESS3_directory| by the directory path of {\tt TESS3}.
 
 \begin{Verbatim}[frame=single]
-source("TESS3-master/src/Rwrapper/TESS3.R")
+Tess3wrapper.directory <- "TESS3-master/src/Rwrapper/TESS3.R"
+Athaliana.directory <- "TESS3-master/data/simulated/Athaliana"
+source( Tess3wrapper.directory )
 library(LEA)
 
-setwd( "TESS3-master/data/simulated/Athaliana" )
+setwd( Athaliana.directory )
 ###########################################################################
-# Run TESS3 on data  #
+# Run TESS3 on a data set simualted from an Arabidopsis Athalina data set #
 ###########################################################################
 
 #read data
@@ -381,7 +406,7 @@ project = TESS3( genotype = genotype,
 #############################
 
 #### Fst with TESS3 
-Fst = getFst( project, K = 3 )
+Fst = fst( project, K = 3 )$Fst
 Fst[Fst < 0.0] = 0.0
 
 #### Convert Fst into t score
@@ -410,6 +435,8 @@ plot( 1:length(adj.p.values),-log10(adj.p.values) ,
 #add limite
 abline( -log10(limite), 0, col = "green", lty = 6, lwd = 3 )
 \end{Verbatim}
+
+%$
 
 \section{Contact}
 If you need assistance, do not hesitate to send us an email (kevin.caye@imag.fr or olivier.francois@imag.fr). 

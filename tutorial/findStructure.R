@@ -30,7 +30,7 @@ plot( 1:5, crossEntropy( project ), main  = "Cross entropy",type="b", xlab = "K"
 # Plot result on map for K = 3 #
 ################################
 
-# pops R script available on http://membres-timc.imag.fr/Olivier.Francois/pops.html
+# pops R script 
 source("../../../src/popsRScripts/POPSutilities.r")
 
 asciiFile="/home/cayek/Projects/TESS3/data/simulated/Athaliana/down_etopo1.asc"

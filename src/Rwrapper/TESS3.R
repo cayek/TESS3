@@ -278,7 +278,7 @@ fst <- function( project, K, run = "best" ) {
   }
 }
 
-crossEntropy <- function( project, func = mean  ) {
+crossEntropy <- function( project, FUNCTION = mean  ) {
   
   if( class(project) != "tess3" ) {
     
@@ -290,7 +290,7 @@ crossEntropy <- function( project, func = mean  ) {
   
   for( k in 1:length(project) ) {
     
-    res = c(res, func( project[[k]]$masked.ce ) ) 
+    res = c(res, FUNCTION( project[[k]]$masked.ce ) ) 
     
   }
   
@@ -298,7 +298,7 @@ crossEntropy <- function( project, func = mean  ) {
   
 }
 
-leastSquared <- function( project, func = mean  ) {
+leastSquared <- function( project, FUNCTION = mean  ) {
   
   if( class(project) != "tess3" ) {
     
@@ -310,7 +310,7 @@ leastSquared <- function( project, func = mean  ) {
   
   for( k in 1:length(project) ) {
     
-    res = c(res, func( project[[k]]$error ) ) 
+    res = c(res, FUNCTION( project[[k]]$error ) ) 
     
   }
   
