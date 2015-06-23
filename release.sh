@@ -103,10 +103,7 @@ echo -e "$NORMAL" "*** Release :"
 
 test "git stash &> /dev/null"
 test "git checkout master &> /dev/null"
-
-# trick to avoid the problem of deleted file with "theirs" strategi 
-test 'cat "$myTESS3/releaseRemove" | xargs touch'
-test "git merge -X theirs develop &> /dev/null"
+test "git merge develop &> /dev/null"
 
 # start release #
 
@@ -132,7 +129,7 @@ test "git add ../documentation.pdf"
 cd ../../
 
 # remove file which are not suppose to be in the release version
-test 'cat "$myTESS3/releaseRemove" | xargs git rm &> /dev/null'
+test 'cat "$myTESS3/releaseRemove" | xargs -L 1 -d "\n" git rm &> /dev/null'
 
 DATE=`date +%Y-%m-%d`
 git commit -am "Release date: $DATE"
