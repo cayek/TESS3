@@ -129,7 +129,7 @@ test "git add ../documentation.pdf"
 cd ../../
 
 # remove file which are not suppose to be in the release version
-test 'cat "$myTESS3/releaseRemove" | xargs -L 1 -d "\n" git rm &> /dev/null'
+cat "$myTESS3/releaseRemove" | xargs -L 1 -d "\n" git rm &> /dev/null
 
 DATE=`date +%Y-%m-%d`
 git commit -am "Release date: $DATE"
