@@ -16,7 +16,32 @@ function test {
     return $status
 }
 
+###################
+# parse arguments #
+###################
+RELEASE=""
+DEPLOY=""
+TESTING=""
+while [[ $# > 0 ]]
+do
+key="$1"
 
+case $key in
+    -nr|--notrelease)
+    RELEASE="0"
+    ;;
+    -nd|--notdeploy)
+    DEPLOY="0"
+    ;;
+    -nt|--nottesting)
+    TESTING="0"
+    ;;
+    *)
+            # unknown option
+    ;;
+esac
+shift # past argument or value
+done
 ###############################
 # push all changes to develop #
 ###############################
@@ -42,7 +67,8 @@ echo -e "$VERT" "OK"
 #################
 # try to deploy #
 #################
-echo "*** Deployment testing :"
+if [ -z "$DEPLOY" ]; then
+echo -e "$NORMAL" "*** Deployment testing :"
 
 cd ~/Téléchargements/
 
@@ -59,20 +85,22 @@ cd ../
 test "./setupRsrc.sh &> /dev/null"
 
 echo -e "$VERT" "OK"
+fi
 #############
 # run tests #
 #############
-
-echo "*** Testing :"
+if [ -z "$TESTING" ]; then
+echo -e "$NORMAL" "*** Testing :"
 
 test "Rscript test/scriptR/Rtest.R  &> /dev/null"
 
 echo -e "$VERT" "OK"
-
+fi
 #################
 # if ok release #
 #################
-echo "*** Release :"
+if [ -z "$RELEASE" ]; then
+echo -e "$NORMAL" "*** Release :"
 
 git stash &> /dev/null
 git checkout master &> /dev/null
@@ -119,3 +147,4 @@ cd ~/Téléchargements/
 rm -rf TESS3_testdeploy
 
 echo -e "$VERT" "OK"
+fi
