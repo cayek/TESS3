@@ -132,8 +132,8 @@ cd ../../
 cat "$myTESS3/releaseRemove" | xargs -L 1 -d "\n" git rm &> /dev/null
 
 DATE=`date +%Y-%m-%d`
-git commit -am "Release date: $DATE"
-git push
+test 'git commit -am "Release date: $DATE" &> /dev/null'
+test "git push &> /dev/null"
 
 #push on github
 ssh cayek@patator.imag.fr <<EOF
