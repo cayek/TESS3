@@ -36,8 +36,8 @@ nonRegressionTesting <- function( directory, genoDataFile, coordDataFile, K, plo
   res = list( Q = qmatrix( tess3, K )$Q, 
               G = gmatrix( tess3, K )$G, 
               Fst = fst( tess3, K )$Fst,
-              CrossEntropy = crossEntropy( tess3), 
-              LeastSquared = leastSquared( tess3) )
+              CrossEntropy = cross.entropy( tess3), 
+              LeastSquared = residual.error( tess3) )
   if(!file.exists(file = resName) ) {
     resOld=res
     save(resOld,file = resName)
