@@ -1,7 +1,6 @@
 Tess3wrapper.directory <- "/home/cayek/Projects/TESS3/src/Rwrapper/TESS3.R"
 Athaliana.directory <- "/home/cayek/Projects/TESS3/data/simulated/Athaliana"
 source( Tess3wrapper.directory )
-library(LEA)
 
 setwd( Athaliana.directory )
 ###########################################################################
@@ -13,7 +12,7 @@ spatialData = read.coord("Athaliana.coord")
 n = nrow(spatialData)
 
 project = TESS3( genotype = "Athaliana.geno", 
-                 spatialData = "Athaliana.coord", 
+                 coordinates = "Athaliana.coord", 
                  K = 1:5, 
                  ploidy = 1, 
                  rep = 1, 
@@ -24,7 +23,7 @@ project = TESS3( genotype = "Athaliana.geno",
 # Chose of K with cross-entropy criterion #
 ###########################################
 
-plot( 1:5, crossEntropy( project ), main  = "Cross entropy",type="b", xlab = "K", ylab = "cross entropy" )
+plot( 1:5, cross.entropy( project ), main  = "Cross Entropy",type="b", xlab = "K", ylab = "cross entropy" )
 
 ################################
 # Plot result on map for K = 3 #
@@ -33,7 +32,7 @@ plot( 1:5, crossEntropy( project ), main  = "Cross entropy",type="b", xlab = "K"
 # pops R script 
 source("../../../src/popsRScripts/POPSutilities.r") # WARNING : this script may require to be sourced 2 times !
 
-asciiFile=paste(Athaliana.directory, "/lowEurope.asc",sep="")
+asciiFile="/lowResEurope.asc"
 grid=createGridFromAsciiRaster(asciiFile)
 # To display only altitudes above 0:
 constraints=getConstraintsFromAsciiRaster(asciiFile,cell_value_min=0)

@@ -8,7 +8,7 @@ TESS3.cmd <- "/home/cayek/Projects/TESS3/build/TESS3"
 
 ##########################################################################
 
-TESS3 <- function( genotype,  spatialData, K, ploidy=1, seed=-1, rep = 1, maskedProportion = 0.0, alpha = 0.001 ) {
+TESS3 <- function( genotype,  coordinates, K, ploidy=1, seed=-1, rep = 1, maskedProportion = 0.0, alpha = 0.001 ) {
   
   #test if we can found sNMF
   if (!(class(TESS3.cmd)=="character")) {
@@ -278,7 +278,7 @@ fst <- function( project, K, run = "best" ) {
   }
 }
 
-crossEntropy <- function( project, FUNCTION = mean  ) {
+cross.entropy <- function( project, FUNCTION = mean  ) {
   
   if( class(project) != "tess3" ) {
     
@@ -298,7 +298,7 @@ crossEntropy <- function( project, FUNCTION = mean  ) {
   
 }
 
-leastSquared <- function( project, FUNCTION = mean  ) {
+residual.error <- function( project, FUNCTION = mean  ) {
   
   if( class(project) != "tess3" ) {
     
