@@ -116,8 +116,8 @@ test "unzip lineno.zip "
 test "mv lineno/lineno.sty . "
 test "wget http://mirrors.ctan.org/macros/latex/contrib/ccaption.zip "
 test "unzip ccaption.zip "
-test "cd ccaption/"
-latex ccaption.ins
+cd ccaption/
+test "latex ccaption.ins"
 test "mv ccaption.sty ../"
 cd ..
 test "latex note.tex "
