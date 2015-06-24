@@ -8,7 +8,7 @@ setwd( Athaliana.directory )
 ###########################################################################
 
 #read data
-spatialData = "Athaliana.coord"
+spatialData = read.coord("Athaliana.coord")
 genotype = "Athaliana.geno"
 n = nrow(spatialData)
 
