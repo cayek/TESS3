@@ -46,7 +46,7 @@ Command-line program and R wrapper functions
 
 Geography is an important determinant of genetic variation in natural populations, and its effects are commonly investigated by analyzing population genetic structure using spatial ancestry estimation programs. Classical spatial ancestry estimation programs do not scale with the dimension of the data sets generated from modern sequencing technologies, and more efficient algorithms are needed to analyze genome-wide patterns of population genetic variation in their geographic context.
 
-The computer program {\tt TESS3}, which has functionalities similar to previous versions of {\tt TESS}~\cite{durand2009spatial}, has run-times several order faster than those of common Bayesian clustering programs. In addition, the program can be used to perform genome scans for selection based on ancestral allele frequency differentiation, and to separate non-adaptive and adaptive genetic variation.
+The computer program {\tt TESS3}, which has functionalities similar to previous versions of {\tt TESS}~\cite{chen2007bayesian,durand2009spatial}, has run-times several order faster than those of common Bayesian clustering programs. In addition, the program can be used to perform genome scans for selection based on ancestral allele frequency differentiation, and to separate non-adaptive and adaptive genetic variation.
 
 This documentation aims to help users to run the {\tt TESS3} command-line engine on Linux, Mac and Windows operating systems, and presents some R functions that facilitate the post-processing of the program outputs. The main features of {\tt TESS3} are illustrated using an example data set, simulated from European lines of the plant species {\it Arabidopsis thaliana}.
 
@@ -76,7 +76,7 @@ The installation of {\tt TESS3} requires that {\tt CMake}, a the cross-platform 
  make TESS3
 \end{Verbatim}
 
- \noindent The executable program file {\tt TESS3} can be found in the {\tt build} directory.  
+ \noindent The executable program file {\tt TESS3} can be found in the {\tt build} directory. Copy this file to the main \verb|TESS3-master| directory.
   
 \section{Data format}
 
@@ -181,7 +181,7 @@ Be aware that the number of processes has to be lower or equal to the number of 
 \noindent A summary of options can be obtained  by typing the following command
 \footnotesize
 \begin{Verbatim}[frame=single]
-./bin/TESS3 -h
+./TESS3 -h
 \end{Verbatim}
 \noindent
 \normalsize
@@ -202,28 +202,36 @@ To run a very simple example of the use of {\tt TESS3}, consider data simulated 
 > par( mfrow = c(2,1) )
 > Qmatrix = t( read.table("Athaliana.3.Q") )
 > barplot(Qmatrix, col = 2:4)
-> Fst = read.table("Athaliana.3.Fst")
-> plot(Fst, main = "Manhattan Plot", cex = .4)
+> Fst = read.table("Athaliana.3.Fst")[,1]
+> plot(Fst, main = "Manhattan Plot", cex = .4, pch = 19, col = "blue")
 \end{Verbatim}
 
-Those commands visualize the ancestry coefficient matrix computed by {\tt TESS3} and display a Manhattan plot of $F_{\rm ST}$ values along the fifth chromosome of the plant species.
+Those commands visualize the ancestry coefficient matrix computed by {\tt TESS3} and display a Manhattan plot of $F_{\rm ST}$ values along the fifth chromosome of the plant species (see figure~\ref{fig:bar}).
 
 
-
+\begin{figure}[h!]\centering
+\includegraphics[width=\linewidth]{barplot.pdf}
+\caption{Barplot generated with the R command above.}\label{fig:bar}
+\end{figure} 
 
 \subsection{R wrapper functions}
 To facilitate the interpretation of results, the {\tt TESS3} program can be launched from the {\tt R} command line, using the functions in the  \verb|src/Rwrapper/TESS3.R| script. Users need to have {\tt TESS3} compiled and can use the bash script \verb|./setupRsrc.R| in the {\tt TESS3} directory to set path variables in the R script:
 \begin{Verbatim}[frame=single]
-./setupRsrc.sh -t TESS3_program
+./setupRsrc.sh
 \end{Verbatim}
-Then users need to source the \verb|src/Rwrapper/TESS3.R| script from an {\tt R} session. The main {\tt R} functions are described below.
+Then users need to open an {\tt R} session in the main directory {\tt TESS-master} and source the \verb|src/Rwrapper/TESS3.R| script as follows: 
+\begin{Verbatim}[frame=single]
+>source("./src/Rwrapper/TESS3.R")
+\end{Verbatim}
+The main {\tt R} functions are described below.
+
 
 \begin{itemize}
 
 \item \verb|TESS3|
 
 \paragraph{Description:}
-A wrapper function that calls the {\tt TESS3} command-line program. This function creates a directory named \verb|TESS3_workingDirectory| to record all output files. The function return an object of class \verb|tess3| which stores results of runs. Results can be retrieved thanks to getter functions describe below.
+A wrapper function that calls the {\tt TESS3} command-line program. This function creates a directory named \verb|TESS3_workingDirectory| to record all output files. The function returns an object of class \verb|tess3| which stores results of runs. Results can be retrieved thanks to getter functions describe below.
 \paragraph{Usage}
 \begin{Verbatim}
 object = TESS3( genotype,
@@ -237,8 +245,8 @@ object = TESS3( genotype,
 \end{Verbatim}
 \paragraph{Arguments}
 \begin{itemize}
-\item \verb|genotype|:  A path to the genotype matrix in the {\bf geno} format or a matrix of size $n$ individuals by $L$ loci. 
-\item \verb|coordinates|:  A path to the spatial coordinate matrix in the {\bf coord} format or a matrix of size $n$ individuals by $L$ loci, or a matrix of size $n$ by $2$. 
+\item \verb|genotype|: a path to the genotype matrix in the {\bf geno} format or a matrix of size $n$ individuals by $L$ loci. 
+\item \verb|coordinates|: a path to the spatial coordinate matrix in the {\bf coord} format or a matrix of size $n$ individuals by $L$ loci, or a matrix of size $n$ by $2$. 
 \item \verb|K|: number of ancestral cluster. It can be a sequence of integer values. The {\tt TESS3} program will be run for each element of the sequence.
 \item \verb|ploidy|: 1 if haploid, 2 if diploid.
 \item \verb|rep|: number of runs for each K value.
@@ -246,17 +254,29 @@ object = TESS3( genotype,
 \item \verb|alpha|: value of the normalized regularization parameter. This parameter controls the spatial regularity of the ancestry estimates.
 \end{itemize}
 
+\paragraph{Value}
+\verb|TESS3| returns a list with class \verb|tess3|. The list contains one list for each run with a different number $K$ of ancestral cluster. Lists which compose \verb|tess3| list contain the following components: 
+
+\begin{itemize}
+\item \verb|Q|: a list containing the $Q$-matrix of ancestry coefficients for each repetition of the algorithm.
+\item \verb|G|: a list containing the $G$-matrix of ancestral genotype frequency for each repetition of the algorithm.
+\item \verb|G|: a list containing the vector of ancestral allele frequency differentiation statistics for each repetition of the algorithm.
+\item \verb|error|: a vector containing residual error for each repetition of the algorithm.
+\item \verb|masked.ce|: if it was computed, a vector containing cross entropy criterion for each repetition of the algorithm.
+\end{itemize}
+
+
 \item \verb|Getter functions|
 
 \paragraph{Description}
-Functions useful to retrieve results of {\tt TESS3} runs. These functions must be use with an object of class \verb|tess3| created by \verb|TESS3| R function (see description above).
+Functions useful to retrieve results of {\tt TESS3} runs. These functions must be used with an object of class \verb|tess3| created by the \verb|TESS3| R function (see description above).
 
 \begin{itemize}
-  \item[] \verb|qmatrix| get the $Q$-matrix of ancestry coefficients.
-  \item[] \verb|qmatrix| get the $G$-matrix of ancestral genotype frequencies.
-  \item[] \verb|fst| get the vector of $F_{\rm st}$ statistic for each locus.
-  \item[] \verb|crossEntropy| if it has been computed, get the vector of cross entropy criterion for each run.
-  \item[] \verb|leastSquared| get the vector of least squared criterion for each run.
+  \item[] \verb|qmatrix| gets the $Q$-matrix of ancestry coefficients.
+  \item[] \verb|qmatrix| gets the $G$-matrix of ancestral genotype frequencies.
+  \item[] \verb|fst| gets the vector of $F_{\rm st}$ statistics from each locus.
+  \item[] \verb|cross.entropy| if it has been computed, get the vector of cross entropy criterion from each run.
+  \item[] \verb|residual.error| gets the vector of the residual errors from each run.
 \end{itemize}
 
 
@@ -268,28 +288,54 @@ gmatrix( object, K, run = "best" )
   
 fst( object, K, run = "best" )
   
-crossEntropy( object, FUNCTION = mean ) 
+cross.entropy( object, FUNCTION = mean ) 
 
-leastSquared( object, FUNCTION = mean )
+residual.error( object, FUNCTION = mean )
 
 \end{Verbatim}
 \paragraph{Arguments}
 \begin{itemize}
-\item \verb|project|: object returned by the \verb|TESS3| R function.
+\item \verb|object|: object returned by the \verb|TESS3| R function.
 \item \verb|K|: number of ancestral cluster.
 \item \verb|run|: number of the run, or \verb|"best"| if you want the best result with respect to the least-squared criterion.
 \item \verb|FUNCTION|: function used to summarize data over all run.
 
 \end{itemize}
 
+\paragraph{Value}
+\verb|qmatrix| returns a list with class \verb|qmatrix| containing the following components: 
+
+\begin{itemize}
+\item \verb|Q|: the $Q$-matrix of ancestry coefficients.
+\item \verb|K|: the number of ancestral cluster.
+\end{itemize}
+
+\verb|gmatrix| returns a list with class \verb|gmatrix| containing the following components: 
+
+\begin{itemize}
+\item \verb|G|: the $G$-matrix of ancestral genotype frequency.
+\item \verb|K|: the number of ancestral cluster.
+\end{itemize}
+
+\verb|fst| returns a list with class \verb|fstmatrix| containing the following components: 
+
+\begin{itemize}
+\item \verb|Fst|: the vector of $F_{\rm st}$ statistics for each locus.
+\item \verb|K|: the number of ancestral cluster.
+\end{itemize}
+
+\verb|cross.entropy| returns the vector of cross entropy criterion for each run.
+
+\verb|residual.error| returns the vector of residual error for each run.
+
 \item \verb|Reader functions|
 
 \paragraph{Description}
-Function useful to read and convert data from file.
+Functions use to read or convert data from external input files.
 
 \begin{itemize}
-  \item[] \verb|read.coord| read coord file and return a the coordinates matrix.
-  \item[] \verb|tess2tess3| convert a file in the {\tt TESS} 2.3 data format into geno+coord files which can be use with {\tt TESS3}
+  \item[] \verb|read.coord| reads the coord file and returns a  coordinate matrix.
+  \item[] \verb|tess2tess3| converts a file in the {\tt TESS} 2.3 data format into geno+coord files which can be used with {\tt TESS3}
 \end{itemize}
 
 \paragraph{Usage}
@@ -299,7 +345,7 @@ tess2tess3( file )
 \end{verbatim}
 \paragraph{Arguments}
 \begin{itemize}
-\item \verb|file| name of the file to read or convert.
+\item \verb|file|: name of the file to read or convert.
 \end{itemize}
 
 
@@ -313,7 +359,7 @@ tess2tess3( file )
 
 The R tutorial scripts are available in the directory \verb|turorial/| but need to know the data and {\tt TESS3} program directory paths. You can use the bash script \verb|./setupRsrc.R| in the {\tt TESS3} directory to set path variables in the R scripts:
 \begin{Verbatim}[frame=single]
-./setupRsrc.sh -t TESS3_program
+./setupRsrc.sh 
 \end{Verbatim}
 
 \subsection{Data set}
@@ -322,13 +368,10 @@ We illustrate the use of {\tt TESS3} and the {\tt R} functions using simulated {
 
 \subsection{Example of visualization of ancestry coefficients using {\tt TESS3}}
 
-This example describes how to run {\tt TESS3} from the {\tt R} command line for several values of the number of ancestral populations, and how to plot a graph of the cross-entropy criterion as function of $K$ (see figure 1). It also uses scripts available from {\tt POPS} web-site (\url{http://membres-timc.imag.fr/Olivier.Francois/pops.html}) to display geographic representations of ancestry coefficient maps using raster maps \cite{jay2012forecasting} (see Figure 1). 
+This example describes how to run {\tt TESS3} from the {\tt R} command line for several values of the number of ancestral populations, and how to plot a graph of the cross-entropy criterion as function of $K$ (see figure~\ref{fig:map}). It also uses scripts available from {\tt POPS} web-site (\url{http://membres-timc.imag.fr/Olivier.Francois/pops.html}) to display geographic representations of ancestry coefficient maps using raster maps \cite{jay2012forecasting} (see Figure~\ref{fig:map}). 
 
 \begin{Verbatim}[frame=single]
-Tess3wrapper.directory <- "TESS3-master/src/Rwrapper/TESS3.R"
 Athaliana.directory <- "TESS3-master/data/simulated/Athaliana"
-source( Tess3wrapper.directory )
-library(LEA)
 
 setwd( Athaliana.directory )
 ###########################################################################
@@ -340,7 +383,7 @@ spatialData = read.coord("Athaliana.coord")
 n = nrow(spatialData)
 
 project = TESS3( genotype = "Athaliana.geno", 
-                 spatialData = "Athaliana.coord", 
+                 coordinates = "Athaliana.coord", 
                  K = 1:5, 
                  ploidy = 1, 
                  rep = 1, 
@@ -351,7 +394,7 @@ project = TESS3( genotype = "Athaliana.geno",
 # Chose of K with cross-entropy criterion #
 ###########################################
 
-plot( 1:5, crossEntropy( project ), main  = "Cross entropy",type="b", 
+plot( 1:5, cross.entropy( project ), main  = "Cross Entropy",type="b", 
       xlab = "K", ylab = "cross entropy" )
 
 ################################
@@ -360,11 +403,11 @@ plot( 1:5, crossEntropy( project ), main  = "Cross entropy",type="b",
 
 # pops R scripts
 source("../../../src/popsRScripts/POPSutilities.r") # WARNING : this 
-script may require to be sourced 2 times !
+script may require to be sourced twice!
 
-asciiFile=paste(Athaliana.directory, "/lowEurope.asc",sep="")
+asciiFile="lowResEurope.asc"
 grid=createGridFromAsciiRaster(asciiFile)
-# To display only altitudes above 0:
+# Display only altitudes above sea level
 constraints=getConstraintsFromAsciiRaster(asciiFile,cell_value_min=0)
 
 maps(matrix = qmatrix( project, K = 3 )$Q,
@@ -382,33 +425,32 @@ maps(matrix = qmatrix( project, K = 3 )$Q,
 \begin {minipage}{0.49\textwidth}
 \includegraphics[width=\linewidth]{map.pdf}
 \end{minipage}
-\caption{Graphs generated with the R script {\tt turorial/findStructure.R}.}
+\caption{Graphs generated with the R script {\tt turorial/findStructure.R}.}\label{fig:map}
 \end{figure} 
 
 
 \subsection{Example of a genome scan for selection using {\tt TESS3}}
-This section shows an example of the use of {\tt TESS3} to perform a genome scan for selection based on the computation of ancestral allele frequency differentiation statistics. Here {\tt TESS3} was run with $K = 3$ ancestral populations. The $F_{\rm ST}$ statistics were transformed into squared $t$-scores and $p$-value using a Fisher distribution. Inflation of the test statistic caused by population structure was corrected by recalibrating the $t^2$-scores to follow a uniform distribution under the null hypothesis. The false discovery rate was controlled using the Benjamini-Hochberg procedure and plot the Manhattan plot (see Figure 2).
+This section shows an example of the use of {\tt TESS3} to perform a genome scan for selection based on the computation of ancestral allele frequency differentiation statistics. Here {\tt TESS3} was run with $K = 3$ ancestral populations. The $F_{\rm ST}$ statistics were transformed into squared $t$-scores and $p$-value using a Fisher distribution. Inflation of the test statistic caused by population structure was corrected by recalibrating the $t^2$-scores to follow a uniform distribution under the null hypothesis. The false discovery rate was controlled using the Benjamini-Hochberg procedure and plot the Manhattan plot (see Figure~\ref{fig:manhattanPlot}).
 
  %% You need to change \verb|TESS3_directory| by the directory path of {\tt TESS3}.
 
+\newpage
+
 \begin{Verbatim}[frame=single]
-Tess3wrapper.directory <- "TESS3-master/src/Rwrapper/TESS3.R"
 Athaliana.directory <- "TESS3-master/data/simulated/Athaliana"
-source( Tess3wrapper.directory )
-library(LEA)
 
 setwd( Athaliana.directory )
 ###########################################################################
-# Run TESS3 on a data set simualted from an Arabidopsis Athalina data set #
+# Run TESS3 on data simulated from an Arabidopsis thaliana data set #
 ###########################################################################
 
-#read data
-spatialData = read.coord("Athaliana.coord")
-genotype = read.geno("Athaliana.geno")
+# Read data
+spatialData = "Athaliana.coord"
+genotype = "Athaliana.geno"
 n = nrow(spatialData)
 
 project = TESS3( genotype = genotype, 
-                 spatialData = spatialData, 
+                 coordinates = spatialData, 
                  K = 3, 
                  ploidy = 1, 
                  rep = 5 )
@@ -425,7 +467,7 @@ Fst[Fst < 0.0] = 0.0
 #### Convert Fst into t score
 squared.t.scores = Fst*(n-2)/(1-Fst)
 
-#### recalibrated p-values
+#### Recalibrated p-values
 gif = 25
 adj.p.values = pf( squared.t.scores/gif , df1 = 2, df2 = n-3, lower = FALSE )
 
@@ -453,7 +495,7 @@ abline( -log10(limite), 0, col = "green", lty = 6, lwd = 3 )
 
 \begin{figure}[h!]\centering
 \includegraphics[width=\linewidth]{manhattanPlot.pdf}
-\caption{Graph generated with the R script {\tt turorial/findSelection.R}.}
+\caption{Graph generated with the R script {\tt turorial/findSelection.R}.}\label{fig:manhattanPlot}
 \end{figure} 
 
 \section{Contact}

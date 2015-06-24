@@ -1,7 +1,6 @@
 Tess3wrapper.directory <- "/home/cayek/Projects/TESS3/src/Rwrapper/TESS3.R"
 Athaliana.directory <- "/home/cayek/Projects/TESS3/data/simulated/Athaliana"
 source( Tess3wrapper.directory )
-library(LEA)
 
 setwd( Athaliana.directory )
 ###########################################################################
@@ -9,12 +8,12 @@ setwd( Athaliana.directory )
 ###########################################################################
 
 #read data
-spatialData = read.coord("Athaliana.coord")
-genotype = read.geno("Athaliana.geno")
+spatialData = "Athaliana.coord"
+genotype = "Athaliana.geno"
 n = nrow(spatialData)
 
 project = TESS3( genotype = genotype, 
-                 spatialData = spatialData, 
+                 coordinates = spatialData, 
                  K = 3, 
                  ploidy = 1, 
                  rep = 5 )
