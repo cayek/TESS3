@@ -8,10 +8,11 @@ NORMAL="\\033[0;39m"
 dir_TESS3=`pwd`
 
 function test {
-    eval "$@"
+    res="$(eval "$@")"
     local status=$?
     if [ $status -ne 0 ]; then
-        echo -e "$ROUGE" "error with $1" >&2
+        echo -e "$ROUGE" "error with $1 : " >&2
+	echo "$res"
 	exit 1
     fi
     return $status
@@ -48,7 +49,7 @@ done
 ###############################
 echo -e "$NORMAL" "*** Push changes :"
 
-test "git checkout develop &> /dev/null"
+test "git checkout develop "
 # check if there are not commited file
 status=`git status 2>&1 | tee`
 dirty=`echo -n "${status}" 2> /dev/null | grep "modified:" &> /dev/null; echo "$?"`
@@ -62,7 +63,7 @@ exit 1
 fi
 
 #git push
-test "git push &> /dev/null"
+test "git push "
 
 echo -e "$VERT" "OK"
 #################
@@ -79,10 +80,10 @@ if [ -z "$DEPLOY" ]; then
 echo -e "$NORMAL" "*** Deployment testing :"
 mkdir build
 cd build
-test "cmake -DCMAKE_BUILD_TYPE=release ../ &> /dev/null"
-test "make TESS3 &> /dev/null"
+test "cmake -DCMAKE_BUILD_TYPE=release ../ "
+test "make TESS3 "
 cd ../
-test "./setupRsrc.sh &> /dev/null"
+test "./setupRsrc.sh "
 echo -e "$VERT" "OK"
 fi
 #############
@@ -91,7 +92,7 @@ fi
 if [ -z "$TESTING" ]; then
 echo -e "$NORMAL" "*** Testing :"
 
-test "Rscript test/scriptR/Rtest.R  &> /dev/null"
+test "Rscript test/scriptR/Rtest.R  "
 
 echo -e "$VERT" "OK"
 fi
@@ -101,28 +102,28 @@ fi
 if [ -z "$RELEASE" ]; then
 echo -e "$NORMAL" "*** Release :"
 
-test "git stash &> /dev/null"
-test "git checkout master &> /dev/null"
-test "git merge develop &> /dev/null"
+test "git stash"
+test "git checkout master"
+git merge develop &> /dev/null
 
 # start release #
 
 # compile documentation
 cd doc/src/
-test "wget http://mirrors.ctan.org/macros/latex/contrib/lineno.zip  &> /dev/null"
-test "unzip lineno.zip &> /dev/null"
-test "mv lineno/lineno.sty . &> /dev/null"
-test "wget http://mirrors.ctan.org/macros/latex/contrib/ccaption.zip &> /dev/null"
-test "unzip ccaption.zip &> /dev/null"
+test "wget http://mirrors.ctan.org/macros/latex/contrib/lineno.zip  "
+test "unzip lineno.zip "
+test "mv lineno/lineno.sty . "
+test "wget http://mirrors.ctan.org/macros/latex/contrib/ccaption.zip "
+test "unzip ccaption.zip "
 test "cd ccaption/"
-test "latex ccaption.ins &> /dev/null"
+test "latex ccaption.ins "
 test "mv ccaption.sty ../"
 cd ..
-test "latex note.tex &> /dev/null"
-test "bibtex note &> /dev/null"
-test "latex note.tex &> /dev/null"
-test "latex note.tex &> /dev/null"
-test "dvipdf note.dvi &> /dev/null"
+test "latex note.tex "
+test "bibtex note "
+test "latex note.tex "
+test "latex note.tex "
+test "dvipdf note.dvi "
 test "rm -f ../documentation.pdf"
 test "cp note.pdf ../documentation.pdf"
 test "git add ../documentation.pdf"
@@ -132,8 +133,8 @@ cd ../../
 cat "$myTESS3/releaseRemove" | xargs -L 1 -d "\n" git rm &> /dev/null
 
 DATE=`date +%Y-%m-%d`
-test 'git commit -am "Release date: $DATE" &> /dev/null'
-test "git push &> /dev/null"
+test 'git commit -am "Release date: $DATE" '
+test "git push "
 
 #push on github
 ssh cayek@patator.imag.fr <<EOF
