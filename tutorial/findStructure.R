@@ -32,7 +32,7 @@ plot( 1:5, cross.entropy( project ), main  = "Cross Entropy",type="b", xlab = "K
 # pops R script 
 source("../../../src/popsRScripts/POPSutilities.r") # WARNING : this script may require to be sourced 2 times !
 
-asciiFile="/lowResEurope.asc"
+asciiFile="lowResEurope.asc"
 grid=createGridFromAsciiRaster(asciiFile)
 # To display only altitudes above 0:
 constraints=getConstraintsFromAsciiRaster(asciiFile,cell_value_min=0)
