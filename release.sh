@@ -8,7 +8,7 @@ NORMAL="\\033[0;39m"
 dir_TESS3=`pwd`
 
 function test {
-    res="$(eval "$@")"
+    res="$(eval "$@ 2>&1")"
     local status=$?
     if [ $status -ne 0 ]; then
         echo -e "$ROUGE" "error with $1 : " >&2
