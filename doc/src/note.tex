@@ -187,7 +187,7 @@ Be aware that the number of processes has to be lower or equal to the number of 
 \normalsize
 
 
-\subsection{Example}
+\subsection{Example}\label{sec:ex}
 
 To run a very simple example of the use of {\tt TESS3}, consider data simulated from the chromosome 5 of the model plant species {\it A. thaliana}. The genotype matrix contains 170 genotypes from European lines of the plant (26943 SNPs). Since {\it A. thaliana} is a selfing species, the heterozygote frequency was equal to zero, and the diploid genotypes were recoded as haploid. Copy the program executable file in the {\tt ./data/simulated/Athaliana} directory and type
 
@@ -347,7 +347,11 @@ tess2tess3( file )
 \end{itemize}
 
 \paragraph{Example}
-
+The file {\tt data.tess} used in this example is available in the directory {\tt data/simulated/simpleTESS2}.
+\begin{verbatim}
+# Will create the coordinate.coord and genotype.geno file from the file data.tess
+tess2tess3( "data.tess" ) 
+\end{verbatim}
 
 \end{itemize}
 
@@ -357,21 +361,17 @@ tess2tess3( file )
 
 \section{Tutorial}
 
-The R tutorial scripts are available in the directory \verb|turorial/| but need to know the data and {\tt TESS3} program directory paths. You can use the bash script \verb|./setupRsrc.R| in the {\tt TESS3} directory to set path variables in the R scripts:
-\begin{Verbatim}[frame=single]
-./setupRsrc.sh 
-\end{Verbatim}
 
 \subsection{Data set}
 
-We illustrate the use of {\tt TESS3} and the {\tt R} functions using simulated {\it Arabidopsis thaliana} data as in a previous sections ~\cite{atwell2010genome}. We consider a data set of $n = 170$ (haploid) individuals genotyped at $L = 26943$ SNPs.
+We illustrate the use of {\tt TESS3} and the {\tt R} functions using simulated {\it Arabidopsis thaliana} data as in sections~\ref{sec:ex} ~\cite{atwell2010genome}. We consider a data set of $n = 170$ (haploid) individuals genotyped at $L = 26943$ SNPs. Open a {\tt R} session from the {\tt TESS3-master} directory.
 
-\subsection{Example of visualization of ancestry coefficients using {\tt TESS3}}
+\subsection{Example of visualization of ancestry coefficients using {\tt TESS3}}\label{sec:struc}
 
-This example describes how to run {\tt TESS3} from the {\tt R} command line for several values of the number of ancestral populations, and how to plot a graph of the cross-entropy criterion as function of $K$ (see figure~\ref{fig:map}). It also uses scripts available from {\tt POPS} web-site (\url{http://membres-timc.imag.fr/Olivier.Francois/pops.html}) to display geographic representations of ancestry coefficient maps using raster maps \cite{jay2012forecasting} (see Figure~\ref{fig:map}). 
+This example describes how to run {\tt TESS3} from the {\tt R} command line for several values of the number of ancestral populations, and how to plot a graph of the cross-entropy criterion as function of $K$ (Figure~\ref{fig:map}). It also uses scripts available from {\tt POPS} web-site (\url{http://membres-timc.imag.fr/Olivier.Francois/pops.html}) to display geographic representations of ancestry coefficient maps using raster files \cite{jay2012forecasting} (Figure~\ref{fig:map}). 
 
 \begin{Verbatim}[frame=single]
-Athaliana.directory <- "TESS3-master/data/simulated/Athaliana"
+Athaliana.directory <- "./data/simulated/Athaliana"
 
 setwd( Athaliana.directory )
 ###########################################################################
@@ -391,7 +391,7 @@ project = TESS3( genotype = "Athaliana.geno",
 
 
 ###########################################
-# Chose of K with cross-entropy criterion #
+# Choose K with cross-entropy criterion #
 ###########################################
 
 plot( 1:5, cross.entropy( project ), main  = "Cross Entropy",type="b", 
@@ -402,7 +402,7 @@ plot( 1:5, cross.entropy( project ), main  = "Cross Entropy",type="b",
 ################################
 
 # pops R scripts
-source("../../../src/popsRScripts/POPSutilities.r") # WARNING : this 
+source("../../../src/popsRScripts/POPSutilities.r") # WARNING: this 
 script may require to be sourced twice!
 
 asciiFile="lowResEurope.asc"
@@ -425,24 +425,24 @@ maps(matrix = qmatrix( project, K = 3 )$Q,
 \begin {minipage}{0.49\textwidth}
 \includegraphics[width=\linewidth]{map.pdf}
 \end{minipage}
-\caption{Graphs generated with the R script {\tt turorial/findStructure.R}.}\label{fig:map}
+\caption{Graphs generated with the R script of section~\ref{sec:struc}.}\label{fig:map}
 \end{figure} 
 
 
-\subsection{Example of a genome scan for selection using {\tt TESS3}}
-This section shows an example of the use of {\tt TESS3} to perform a genome scan for selection based on the computation of ancestral allele frequency differentiation statistics. Here {\tt TESS3} was run with $K = 3$ ancestral populations. The $F_{\rm ST}$ statistics were transformed into squared $t$-scores and $p$-value using a Fisher distribution. Inflation of the test statistic caused by population structure was corrected by recalibrating the $t^2$-scores to follow a uniform distribution under the null hypothesis. The false discovery rate was controlled using the Benjamini-Hochberg procedure and plot the Manhattan plot (see Figure~\ref{fig:manhattanPlot}).
+\subsection{Example of a genome scan for selection using {\tt TESS3}}\label{sec:sel}
+This section shows an example of the use of {\tt TESS3} to perform a genome scan for selection based on the computation of ancestral allele frequency differentiation statistics. Here {\tt TESS3} was run with $K = 3$ ancestral populations. The $F_{\rm ST}$ statistics were transformed into squared $t$-scores and $p$-values using a Fisher distribution. Inflation of the test statistic caused by population structure was corrected by recalibrating the $p$-values to follow a uniform distribution under the null hypothesis. The false discovery rate was controlled using the Benjamini-Hochberg procedure and candidate loci are shown above the green dashed line threshold in the Manhattan Plot (Figure~\ref{fig:manhattanPlot}).
 
  %% You need to change \verb|TESS3_directory| by the directory path of {\tt TESS3}.
 
 \newpage
 
 \begin{Verbatim}[frame=single]
-Athaliana.directory <- "TESS3-master/data/simulated/Athaliana"
+Athaliana.directory <- "./data/simulated/Athaliana"
 
 setwd( Athaliana.directory )
-###########################################################################
+#####################################################################
 # Run TESS3 on data simulated from an Arabidopsis thaliana data set #
-###########################################################################
+#####################################################################
 
 # Read data
 spatialData = "Athaliana.coord"
@@ -468,6 +468,7 @@ Fst[Fst < 0.0] = 0.0
 squared.t.scores = Fst*(n-2)/(1-Fst)
 
 #### Recalibrated p-values
+# the gif is set manually to value 25
 gif = 25
 adj.p.values = pf( squared.t.scores/gif , df1 = 2, df2 = n-3, lower = FALSE )
 
@@ -479,7 +480,7 @@ L = length(adj.p.values)
 # return a list of candidates with an expected FDR of alpha.
 w = which(sort(adj.p.values) < alpha * (1:L) / L)
 candidates = order(adj.p.values)[w]
-limite = max(adj.p.values[candidates])
+threshold = max(adj.p.values[candidates])
 
 #### Manhattan plot 
 plot( 1:length(adj.p.values),-log10(adj.p.values) , 
@@ -487,15 +488,15 @@ plot( 1:length(adj.p.values),-log10(adj.p.values) ,
       xlab = "indices", 
       ylab="- Log P-value", 
       pch=19, cex = .5) 
-#add limite
-abline( -log10(limite), 0, col = "green", lty = 6, lwd = 3 )
+#add threshold
+abline( -log10(threshold), 0, col = "green", lty = 6, lwd = 3 )
 \end{Verbatim}
 
 %$
 
 \begin{figure}[h!]\centering
 \includegraphics[width=\linewidth]{manhattanPlot.pdf}
-\caption{Graph generated with the R script {\tt turorial/findSelection.R}.}\label{fig:manhattanPlot}
+\caption{Graph generated with the R script of section~\ref{sec:sel}.}\label{fig:manhattanPlot}
 \end{figure} 
 
 \section{Contact}
