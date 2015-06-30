@@ -8,7 +8,8 @@ NORMAL="\\033[0;39m"
 dir_TESS3=`pwd`
 
 function test {
-    res="$(eval "$@")"
+    echo "> test $@"
+    res="$(eval "$@ 2>&1")"
     local status=$?
     if [ $status -ne 0 ]; then
         echo -e "$ROUGE" "error with $1 : " >&2
@@ -115,15 +116,14 @@ test "unzip lineno.zip "
 test "mv lineno/lineno.sty . "
 test "wget http://mirrors.ctan.org/macros/latex/contrib/ccaption.zip "
 test "unzip ccaption.zip "
-test "cd ccaption/"
-test "latex ccaption.ins "
+cd ccaption/
+test "latex ccaption.ins"
 test "mv ccaption.sty ../"
 cd ..
-test "latex note.tex "
+test "pdflatex note.tex "
 test "bibtex note "
-test "latex note.tex "
-test "latex note.tex "
-test "dvipdf note.dvi "
+test "pdflatex note.tex "
+test "pdflatex note.tex "
 test "rm -f ../documentation.pdf"
 test "cp note.pdf ../documentation.pdf"
 test "git add ../documentation.pdf"

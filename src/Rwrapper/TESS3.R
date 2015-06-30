@@ -42,18 +42,18 @@ TESS3 <- function( genotype,  coordinates, K, ploidy=1, seed=-1, rep = 1, masked
     
   }
   
-  if( class( spatialData ) == "matrix" ) {
+  if( class( coordinates ) == "matrix" ) {
     
     #cat("---------------------WRITTING GENOTYPE-----------------------\n")
     #write genotype and spatial data into file
-    spatialData_file  = paste( TESS3_workingDirectory, "/coordinate.coord", sep="" )
-    write.table(file = spatialData_file,
-                spatialData, row.names = F, col.names = F, quote = F, sep = " ")
+    coordinates_file  = paste( TESS3_workingDirectory, "/coordinate.coord", sep="" )
+    write.table(file = coordinates_file,
+                coordinates, row.names = F, col.names = F, quote = F, sep = " ")
     
-  } else if( class( spatialData ) == "character" ) {
+  } else if( class( coordinates ) == "character" ) {
     
-    spatialData_file  = spatialData
-    attr(res,"spatialData" ) = spatialData_file
+    coordinates_file  = coordinates
+    attr(res,"coordinates" ) = coordinates_file
   }
   
   #optionnal arg
@@ -96,7 +96,7 @@ TESS3 <- function( genotype,  coordinates, K, ploidy=1, seed=-1, rep = 1, masked
       cat("---------------------RUNNING TESS3-----------------------\n")
       system( paste( TESS3.cmd, 
                      "-x", genotype_file,
-                     "-r", spatialData_file,
+                     "-r", coordinates_file,
                      "-K", K[k],
                      "-m", ploidy,
                      "-I",#to init Q with a sample of locus
@@ -143,9 +143,9 @@ summary.tess3 <- function( obj ) {
     
   }
   
-  if( !is.null( attr(obj,"spatialData") ) ) {
+  if( !is.null( attr(obj,"coordinates") ) ) {
     
-    cat(paste("Coordinate file:",attr(obj,"spatialData"),"\n"))
+    cat(paste("Coordinate file:",attr(obj,"coordinates"),"\n"))
     
   }
   

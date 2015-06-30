@@ -445,12 +445,11 @@ setwd( Athaliana.directory )
 #####################################################################
 
 # Read data
-spatialData = "Athaliana.coord"
-genotype = "Athaliana.geno"
+spatialData = read.coord("Athaliana.coord")
 n = nrow(spatialData)
 
-project = TESS3( genotype = genotype, 
-                 coordinates = spatialData, 
+project = TESS3( genotype = "Athaliana.geno", 
+                 coordinates = "Athaliana.coord", 
                  K = 3, 
                  ploidy = 1, 
                  rep = 5 )
