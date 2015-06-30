@@ -115,6 +115,9 @@ ok( nonRegressionTesting( Athaliana.directory,
 )
 
 
+setwd( Athaliana.directory )
+setwd("../simpleTESS2")
+tess2tess3( "data.tess" ) 
 
 
 source(findSelection.directory)
