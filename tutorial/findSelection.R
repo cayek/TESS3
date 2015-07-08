@@ -28,10 +28,10 @@ Fst = fst( project, K = 3 )$Fst
 Fst[Fst < 0.0] = 0.0
 
 #### Convert Fst into t score
-squared.t.scores = Fst*(n-2)/(1-Fst)
+squared.t.scores = Fst*(n-3) / 2 / (1-Fst)
 
 #### recalibrated p-values
-gif = 25
+gif = 12.5
 adj.p.values = pf( squared.t.scores/gif , df1 = 2, df2 = n-3, lower = FALSE )
 
 hist(adj.p.values,prob=TRUE)
