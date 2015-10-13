@@ -24,13 +24,15 @@ else()
 	message("32 bit detected")
 endif() 
 
+set(SRC_DIRECTORY "tess3r/src/")
+
 #include directoriy
-include_directories("external/")
+include_directories("${SRC_DIRECTORY}")
 
 #add lapack
 file(GLOB lapack_SRC
-    "external/lapack/*.h"
-    "external/lapack/*.c"
+    "${SRC_DIRECTORY}/external/lapack/*.h"
+    "${SRC_DIRECTORY}/external/lapack/*.c"
 )
 
 add_library(lapack STATIC ${lapack_SRC})
@@ -39,8 +41,8 @@ SET_TARGET_PROPERTIES( lapack PROPERTIES LINKER_LANGUAGE C)
 
 #add sNMF
 file(GLOB sNMF_SRC
-    "src/sNMF/*.h"
-    "src/sNMF/*.c"
+    "${SRC_DIRECTORY}/sNMF/*.h"
+    "${SRC_DIRECTORY}/sNMF/*.c"
 )
 
 #include_directories("src/lapack/" )
@@ -50,8 +52,8 @@ SET_TARGET_PROPERTIES( sNMFlib PROPERTIES LINKER_LANGUAGE C)
 
 #add crossEntropy
 file(GLOB crossEntropy_SRC
-    "src/crossEntropy/*.h"
-    "src/crossEntropy/*.c"
+    "${SRC_DIRECTORY}/crossEntropy/*.h"
+    "${SRC_DIRECTORY}/crossEntropy/*.c"
 )
 
 add_library(crossEntropylib STATIC ${crossEntropy_SRC})
@@ -59,8 +61,8 @@ SET_TARGET_PROPERTIES( crossEntropylib PROPERTIES LINKER_LANGUAGE C)
 
 #add createDataSet
 file(GLOB createDataSet_SRC
-    "src/createDataSet/*.h"
-    "src/createDataSet/*.c"
+    "${SRC_DIRECTORY}/createDataSet/*.h"
+    "${SRC_DIRECTORY}/createDataSet/*.c"
 )
 
 add_library(createDataSetlib STATIC ${createDataSet_SRC})
@@ -68,8 +70,8 @@ SET_TARGET_PROPERTIES( createDataSetlib PROPERTIES LINKER_LANGUAGE C)
 
 #add bituint
 file(GLOB bituint_SRC
-    "src/bituint/*.h"
-    "src/bituint/*.c"
+    "${SRC_DIRECTORY}/bituint/*.h"
+    "${SRC_DIRECTORY}/bituint/*.c"
 )
 
 add_library(bituintlib STATIC ${bituint_SRC})
@@ -78,8 +80,8 @@ SET_TARGET_PROPERTIES( bituintlib PROPERTIES LINKER_LANGUAGE C)
 
 #add nnlsm
 file(GLOB nnlsm_SRC
-    "src/nnlsm/*.h"
-    "src/nnlsm/*.c"
+    "${SRC_DIRECTORY}/nnlsm/*.h"
+    "${SRC_DIRECTORY}/nnlsm/*.c"
 )
 
 add_library(nnlsmlib STATIC ${nnlsm_SRC})
@@ -88,8 +90,8 @@ SET_TARGET_PROPERTIES( nnlsmlib PROPERTIES LINKER_LANGUAGE C)
 
 #add io
 file(GLOB io_SRC
-    "src/io/*.h"
-    "src/io/*.c"
+    "${SRC_DIRECTORY}/io/*.h"
+    "${SRC_DIRECTORY}/io/*.c"
 )
 
 add_library(iolib STATIC ${io_SRC})
@@ -98,8 +100,8 @@ SET_TARGET_PROPERTIES( iolib PROPERTIES LINKER_LANGUAGE C)
 
 #add stats
 file(GLOB stats_SRC
-    "src/stats/*.h"
-    "src/stats/*.c"
+    "${SRC_DIRECTORY}/stats/*.h"
+    "${SRC_DIRECTORY}/stats/*.c"
 )
 
 add_library(statslib STATIC ${stats_SRC})
@@ -108,8 +110,8 @@ SET_TARGET_PROPERTIES( statslib PROPERTIES LINKER_LANGUAGE C)
 
 #add matrix
 file(GLOB matrix_SRC
-    "src/matrix/*.h"
-    "src/matrix/*.c"
+    "${SRC_DIRECTORY}/matrix/*.h"
+    "${SRC_DIRECTORY}/matrix/*.c"
 )
 
 add_library(matrixlib STATIC ${matrix_SRC})
@@ -118,8 +120,8 @@ target_link_libraries (matrixlib statslib lapack )
 
 #add spatialRegularizationTools
 file(GLOB spatialRegularizationTools_SRC
-    "src/spatialRegularizationTools/*.h"
-    "src/spatialRegularizationTools/*.cpp"
+    "${SRC_DIRECTORY}/spatialRegularizationTools/*.h"
+    "${SRC_DIRECTORY}/spatialRegularizationTools/*.cpp"
 )
 
 add_library(spatialRegularizationToolslib STATIC ${spatialRegularizationTools_SRC})
@@ -127,8 +129,8 @@ SET_TARGET_PROPERTIES( spatialRegularizationToolslib PROPERTIES LINKER_LANGUAGE 
 
 #add Fst
 file(GLOB Fst_SRC
-    "src/Fst/*.h"
-    "src/Fst/*.cpp"
+    "${SRC_DIRECTORY}/Fst/*.h"
+    "${SRC_DIRECTORY}/Fst/*.cpp"
 )
 
 add_library(Fstlib STATIC ${Fst_SRC})
@@ -136,6 +138,6 @@ SET_TARGET_PROPERTIES( Fstlib PROPERTIES LINKER_LANGUAGE CXX)
 
 
 #add sNMF main
-add_executable(TESS3 src/main/main_sNMF.c )
+add_executable(TESS3  "${SRC_DIRECTORY}/main/main_sNMF.c" )
 SET_TARGET_PROPERTIES(TESS3 PROPERTIES LINKER_LANGUAGE C)
 target_link_libraries (TESS3 sNMFlib lapack createDataSetlib crossEntropylib iolib nnlsmlib bituintlib statslib matrixlib spatialRegularizationToolslib Fstlib)
