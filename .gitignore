@@ -32,3 +32,25 @@ build/*
 
 #emacs file 
 *~
+
+#tess3r files
+*.L
+*.W
+*.tess3Project
+tess3r_workingDirectory/
+## knitr file
+tess3r/vignettes/tess3r_cache/
+tess3r/vignettes/tess3r_files/
+tess3r/vignettes/tess3r.R
+## History files
+.Rhistory
+.Rapp.history
+.RData
+## Example code in package build process
+*-Ex.R
+## RStudio files
+.Rproj.user/
+## produced vignettes
+tess3r/vignettes/*.html
+tess3r/vignettes/*.pdf
+.Rproj.user
