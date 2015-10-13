@@ -1,0 +1,33 @@
+OBJECTS.main = wrapper_tess3.o wrapper_createdataset.o wrapper_crossEntropy.o
+
+OBJECTS.bituint = bituint/bituint.o bituint/calc_bituint.o bituint/io_geno_bituint.o bituint/slice_bituint.o bituint/thread_bituint.o
+
+OBJECTS.createDataSet = createDataSet/createDataSet.o createDataSet/error_cds.o createDataSet/print_cds.o createDataSet/register_cds.o
+
+OBJECTS.crossEntropy = crossEntropy/crossEntropy.o crossEntropy/error_ce.o crossEntropy/print_ce.o crossEntropy/register_ce.o
+
+OBJECTS.io = io/io_data_double.o io/io_data_float.o io/io_data_int.o io/io_error.o io/io_tools.o io/print_bar.o
+
+OBJECTS.matrix = matrix/cholesky.o matrix/error_matrix.o matrix/normalize.o matrix/slice_matrix.o matrix/data.o matrix/inverse.o matrix/rand.o matrix/sylvester.o matrix/diagonalize.o matrix/matrix.o matrix/random_projection.o matrix/thread_matrix.o
+
+OBJECTS.nnlsm = nnlsm/blockpivot.o nnlsm/nnlsm.o nnlsm/solvenormaleqcomb.o nnlsm/sort.o
+
+OBJECTS.sNMF = sNMF/als.o sNMF/als_k1.o sNMF/criteria.o sNMF/print_snmf.o sNMF/sNMF.o sNMF/thread_Q.o sNMF/als_F.o sNMF/als_Q.o sNMF/error_snmf.o sNMF/register_snmf.o sNMF/thread_F.o sNMF/thread_snmf.o
+
+OBJECTS.stats = stats/beta_distribution.o stats/gamma_density.o stats/ln_beta_function.o stats/beta_function.o stats/gamma_distribution.o stats/ln_gamma_function.o stats/entire_incomplete_gamma_function.o stats/gamma_dist_tables.o stats/student_t_distribution.o stats/factorial.o stats/gamma_function.o
+
+OBJECTS.spatial = spatialRegularizationTools/spatialRegularizationTools.o
+
+OBJECTS.fst = Fst/Fst.o
+
+
+OBJECTS = $(OBJECTS.main) $(OBJECTS.bituint) $(OBJECTS.createDataSet) $(OBJECTS.crossEntropy) $(OBJECTS.io) $(OBJECTS.matrix) $(OBJECTS.nnlsm) $(OBJECTS.sNMF) $(OBJECTS.stats) $(OBJECTS.spatial) $(OBJECTS.fst)
+
+PKG_CPPFLAGS=-I.
+
+PKG_LIBS = $(LAPACK_LIBS) $(BLAS_LIBS) $(FLIBS)
+
+all: $(SHLIB)
+
+clean:
+	@rm -f $(OBJECTS)
