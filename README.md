@@ -50,9 +50,10 @@ Then, you can build the program.
 
 ## R package documentation
 
-The R package documentation is available [here](todo).
+Start with the R package tutorials [here](https://github.com/cayek/TESS3/blob/master/doc/tess3r_tutorial.html).
 
-Find out more complete tutorials with the R package [here](todo).
+The R package documentation is available [here](https://github.com/cayek/TESS3/blob/master/doc/tess3r.pdf).
+
 
 ## Command-line software
 
@@ -67,8 +68,6 @@ The repository is organized as follows:
 * external: external libraries.
 
 * test: scripts to test the program (for developers only).
-
-* tutorial: some examples of use of TESS3 program.
 
 * doc: program documentation.
 
