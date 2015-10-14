@@ -4,7 +4,7 @@ Title: An R Package for Population Genetics Study
 Version: 0.1
 Date: 2015-08-13
 Author: Kevin CAYE
-Maintainer: kevin.caye@imag.fr
+Maintainer: Kevin Caye <kevin.caye@imag.fr>
 Description: This R package implements the TESS3 program and tools useful to plot program outputs.
 License: GNU GENERAL PUBLIC LICENSE
 LazyData: TRUE
