@@ -1,7 +1,7 @@
 tess3r
 ------
 
-tess3r is a R package implementing **TESS3** (see reference TODO) software and other tools for population genetics. **TESS3** is a fast and efficient program for estimating spatial population structure based on geographically constrained non-negative matrix factorization and population genetics.
+tess3r is a R package implementing **TESS3** software and other tools for population genetics. **TESS3** is a fast and efficient program for estimating spatial population structure based on geographically constrained non-negative matrix factorization and population genetics.
 
 Find out more on ...(TODO mettre le lien vers les vignettes)
 

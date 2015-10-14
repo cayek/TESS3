@@ -12,7 +12,7 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-  This R package implements the **TESS3** [REFERENCE à l'article de TESS3] program and tools useful to plot program outputs. The program has functionalities similar to the previous versions of **TESS** [@chen2007bayesian; @durand2009spatial], has run-times several order faster than those of common Bayesian clustering programs. In addition, the program can be used to perform genome scans for selection based on ancestral allele frequency differentiation statistic, and to separate non-adaptive and adaptive genetic variation.
+  This R package implements the **TESS3** [@TESS3] program and tools useful to plot program outputs. The program has functionalities similar to the previous versions of **TESS** [@chen2007bayesian; @durand2009spatial], has run-times several order faster than those of common Bayesian clustering programs. In addition, the program can be used to perform genome scans for selection based on ancestral allele frequency differentiation statistic, and to separate non-adaptive and adaptive genetic variation.
 
   This documentation aims to present main functions of this package through two exemples. In the first exemple, we present how to use **TESS3** to find population structure and plot this structure on a map. The second exemple shows a way to use the ancestral allele frequency differentiation statistic to perform genome scan for selection. The main features of **TESS3** are illustrated using an example data set, simulated from European lines of the plant species *Arabidopsis thaliana*. More details on **tess3r** package can be found in the package documentation.
 
