@@ -50,7 +50,7 @@ Then, you can build the program.
 
 ## R package documentation
 
-Start with the R package tutorials [here](https://github.com/cayek/TESS3/blob/master/doc/tess3r_tutorial.html).
+Start with the [R package tutorials](https://github.com/cayek/TESS3/blob/master/doc/tess3r_tutorial.pdf).
 
 The R package documentation is available [here](https://github.com/cayek/TESS3/blob/master/doc/tess3r.pdf).
 
