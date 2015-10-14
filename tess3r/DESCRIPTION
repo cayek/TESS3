@@ -1,12 +1,12 @@
 Package: tess3r
 Type: Package
-Title: What the Package Does (Title Case)
+Title: An R Package for Population Genetics Study
 Version: 0.1
 Date: 2015-08-13
-Author: Who wrote it
-Maintainer: Who to complain to <yourfault@somewhere.net>
-Description: More about what it does (maybe more than one line)
-License: What license is it under?
+Author: Kevin CAYE
+Maintainer: kevin.caye@imag.fr
+Description: This R package implements the TESS3 program and tools useful to plot program outputs.
+License: GNU GENERAL PUBLIC LICENSE
 LazyData: TRUE
 LinkingTo: Rcpp
 Imports: Rcpp,

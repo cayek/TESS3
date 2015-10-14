@@ -6,15 +6,15 @@ TESS3 can be used on Mac, Linux or Windows through the command-line interface or
 
 # Installation
 
-## R packaged software
+## R package
 
-You can install the R package directly from the github repository thanks to the package devtools. If you don't already have devtools R package you can install it from CRAN:
+You can install the R package directly from the github repository thanks to the package devtools. If you don't already have devtools R package you can install it from CRAN. In a R session paste this command:
 
 ```R
 install.packages("devtools")
 ```
 
-Then, you can install the package:
+Then, you can install the package. In a R session paste this command:
 
 ```R
 devtools::install_github("cayek/TESS3/tess3r")
@@ -48,9 +48,15 @@ Then, you can build the program.
 
 # Program documentation
 
-The Command-line program documentation is available [here](https://github.com/cayek/TESS3/blob/master/doc/documentation.pdf).
+## R package documentation
 
-Find out more complete with the R package [here](todo).
+The R package documentation is available [here](todo).
+
+Find out more complete tutorials with the R package [here](todo).
+
+## Command-line software
+
+The Command-line program documentation is available [here](https://github.com/cayek/TESS3/blob/master/doc/documentation.pdf).
 
 # Organization
 

@@ -8,10 +8,16 @@ Find out more on ...(TODO mettre le lien vers les vignettes)
 Installation
 ------------
 
-You install the R package directly from the github repository thanks to the package devtools.
+You can install the R package directly from the github repository thanks to the package devtools. If you don't already have devtools R package you can install it from CRAN:
+
 ```R
-# install.packages("devtools")
-devtools::install_github("cayek/tess3r")
+install.packages("devtools")
+```
+
+Then, you can install the package:
+
+```R
+devtools::install_github("cayek/TESS3/tess3r")
 ```
 
 See also
