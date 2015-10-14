@@ -2,7 +2,7 @@ TESS3
 =====
 TESS3 is a fast and efficient program for estimating spatial population structure based on geographically constrained non-negative matrix factorization and population genetics.
 
-TESS3 can be used on Mac, Linux or Windows through the command-line interface or in R software environment thanks to the R wrapper function. 
+TESS3 can be used on Mac, Linux or Windows through the command-line interface or in R software environment thanks to the R package. 
 
 # Installation
 
@@ -50,14 +50,14 @@ Then, you can build the program.
 
 ## R package documentation
 
-Start with the [R package tutorials](https://github.com/cayek/TESS3/blob/master/doc/tess3r_tutorial.pdf).
+Start with the [R package tutorials](https://github.com/cayek/TESS3/raw/master/doc/tess3r_tutorial.pdf).
 
-The R package documentation is available [here](https://github.com/cayek/TESS3/blob/master/doc/tess3r.pdf).
+The R package documentation is available [here](https://github.com/cayek/TESS3/raw/master/doc/tess3r.pdf).
 
 
 ## Command-line software
 
-The Command-line program documentation is available [here](https://github.com/cayek/TESS3/blob/master/doc/documentation.pdf).
+The Command-line program documentation is available [here](https://github.com/cayek/TESS3/raw/master/doc/documentation.pdf).
 
 # Organization
 
