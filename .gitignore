@@ -54,3 +54,23 @@ tess3r/vignettes/tess3r.R
 tess3r/vignettes/*.html
 tess3r/vignettes/*.pdf
 .Rproj.user
+
+#useless on timc computer
+cache/
+doc/src/ccaption.log
+doc/src/ccaption.sty
+doc/src/ccaption/
+doc/src/lineno.sty
+doc/src/lineno/
+doc/src/note.aux
+doc/src/note.bbl
+doc/src/note.blg
+doc/src/note.dvi
+doc/src/note.pdf
+doc/src/note.tex.backup
+figure/
+
+#latex
+*.log
+*.dvi
+*.aux
