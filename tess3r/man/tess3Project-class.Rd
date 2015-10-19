@@ -3,11 +3,11 @@
 \docType{class}
 \name{tess3Project-class}
 \alias{tess3Project-class}
-\title{An S4 class to represent a tess3 project.}
+\title{An S4 class to represent a TESS3 project.}
 \description{
-An S4 class to represent a tess3 project.
+An S4 class to represent a TESS3 project.
 }
 \seealso{
-You can see how to use method of this class in \code{\link{tess3}}
+You can see how to use method of this class in \code{\link{TESS3}}
 }
 

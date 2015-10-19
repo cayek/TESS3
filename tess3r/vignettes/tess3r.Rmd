@@ -1,5 +1,5 @@
 ---
-title: "tess3r : An R Package for Population Genetics Study"
+title: "tess3r : tutorials"
 author: "Kevin  Caye and Olivier François"
 date: "`r Sys.Date()`"
 output:
@@ -32,7 +32,7 @@ coord.file <- system.file("extdata/Athaliana","Athaliana.coord",package = "tess3
 coord <- read.coord(coord.file)
 n <- nrow(coord)
 
-project <- tess3(input.file = genotype.file, 
+project <- TESS3(input.file = genotype.file, 
                 input.coord = coord.file, 
                 K = 1:5, 
                 ploidy = 1,
@@ -88,7 +88,7 @@ coord.file <- system.file("extdata/Athaliana","Athaliana.coord",package = "tess3
 coord <- read.coord(coord.file)
 n <- nrow(coord)
 
-project = tess3(input.file = genotype.file, 
+project = TESS3(input.file = genotype.file, 
                 input.coord = coord.file, 
                 K = 3, 
                 ploidy = 1,

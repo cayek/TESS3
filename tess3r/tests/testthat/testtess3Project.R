@@ -3,7 +3,7 @@ context("tess3Project methods")
 
 test_that("FST method and others :-D", {
 
-  projet = tess3(input.file = athaliana[,-(1:2)], athaliana[,1:2], 1:3, entropy = TRUE)
+  projet = TESS3(input.file = athaliana[,-(1:2)], athaliana[,1:2], 1:3, entropy = TRUE)
   fst = FST(projet, 3, 1)
   expect_is(fst,"matrix")
   plot(projet)

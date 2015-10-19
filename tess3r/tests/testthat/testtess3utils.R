@@ -15,7 +15,7 @@ test_that("getConstraintsFromAsciiRaster", {
 
 test_that("maps", {
 
-  project = tess3(input.file = athaliana[,-(1:2)], athaliana[,1:2], 3)
+  project = TESS3(input.file = athaliana[,-(1:2)], athaliana[,1:2], 3)
 
   asciiFile=system.file("extdata/","lowResEurope.asc",package = "tess3r")
   grid=createGridFromAsciiRaster(asciiFile)

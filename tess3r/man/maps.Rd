@@ -33,10 +33,10 @@ is maximal is plotted (even if the value is less than 0.5).
 if \code{onemap == F} all values are plotted (since there is one cluster represented on each map, there is no overlap problem).
 }
 \examples{
-## How maps can be used to plot tess3 function output ##
+## How maps can be used to plot TESS3 function output ##
 
 #################
-# runs of tess3 #
+# runs of TESS3 #
 #################
 # Retrieve data file name
 genotype.file <- system.file("extdata/Athaliana","Athaliana.geno",package = "tess3r")
@@ -45,7 +45,7 @@ coord.file <- system.file("extdata/Athaliana","Athaliana.coord",package = "tess3
 coord <- read.coord(coord.file)
 n <- nrow(coord)
 
-project <- tess3(input.file = genotype.file,
+project <- TESS3(input.file = genotype.file,
                  input.coord = coord.file,
                  K = 1:5,
                  ploidy = 1,
@@ -68,6 +68,6 @@ maps(matrix = Q( project, K = 3, run = 1 ),
      grid=grid,constraints=constraints,method="max",main="ancestry coefficient with K = 3")
 }
 \seealso{
-This function was made to used with \code{\link{createGridFromAsciiRaster}}, \code{\link{maps}} and \code{\link{tess3}}
+This function was made to used with \code{\link{createGridFromAsciiRaster}}, \code{\link{maps}} and \code{\link{TESS3}}
 }
 

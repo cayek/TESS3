@@ -1,7 +1,7 @@
 #' Estimates individual ancestry coefficients, ancestral allele frequencies and an ancestral allele frequency differentiation statistic.
 #'
-#' \code{\link{tess3}} estimates admixture coefficients using a graph based Non-Negative
-#' Matrix Factorization algorithms, and provide STRUCTURE-like outputs. \code{\link{tess3}} also computes
+#' \code{\link{TESS3}} estimates admixture coefficients using a graph based Non-Negative
+#' Matrix Factorization algorithms, and provide STRUCTURE-like outputs. \code{\link{TESS3}} also computes
 #' an ancestral allele frequency differentiation statistic
 #'
 #' @param input.file A character string containing a the path to the input genotype file,
@@ -9,14 +9,14 @@
 #' @param input.coord A character string containing a the path to the input coordinate file,
 #' a coordinate matrix in the \code{\link{coord}} format.
 #' @param K An integer vector corresponding to the number of ancestral populations for
-#' which the tess3 algorithm estimates have to be calculated.
+#' which the TESS3 algorithm estimates have to be calculated.
 #' @param project A character string among "continue", "new", and "force". If "continue",
 #' the results are stored in the current project. If "new", the current
 #' project is removed and a new one is created to store the result. If
 #' "force", the results are stored in the current project even if the input
 #' file has been modified since the creation of the project.
 #' @param repetitions An integer corresponding with the number of repetitions for each value of \code{K}.
-#' @param alpha A numeric value corresponding to the tess3 regularization parameter.
+#' @param alpha A numeric value corresponding to the TESS3 regularization parameter.
 #' The results depend on the value of this parameter.
 #' @param tolerance A numeric value for the tolerance error.
 #' @param entropy A boolean value. If true, the cross-entropy criterion is calculated.
@@ -34,7 +34,7 @@
 #' @param CPU A number of CPUs to run the parallel version of the algorithm. By default, the number of CPUs is 1.
 #' @param Q.input.file A character string containing a path to an initialization file for Q, the individual admixture coefficient matrix.
 #'
-#' @return \code{tess3} returns an object of class \code{tess3Project}.
+#' @return \code{TESS3} returns an object of class \code{tess3Project}.
 #' The following methods can be applied to the object of class {tess3Project}:
 #' \item{plot}{
 #'   Plot the minimal cross-entropy in function of K.
@@ -78,14 +78,14 @@
 #' athaliana.coord <- system.file("extdata/Athaliana","Athaliana.coord",package = "tess3r")
 #'
 #' #################
-#' # runs of tess3 #
+#' # runs of TESS3 #
 #' #################
 #'
 #' # main options, K: (the number of ancestral populations),
 #' #        entropy: calculate the cross-entropy criterion,
 #'
 #' # Runs with K between 1 and 5 with cross-entropy and 2 repetitions.
-#' project <- tess3( athaliana.genofile, athaliana.coord, K=1:5, entropy = TRUE, repetitions = 2,
+#' project <- TESS3( athaliana.genofile, athaliana.coord, K=1:5, entropy = TRUE, repetitions = 2,
 #'                   project = "new")
 #'
 #' # plot cross-entropy criterion of all runs of the project
@@ -105,7 +105,7 @@
 #'
 #' @useDynLib tess3r wrapper_tess3
 #' @export
-tess3 <- function(input.file,
+TESS3 <- function(input.file,
                   input.coord,
                   K,
                   project = "continue",

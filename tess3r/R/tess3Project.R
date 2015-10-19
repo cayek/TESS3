@@ -1,6 +1,6 @@
-#create Class tess3 Project
-#' An S4 class to represent a tess3 project.
-#' @seealso You can see how to use method of this class in \code{\link{tess3}}
+#create Class TESS3 Project
+#' An S4 class to represent a TESS3 project.
+#' @seealso You can see how to use method of this class in \code{\link{TESS3}}
 setClass("tess3Project",
          slots = c(tess3Project.file = "character", directory = "character",
                    input.file = "character", runs = "list", K="integer",
@@ -47,7 +47,7 @@ setMethod("getRuns.tess3Project", "tess3Project",
 )
 
 # plot
-#' @rdname tess3
+#' @rdname TESS3
 #'
 #' @export
 # display lambda for a value of d, and a Manhattan plot for a value of K.
@@ -269,7 +269,7 @@ setMethod("cross.entropy", "tess3Project",
 #' @export
 setMethod("show", "tess3Project",
           function(object) {
-            cat("tess3 Project\n\n")
+            cat("TESS3 Project\n\n")
             cat("tess3Project file:                ", object@tess3Project.file, "\n")
             cat("directory:                       ", object@directory, "\n")
             cat("date of creation:                ", object@creationTime, "\n")

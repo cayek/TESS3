@@ -1,4 +1,4 @@
-# create cl tess3
+# create cl TESS3
 setClass("tess3Class",
          slots = c(directory="character",
                    tess3Class.file ="character",
