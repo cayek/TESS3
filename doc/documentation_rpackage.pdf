@@ -1,0 +1,187 @@
+\documentclass[10pt,a4paper]{article}
+
+\usepackage{amssymb}
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{lineno}
+\usepackage{cite}
+\usepackage{float}
+\usepackage{ccaption}
+\usepackage{caption}
+\usepackage{array}
+\usepackage{lscape}
+\usepackage[hmargin=2cm,vmargin=2cm]{geometry}
+\usepackage{fancyvrb}
+\usepackage{hyperref}
+
+\title{{\tt TESS3} reference manual \\
+{\tt R} package
+}
+
+\author{
+        Kevin Caye (kevin.caye@imag.fr)\\
+        Olivier Fran\c cois (olivier.francois@imag.fr)\\
+}
+
+\newcommand{\bp}{\mathbf{p}}
+\newcommand{\LLL}{\mathcal{L}}
+
+%% BEGIN DOC
+\begin{document}
+
+
+\maketitle
+\begin{center}
+{\it Please, print this reference manual only if it is necessary.}
+\end{center}
+
+\vspace{.5cm}
+
+\begin{center} {\bf Summary}
+\end{center}
+
+
+\vspace{.5cm}
+
+Geography is an important determinant of genetic variation in natural 
+populations, and its effects are commonly investigated by analyzing population 
+genetic structure using spatial ancestry estimation programs. A common issue is 
+that classical spatial ancestry estimation programs do not scale with the 
+dimension of the data sets generated from modern sequencing technologies, and 
+more efficient algorithms are needed to analyze genome-wide patterns of 
+population genetic variation in their geographic context.
+
+The computer program {\tt TESS3}~\cite{TESS3} implements admixture models. The program has 
+functionalities similar to the previous versions of {\tt 
+TESS}~\cite{chen2007bayesian,durand2009spatial}, has run-times several order 
+faster than those of common Bayesian clustering programs. In addition, the 
+program can be used to perform genome scans for selection based on ancestral 
+allele frequency differentiation statistic, and to separate non-adaptive and 
+adaptive genetic variation.
+
+This documentation aims to help users to run the {\tt R} package {\tt tess3r} 
+which implements {\tt TESS3} with some {\tt R} functions that facilitate the 
+post-processing of the program outputs. The main features of {\tt 
+TESS3} are illustrated using an example data set, simulated from European lines 
+of the plant species {\it Arabidopsis thaliana}.
+
+\vspace{.5cm}
+
+
+\section{Program installation} 
+
+The installation of {\tt tess3r} {\tt R} package requires that {\tt R} is install on your computer (\url{https://www.r-project.org/}). You can install the R package directly from the github repository thanks to the package devtools. 
+If you don't already have {\tt devtools} R package you can install it from CRAN. In a R session paste this command:
+
+\begin{Verbatim}[frame = single]
+install.packages("devtools")
+\end{Verbatim}
+
+
+\noindent Then, you can install the R package. In a R session paste this command:
+
+\begin{Verbatim}[frame = single]
+devtools::install_github("cayek/TESS3/tess3r")
+\end{Verbatim}
+
+
+\section{Data format}
+
+\subsection{Input files}
+
+The R package {\tt tess3r} handles two kind of input files, the first one recording individual 
+genotype data and the second one containing the geographic coordinates of  each 
+sampled individual. For organism genomes of arbitrary ploidy, the standard data 
+type for {\tt tess3r} is the {\bf single nucleotide polymorphism} (SNP) type.  
+The genotype matrix must be formatted in the {\bf geno} format and the 
+coordinate file must be formatted in the {\bf coord} format.
+
+Users who want to process allelic data, such as microsatellite markers or AFLPs, 
+and have their data in the {\tt TESS} 2.3 format can also use {\tt tess3r}. They 
+need to convert their data in the geno+coord data format, and can do this using 
+the {\tt tess2tess3} function implemented in the package.
+
+
+\begin{itemize}
+\item {\bf geno} (example.geno)
+
+The {\bf geno} format has one row for each SNP. Each row contains 1 character 
+per individual. For diploid genomes,  0 means zero copies of the reference 
+allele, 1 means one copy of the reference allele, 2 means two copies of the 
+reference allele, and 9 codes for some missing data. Here is an example of a 
+geno file for $n=3$ individuals and $L=4$ loci.
+\\
+\begin{center}
+\footnotesize
+\begin{Verbatim}[frame=single]
+112
+010
+091
+121
+\end{Verbatim}
+\end{center}
+
+
+\item {\bf coord} (example.coord)
+
+The {\bf coord} format has one row for each individual. Each row contains the 
+\verb|longitude| and \verb|latitude| coordinates of each individual.
+\\
+\begin{center}
+\footnotesize
+\begin{Verbatim}[frame=single]
+2.5154 5.4390
+-8.4293 4.0197
+1.3536 5.5852
+\end{Verbatim}
+\end{center}
+
+\end{itemize}
+
+\noindent Users having their genotype data in the {\bf ped}, {\bf ancestrymap}, 
+{\bf vcf} or {\bf lfmm} format  can use the {\tt R} package {\tt LEA} to convert 
+them in the {\bf geno} format~\cite{frichot2015lea}. 
+
+\section{Run TESS3}
+
+In a {\tt R} session the {\tt TESS3} program can be run by typing: 
+
+\begin{Verbatim}[frame=single]
+> # Main parameters:
+> # input.file  is the genotype data file at .geno format
+> # input.coord is the coordinates data file at .coord format
+> # ploidy      is the ploidy of the species, 
+> #             here we assume that the data come from haploide species
+> # K           is the number of ancestral population, 
+> #             here we run the algorithm for K equals from 2 to 4
+> # repetition  is the number of algorithm run per parameter set.
+> tess3.obj = TESS3( input.file = "genotype.geno", 
+>                    input.coord = "coordinates.coord", 
+>                    ploidy = 1
+>                    K = 2:4,
+>                    repetition = 5)
+\end{Verbatim}
+
+\noindent Then, ancestry coefficients $Q$ matrix, ancestral population allele frequencies $G$ matrix 
+and the $F_{\rm ST}$ vector
+can be retrieve: 
+
+\begin{Verbatim}[frame=single]
+> Q = Q(tess3.obj, K = 3, repetition = 1)
+> G = G(tess3.obj, K = 3, repetition = 1)
+> Fst = FST(project, K = 3, repetition = 1)
+\end{Verbatim}
+
+\noindent Other features of {\tt tess3r} package are illustrated in more complete tutorial: 
+\url{https://github.com/cayek/TESS3/raw/master/doc/tess3r_tutorial.pdf}
+
+
+\section{Contact}
+If you need assistance, do not hesitate to send us an email (kevin.caye@imag.fr 
+or olivier.francois@imag.fr). 
+
+\bibliographystyle{plain}
+\bibliography{note}
+
+\end{document}
