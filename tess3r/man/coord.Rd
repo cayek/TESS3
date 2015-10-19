@@ -2,11 +2,11 @@
 \alias{coord}
 \alias{example_coord}
 
-\title{Input file for \code{\link{tess3}}}
+\title{Input file for \code{\link{TESS3}}}
 \description{
 Description of the \code{coord} format.
 The \code{coord} format can be used as an input format 
-for coordinates matrices in the functions \code{\link{tess3}}. 
+for coordinates matrices in the functions \code{\link{TESS3}}. 
 }
 \details{
 The \code{geno} format has one row for each individual. Each row contains the longitude and latitude
