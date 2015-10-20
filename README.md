@@ -4,9 +4,11 @@ TESS3 is a fast and efficient program for estimating spatial population structur
 
 TESS3 can be used on Mac, Linux or Windows through the command-line interface or in R software environment thanks to the R package. 
 
-# Installation
+# R package
 
-## R package
+We recommend using the R package which facilitate data preprocessing and visualisation. Moreover, we use the R package in the tutorials.
+
+## R package installation
 
 You can install the R package directly from the github repository thanks to the package devtools. If you don't already have devtools R package you can install it from CRAN. In a R session paste this command:
 
@@ -20,7 +22,16 @@ Then, you can install the package. In a R session paste this command:
 devtools::install_github("cayek/TESS3/tess3r")
 ```
 
-## Command-line interface software
+## R package documentation
+
+Start with the [R package tutorials](https://github.com/cayek/TESS3/raw/master/doc/tess3r_tutorial.pdf).
+
+The R package documentation is available [here](https://github.com/cayek/TESS3/raw/master/doc/tess3r.pdf).
+
+
+# Command-line software
+
+# Command-line software installation
 
 If you prefer working with command-line interface we also provide cmake file to compile the code. You need to download the master source directory [here](https://github.com/cayek/TESS3/archive/master.zip).
 
@@ -46,16 +57,7 @@ Then, you can build the program.
 	make TESS3
 ```
 
-# Program documentation
-
-## R package documentation
-
-Start with the [R package tutorials](https://github.com/cayek/TESS3/raw/master/doc/tess3r_tutorial.pdf).
-
-The R package documentation is available [here](https://github.com/cayek/TESS3/raw/master/doc/tess3r.pdf).
-
-
-## Command-line software
+## Command-line software documentation
 
 The Command-line program documentation is available [here](https://github.com/cayek/TESS3/raw/master/doc/documentation.pdf).
 
