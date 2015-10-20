@@ -323,12 +323,14 @@ read.coord <- function( file ) {
 
 }
 
+#' Convert allelic data in TESS 2.3 format into .geno format.
+#'
+#'
+#'
+#'
+#'
 #' @export
 tess2tess3 = function( file = "data.tess" ){
-
-  cat("TODO")
-
-  library(LEA)
 
   # read data for 2 diploid organisms and 10 multiallelic markers
   # diploid individuals encoded using two rows of data

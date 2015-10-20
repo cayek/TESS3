@@ -26,3 +26,8 @@ test_that("maps", {
        coord = athaliana[,1:2],
        grid=grid,constraints=constraints,method="max",main="ancestry coefficient with K = 3")
 })
+
+test_that("tess2tess3", {
+  tess2.3file=system.file("extdata/","data.tess",package = "tess3r")
+  tess2tess3(tess2.3file)
+})
