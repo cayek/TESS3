@@ -6,7 +6,7 @@ TESS3 can be used on Mac, Linux or Windows through the command-line interface or
 
 # tess3r R package
 
-We recommend using the R package which facilitate data preprocessing and visualisation. Moreover, we use the R package in the tutorials.
+We recommend using the R package which facilitates data pre-processing and visualisation. Moreover, the R package is used in the tutorials.
 
 ## R package installation
 
