@@ -323,3 +323,57 @@ read.coord <- function( file ) {
 
 }
 
+#' @export
+tess2tess3 = function( file = "data.tess" ){
+
+  cat("TODO")
+
+  library(LEA)
+
+  # read data for 2 diploid organisms and 10 multiallelic markers
+  # diploid individuals encoded using two rows of data
+  # data in the "TESS" format
+  # Missing data are coded as "-9" ("-1" works as well)
+
+
+  dat = read.table(file)
+
+  n = dim(dat)[1]
+  coord = dat[seq(1,n,by = 2), 1:2]
+
+  dat = dat[,-(1:2)]
+
+  # Convert allelic data into absence/presence data at each locus
+  # Results are stored in the "dat.binary" object
+
+  L = dim(dat)[2]
+  dat.binary = NULL
+  for (j in 1:L){
+    allele = unique(dat[,j])
+    for (i in allele[allele > 0]) dat.binary=cbind(dat.binary, dat[,j]==i)
+    LL = dim(dat.binary)[2]
+    ind = which(allele < 0)
+    if (length(ind) != 0){dat.binary[ind, (LL - length(allele) + 2):LL] = -9}
+  }
+
+  # Compute a genotype for each allele (0,1,2 or 9 for a missing value)
+  # results are stored in the "genotype" object (2 rows, 26 columns)
+
+  n = dim(dat.binary)[1]/2
+  genotype = matrix(NA,nrow=n,ncol=dim(dat.binary)[2])
+  for(i in 1:n){
+    genotype[i,]= dat.binary[2*i-1,]+dat.binary[2*i,]
+    genotype[i, (genotype[i,] < 0)] = 9
+  }
+
+
+
+  # Export genotypes in an external file in the "geno" format
+  write.table(file="genotype.geno",t(genotype),row.names=F,col.names=F,quote=F, sep = "")
+
+  # Export spatial coordinates in an external file in the "coord" format
+  write.table(file="coordinates.coord",coord,row.names=F,col.names=F,quote=F)
+
+}
+
+

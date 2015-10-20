@@ -342,7 +342,7 @@ TESS3 <- function(input.file,
   return(proj);
 }
 
-#' tess3r : An R Package for Population Genetics Study
+#' tess3r : TESS3 R Package
 #'
 #' This R package implements the TESS3 program and tools useful to plot program outputs.
 #'

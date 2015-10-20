@@ -74,3 +74,9 @@ figure/
 *.log
 *.dvi
 *.aux
+*.blg
+*.bbl
+*.tex.backup
+
+# R
+Rplots.pdf

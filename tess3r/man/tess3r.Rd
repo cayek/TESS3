@@ -4,7 +4,7 @@
 \name{tess3r}
 \alias{tess3r}
 \alias{tess3r-package}
-\title{tess3r : An R Package for Population Genetics Study}
+\title{tess3r : TESS3 R Package}
 \description{
 This R package implements the TESS3 program and tools useful to plot program outputs.
 }
