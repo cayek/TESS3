@@ -16,7 +16,7 @@ vignette: >
 
   This documentation aims to present main functions of this package through two exemples. In the first exemple, we present how to use **TESS3** to find population structure and plot this structure on a map. The second exemple shows a way to use the ancestral allele frequency differentiation statistic to perform genome scan for selection. The main features of **TESS3** are illustrated using an example data set, simulated from European lines of the plant species *Arabidopsis thaliana*. More details on **tess3r** package can be found in the package documentation.
 
-## Visualization of Ancestry Coefficients Using **TESS3**
+# Visualization of Ancestry Coefficients Using **TESS3**
 
 
 
@@ -73,7 +73,7 @@ maps(matrix = Q( project, K = 3, run = 1 ),
 ```
 
 
-## Genome Scan for Selection Using **TESS3**
+# Genome Scan for Selection Using **TESS3**
 
 We show here how to use **tess3r** R package to perform a genome scan for selection based on the
 computation of ancestral allele frequency differentiation statistics. Here **TESS3** is run with $K = 3$ ancestral
@@ -146,7 +146,7 @@ abline( -log10(limite), 0, col = "green", lty = 6, lwd = 3 )
 
 
 
-## References
+# References
 
 
 
