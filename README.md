@@ -24,10 +24,9 @@ devtools::install_github("cayek/TESS3/tess3r")
 
 ## R package documentation
 
-Start with the [R package tutorials](https://github.com/cayek/TESS3/raw/master/doc/tess3r_tutorial.pdf).
+The R package documentation is available [here](https://github.com/cayek/TESS3/raw/master/doc/documentation_rpackage.pdf).
 
-The R package documentation is available [here](https://github.com/cayek/TESS3/raw/master/doc/tess3r.pdf).
-
+[R package tutorials](https://github.com/cayek/TESS3/raw/master/doc/tess3r_tutorial.pdf).
 
 # TESS3 Command-line software
 
@@ -59,7 +58,7 @@ Then, you can build the program.
 
 ## Command-line software documentation
 
-The Command-line program documentation is available [here](https://github.com/cayek/TESS3/raw/master/doc/documentation.pdf).
+The Command-line program documentation is available [here](https://github.com/cayek/TESS3/raw/master/doc/documentation_cmdsoft.pdf).
 
 # Organization
 
