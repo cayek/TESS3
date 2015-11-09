@@ -4,7 +4,7 @@ TESS3 is a fast and efficient program for estimating spatial population structur
 
 TESS3 can be used on Mac, Linux or Windows through the command-line interface or in R software environment thanks to the R package. 
 
-The R package is in develpment and can be download in a Beta release.
+The R package is in development, you can only download the Beta release.
 
 # TESS3 Command-line software
 
