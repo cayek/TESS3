@@ -3,7 +3,7 @@ title: "tess3r : tutorials"
 author: "Kevin  Caye and Olivier François"
 date: "`r Sys.Date()`"
 output:
-  BiocStyle::html_document:
+  BiocStyle::pdf_document:
     toc: true
 bibliography: note.bib
 vignette: >

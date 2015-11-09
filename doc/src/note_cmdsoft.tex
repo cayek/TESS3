@@ -1,4 +1,4 @@
-\documentclass[10pt,a4paper]{article}
+\documentclass[12pt,a4paper]{article}
 
 \usepackage{amssymb}
 \usepackage[english]{babel}
@@ -14,6 +14,9 @@
 \usepackage[hmargin=2cm,vmargin=2cm]{geometry}
 \usepackage{fancyvrb}
 \usepackage{hyperref}
+\usepackage{setspace}
+
+\setstretch{1.2}
 
 \title{{\tt TESS3} reference manual \\
 Command-line program
@@ -52,16 +55,16 @@ dimension of the data sets generated from modern sequencing technologies, and
 more efficient algorithms are needed to analyze genome-wide patterns of 
 population genetic variation in their geographic context.
 
-The computer program {\tt TESS3}~\cite{TESS3} implements admixture models. The program has 
+The computer program {\tt TESS3}~\cite{TESS3} implements admixture models. The program {\tt TESS3} has 
 functionalities similar to the previous versions of {\tt 
-TESS}~\cite{chen2007bayesian,durand2009spatial}, has run-times several order 
+TESS}~\cite{chen2007bayesian,durand2009spatial}, and has run-times several order 
 faster than those of common Bayesian clustering programs. In addition, the 
-program can be used to perform genome scans for selection based on ancestral 
-allele frequency differentiation statistic, and to separate non-adaptive and 
+program {\tt TESS3} can be used to perform genome scans for selection based on ancestral 
+allele frequency differentiation statistics, and to separate non-adaptive genetic variation from 
 adaptive genetic variation.
 
-This documentation aims to help users to run the {\tt TESS3} command-line engine 
-and on Linux, Mac and Windows operating systems. 
+This documentation aims to help users to run the {\tt TESS3} command-line program 
+on Linux, Mac and Windows operating systems. 
 
 \vspace{.5cm}
 
@@ -85,8 +88,7 @@ directory.
 \end{Verbatim}
 
  \noindent The executable program file {\tt TESS3} will be found in the {\tt 
-build} directory. Copy the executable program file to the \verb|TESS3-master| directory, and 
-change directory to the main directory.
+build} directory. To run the program, copy and paste the executable program file to your working directory.
  
 \section{Data format}
 
@@ -94,15 +96,15 @@ change directory to the main directory.
 
 {\tt TESS3} requires two input files, the first one recording individual 
 genotype data and the second one containing the geographic coordinates of  each 
-sampled individual. For organism genomes of arbitrary ploidy, the standard data 
+sampled individual. For genomes of arbitrary ploidy, the standard data 
 type for {\tt TESS3} is the {\bf single nucleotide polymorphism} (SNP) type.  
 The genotype matrix must be formatted in the {\bf geno} format and the 
 coordinate file must be formatted in the {\bf coord} format.
 
 Users who want to process allelic data, such as microsatellite markers or AFLPs, 
 and have their data in the {\tt TESS} 2.3 format can also use {\tt TESS3}. They 
-need to convert their data in the geno+coord data format, and can do this using 
-the {\tt tess2tess3} function implemented in the {\tt R} package {\tt tess3r}.
+need to convert their data in the geno+coord data using the conversion tools in the R package
+{\tt LEA} (\url{http://membres-timc.imag.fr/Olivier.Francois/LEA/tutorial.htm}).
 
 
 
@@ -168,7 +170,7 @@ each locus.
 \end{itemize}
 
 There are additional {\bf output files} that are useful to get information about 
-the nearest-neighbor graph, the least-squares error and the cross-entropy 
+the nearest-neighbor graph, the least-squares error and the value of the cross-entropy 
 criterion computed by the program.
 
 \begin{itemize}
@@ -212,7 +214,7 @@ pre-specified edge weight matrix for the nearest-neighbor graph (separator =
 space character). The program uses this matrix when the option is set, otherwise 
 it uses the default values. The default nearest-neighbor graph is described in~\cite{
 TESS3}.
-\item \verb|-q output_Q| is a path for the output file containing the $Q$-matrix 
+\item \verb|-q output_Q| is a path to the output file containing the $Q$-matrix 
 of ancestry coefficients. The default name of the output file is the same name 
 as the input file with the extension {\tt .K.Q}.
 \item \verb|-g output_G| is a path to the output file containing the ancestral 
@@ -260,7 +262,7 @@ CPU units available on your computer (default: 1).
 \subsection{Example}\label{sec:ex}
 
 To run a very simple example of the use of {\tt TESS3}, consider data simulated 
-from the chromosome 5 of the model plant species {\it A. thaliana}. The genotype 
+from real data of the model plant species {\it A. thaliana}. The genotype 
 matrix contains 170 genotypes from European lines of the plant (26943 SNPs). 
 Since {\it A. thaliana} is a selfing species, the heterozygote frequency was 
 equal to zero, and the diploid genotypes were recoded as haploid. Copy the 
@@ -275,21 +277,49 @@ the directory {\tt ./data/simulated/Athaliana} and type
 
 
 \begin{Verbatim}[frame=single]
-> par( mfrow = c(2,1) )
-> Qmatrix = t( read.table("Athaliana.3.Q") ) # get the Q_matrix
-> barplot(Qmatrix, col = 2:4)                # display a barplot for the Q-matrix
-> Fst = read.table("Athaliana.3.Fst")[,1]    # get the Fst
-> plot(Fst, main = "Manhattan Plot", cex = .4, pch = 19, col = "blue")
+par( mfrow = c(2,1) )
+Qmatrix = t( read.table("Athaliana.3.Q") ) # get the Q_matrix
+barplot(Qmatrix, col = 2:4)                # display a barplot for the Q-matrix
+Fst = read.table("Athaliana.3.Fst")[,1]    # get the Fst
+plot(Fst, main = "Manhattan Plot", cex = .4, pch = 19, col = "blue")
 \end{Verbatim}
 
 These commands visualize the ancestry coefficient matrix computed by {\tt TESS3}, 
 and display a Manhattan plot of $F_{\rm ST}$ values along the fifth chromosome 
-of the plant species (Figure~\ref{fig:bar}).
+of the plant species.
+
+For visualizing the Q-matrix using a geographic map see the explanations given in the TESS webpage: 
+\url{http://membres-timc.imag.fr/Olivier.Francois/tess.html} (How to display the Q matrix from a unique geographic map).  
+The Q-matrix obtained with $K=3$ is displayed in Figure~\ref{fig:map}. 
 
 
 \begin{figure}[h!]\centering
-\includegraphics[width=\linewidth]{barplot.pdf}
-\caption{Results of the {\tt R} commands of section 3.2.}\label{fig:bar}
+\includegraphics[width=\linewidth]{map.pdf}
+\caption{\it Ancestry map for European lines of A. thaliana ($K$=3 ancestral populations).}\label{fig:map}
+\end{figure} 
+
+For generating a Manhattan plot for significance values, use the following R commands. 
+\begin{Verbatim}[frame=single]
+n = dim(Qmatrix )[2]
+K = 3
+f.scores = Fst*(n-K)/(1-Fst)/(K-1)
+lambda = median(f.scores)/qf(0.5, K-1, n-K)
+p.values = pf(f.scores/lambda, df1 = K-1, df2 = n-K, lower = F)
+plot(-log10(p.values), 
+     xlab = "SNP number", 
+     main = "Manhattan plot", 
+     pch = 19, 
+     cex = .3, 
+     col = "blue")
+\end{Verbatim}
+
+The result of the genome scan for selection is displayed in Figure~\ref{fig:Mplot}. 
+Lists of outlier loci can be proposed using Storey's method as implemented in the R package "qvalue".
+
+
+\begin{figure}[h!]\centering
+\includegraphics[width=\linewidth]{Mplot.pdf}
+\caption{\it Manhattan plot for European lines of A. thaliana ($K$=3 ancestral populations).}\label{fig:Mplot}
 \end{figure} 
 
 \section{Contact}
