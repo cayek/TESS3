@@ -30,7 +30,7 @@ void wrapper_tess3(char **R_genotype_file, char **R_coord_file, int *R_K,
         param->num_thrd = *R_num_proc;
         param->tolerance = *R_tol;
         param->pourcentage = *R_percentage;
-        param->alpha = *R_alpha;
+        param->beta = *R_alpha;
         param->I = *I;
         param->m = *R_ploidy;
         // param->missing_data = R_;
