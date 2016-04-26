@@ -103,7 +103,7 @@
 #'
 #' @aliases Q G FST cross.entropy load.snmfProject remove.snmfProject
 #'
-#' @useDynLib tess3r wrapper_tess3
+#' @useDynLib tess3rOld wrapper_tess3
 #' @export
 TESS3 <- function(input.file,
                   input.coord,
@@ -342,13 +342,13 @@ TESS3 <- function(input.file,
   return(proj);
 }
 
-#' tess3r : TESS3 R Package
+#' tess3rOld : TESS3 R Package
 #'
 #' This R package implements the TESS3 program and tools useful to plot program outputs.
 #'
 #' @docType package
 #'
-#' @name tess3r
+#' @name tess3rOld
 #'
 NULL
 

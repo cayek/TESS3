@@ -214,7 +214,7 @@ mapsMethodMax = function(matrix,coord,grid,constraints,colorGradientsList,...)
 }
 
 
-#' @useDynLib tess3r wrapper_createdataset
+#' @useDynLib tess3rOld wrapper_createdataset
 create.dataset <- function(input.file, output.file, seed = -1,
                            percentage = 0.05)
 {
@@ -255,7 +255,7 @@ create.dataset <- function(input.file, output.file, seed = -1,
   return(output.file);
 }
 
-#' @useDynLib tess3r wrapper_crossEntropy
+#' @useDynLib tess3rOld wrapper_crossEntropy
 cross.entropy.estimation <- function(input.file, K, masked.file, Q.file,
                                      G.file, ploidy = 2) {
 
