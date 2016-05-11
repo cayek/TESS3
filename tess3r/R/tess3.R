@@ -103,7 +103,7 @@
 #'
 #' @aliases Q G FST cross.entropy load.snmfProject remove.snmfProject
 #'
-#' @useDynLib tess3rOld wrapper_tess3
+#' @useDynLib tess3rOldExperiment wrapper_tess3
 #' @export
 TESS3 <- function(input.file,
                   input.coord,
@@ -119,7 +119,8 @@ TESS3 <- function(input.file,
                   ploidy = 1,
                   seed = -1,
                   CPU = 1,
-                  Q.input.file = "")
+                  Q.input.file = "",
+                  W.input.file = "")
 {
 
   ###########################
@@ -289,6 +290,7 @@ TESS3 <- function(input.file,
                 as.integer(ploidy),
                 as.integer(CPU),
                 as.character(Q.input.file),
+                as.character(W.input.file),
                 as.character(Q.output.file),
                 as.character(G.output.file),
                 as.character(FST.output.file),
@@ -342,15 +344,12 @@ TESS3 <- function(input.file,
   return(proj);
 }
 
-#' tess3rOld : TESS3 R Package
+#' tess3rOldExperiment : TESS3 R Package
 #'
 #' This R package implements the TESS3 program and tools useful to plot program outputs.
 #'
 #' @docType package
 #'
-#' @name tess3rOld
+#' @name tess3rOldExperiment
 #'
 NULL
-
-
-

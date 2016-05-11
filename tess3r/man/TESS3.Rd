@@ -15,7 +15,7 @@
 TESS3(input.file, input.coord, K, project = "continue", repetitions = 1,
   alpha = 0.001, tolerance = 1e-05, entropy = FALSE, percentage = 0.05,
   I = 0, iterations = 200, ploidy = 1, seed = -1, CPU = 1,
-  Q.input.file = "")
+  Q.input.file = "", W.input.file = "")
 
 \S4method{plot}{tess3Project,ANY}(x, y, ...)
 }
