@@ -29,7 +29,8 @@ void wrapper_tess3(char **R_genotype_file,
 																			double *all_ce,
 																			double *masked_ce,
 																			int *n,
-																			int *L)
+																			int *L,
+																			double *times)
 {
 								// for random in R
 								GetRNGstate();
@@ -60,7 +61,7 @@ void wrapper_tess3(char **R_genotype_file,
 								strcpy(param->input_file_W, *R_input_file_W);
 
 								// run
-								sNMF(param);
+								sNMF(param, times);
 
 								*all_ce = param->all_ce;
 								*masked_ce = param->masked_ce;

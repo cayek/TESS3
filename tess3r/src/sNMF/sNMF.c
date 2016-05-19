@@ -37,7 +37,7 @@
 #include "../spatialRegularizationTools/spatialRegularizationTools.h"
 #include "../Fst/Fst.h"
 
-void sNMF(sNMF_param param)
+void sNMF(sNMF_param param, double *times)
 {
 	// temporary variables
 	double like = 0.0;
@@ -172,7 +172,7 @@ void sNMF(sNMF_param param)
 			// select a subset of SNPs
 			select_geno_bituint(X, param->X, n, L, param->I, param->nc, param->Mp, Mp);
 			// calc init of Q_res
-			ALS(param);
+			ALS(param, times);
 			// free memory
 			free(param->F);
 			free(param->X);
@@ -192,7 +192,7 @@ void sNMF(sNMF_param param)
 	if (K == 1)
 		ALS_k1(param);
 	else
-		ALS(param);
+		ALS(param, times);
 
 	// least square estimates
 	like = least_square(param);

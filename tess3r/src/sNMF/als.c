@@ -16,7 +16,7 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
+#include <time.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -39,7 +39,7 @@
 // ALS
 
 
-void ALS(sNMF_param param) 
+void ALS(sNMF_param param, double *times)
 {
 	double prec2 = 1.0, sum2 = 0.0;
 	int k, i, j, l, c;
@@ -51,6 +51,8 @@ void ALS(sNMF_param param)
 	int nc = param->nc;
 	double *Q = param->Q;
 	double *F = param->F;
+
+	clock_t start, end;
 
 	//Initialisation of Q, prec and bar
 	//rand_matrix_double(Q, N, K);
@@ -66,11 +68,13 @@ void ALS(sNMF_param param)
 		print_bar(&i,&j, param->maxiter);
 #ifdef USING_R
 		// tout est dans le titre de la fonction,
-		// check si l'utilisateur a essayé d'interrompre le programme 
+		// check si l'utilisateur a essayé d'interrompre le programme
 		R_CheckUserInterrupt();
 #endif
+
+		start = clock();
 		// update F
-		update_F(param); 
+		update_F(param);
 		// check numerical issues
 		if (isnan(param->F[0])) {
 			printf("ALS: Internal Error, F is NaN.\n");
@@ -78,7 +82,7 @@ void ALS(sNMF_param param)
 		}
 		normalize_F(param->F,M, param->nc, K);
 
-		
+
 		// update Q
 		if (param->W == NULL) {
 			if (param->nnlsm_Q) {
@@ -112,12 +116,14 @@ void ALS(sNMF_param param)
 		if (param->W != NULL) {
 			// stopping criteria !! stopping criteria over derivative implemented inside update_nnlsm_spatial_Q don't work
 			// Is it true for our problem?
-			sum2 = least_square(param); 
+			sum2 = least_square(param);
 
 		}
-
+		end = clock();
+		times[k] = ((double) (end - start)) / CLOCKS_PER_SEC;
+		
 		// stopping criteria
-		if (k > 15 && fabs(prec2 - sum2) / fabs(prec2) < param->tolerance) {
+		if (k > 15 && fabs(prec2 - sum2) < param->tolerance) {
 			break;
 		}
 		prec2 = sum2;
@@ -154,4 +160,3 @@ void ALS(sNMF_param param)
 	free_nnlsm(n_param_spatial);
 	free(n_param_spatial);
 }
-

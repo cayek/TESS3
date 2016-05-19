@@ -21,6 +21,7 @@ void wrapper_tess3(char **R_genotype_file,
 																			double *all_ce,
 																			double *masked_ce,
 																			int *n,
-																			int *L);
+																			int *L,
+																			double *times);
 
 #endif                          // wrapper_tess3_H

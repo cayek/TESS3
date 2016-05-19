@@ -15,12 +15,12 @@
 #include "../nnlsm/blockpivot.h"
 #include "sNMF.h"
 
-/** 
+/**
  * @brief Algorithm Alternative Least Square
  *
  * @param param	parameter structure
  */
-void ALS(sNMF_param param); 
+void ALS(sNMF_param param, double *times); 
 
 #endif // ALS_H
 

@@ -32,7 +32,7 @@ typedef struct _snmf_param *sNMF_param;
  *
  * @param param	parameter structure
  */
-void sNMF(sNMF_param param);
+void sNMF(sNMF_param param, double *times);
 
 /**
  * @brief Structure containing all parameters for sNMF

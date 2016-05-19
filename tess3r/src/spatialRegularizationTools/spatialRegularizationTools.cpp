@@ -53,7 +53,7 @@ inline void heatKernel(Eigen::Map < Matrixd > & W, const Matrixd & Coord, unsign
 		}
 
 	}
-	
+
 	dist = dist.selfadjointView<Eigen::Upper>();
 	int auxi = 0, auxj = 0;
 
@@ -73,10 +73,10 @@ inline void heatKernel(Eigen::Map < Matrixd > & W, const Matrixd & Coord, unsign
 
 	//Remove diagonal one because they corespond to zero in W
 	nonZero.diagonal().setZero();
-	
+
 	// Compute the average distance
 	double sigma = W.sum() / nonZero.sum();
-	
+
 	double wOverSigma = 0.0;
 	// Compute the weight
 	for (unsigned int i = 0; i < n; i++) {
@@ -114,19 +114,19 @@ inline void heatKernel(Eigen::Map < Matrixd > & W, const Matrixd & Coord, double
     }
 
   }
-	
+
   distance *= dist.mean();
-  
+
 
   // Compute W with only neighbor which are in the range
   for (unsigned int i = 0; i < n; i++) {
 
     for (unsigned int j = i; j < n; j++) {
       if( dist(i, j) < distance ) {
-	
+
 	W(i, j) = dist(i,j);
 	nonZero( i, j) = 1.0;
-	
+
       }
     }
 
@@ -136,10 +136,10 @@ inline void heatKernel(Eigen::Map < Matrixd > & W, const Matrixd & Coord, double
 
   //Remove diagonal one because they corespond to zero in W
   nonZero.diagonal().setZero();
-	
+
   // Compute the average distance
   double sigma = W.sum() / nonZero.sum();
-	
+
   double wOverSigma = 0.0;
   // Compute the weight
   for (unsigned int i = 0; i < n; i++) {
@@ -161,34 +161,34 @@ void create_weight_laplacian_matrix(double *W, double * L, double * coordMatrix,
 	Eigen::Map < Matrixd > coordMatrixEigen(coordMatrix, n, 2);
 
 	Eigen::Map < Matrixd > LEigen(L, n, n);
-	
+
 	Eigen::Map < Matrixd > WEigen(W, n, n);
 
 	// Create weight of the graph
 	if (neighborProportion <= 0.0) {
-	  
+
 	  heatKernel(WEigen, coordMatrixEigen, -neighborProportion );
-	  
+
 	} else {
-	  
+
 	  heatKernel(WEigen, coordMatrixEigen, (unsigned int)floor(neighborProportion*n) );
 
 	}
-	
+
 
 	//Compute matrix L the laplacian matrix of the graph : L = D - W
 	//Remark = can be optimixed if we compute L outside
 	LEigen.setZero();
 	LEigen.diagonal() = WEigen * Eigen::VectorXd::Constant(n, 1.0);
 	LEigen -= WEigen;
-		
+
 	return;
 }
 
 void create_laplacian_matrix(double *W, double * L, unsigned int n) {
 
 	Eigen::Map < Matrixd > LEigen(L, n, n);
-	
+
 	Eigen::Map < Matrixd > WEigen(W, n, n);
 
 	//Compute matrix L the laplacian matrix of the graph : L = D - W
@@ -196,7 +196,7 @@ void create_laplacian_matrix(double *W, double * L, unsigned int n) {
 	LEigen.setZero();
 	LEigen.diagonal() = WEigen * Eigen::VectorXd::Constant(n, 1.0);
 	LEigen -= WEigen;
-		
+
 	return;
 }
 
@@ -230,14 +230,14 @@ double benchmark() {
 
 void unitTest(double *Q, double *Gamma, double *F, double * FtXt, unsigned int n, unsigned int Mp, unsigned int K, double beta, const Eigen::VectorXd & QtVec) {
 
-	//test of Vec(Qt)	
+	//test of Vec(Qt)
 	//plot to compare the two patrix
 	cout << "QtVec = \n" << QtVec << endl;
 	cout << "Q = \n";
 	for (int j = 0; j < K*n; j++)
 		cout << Q[j] << endl;
 
-	
+
 }
 
 void compute_spatial_AtA(double *L, double *F, unsigned int n, unsigned int Mp, unsigned int K, double beta, double *AtA) {
@@ -248,7 +248,7 @@ void compute_spatial_AtA(double *L, double *F, unsigned int n, unsigned int Mp, 
 	Eigen::Map < Matrixd > AtAEigen(AtA, n*K, n*K);
 	Eigen::Map < Matrixd > LEigen(L, n, n);
 
-	// AtA = ( Id_n (x) FtF + beta L (x) Id_K ) 
+	// AtA = ( Id_n (x) FtF + beta L (x) Id_K )
 	// (x) is the kroneker product
 	AtAEigen = Eigen::kroneckerProduct(Eigen::MatrixXd::Identity(n, n),
 		FEigen.transpose() * FEigen).eval();
@@ -271,11 +271,11 @@ double update_spatial_Q(double *Q, double *L, double *F, double * FtXt, unsigned
 
 	Matrixd AtA( n*K, n*K);
 
-	// AtA = ( Id_n (x) FtF + beta L (x) Id_K ) 
+	// AtA = ( Id_n (x) FtF + beta L (x) Id_K )
 	// (x) is the kroneker product
 
 
-	AtA = Eigen::kroneckerProduct(Eigen::MatrixXd::Identity(n, n), 
+	AtA = Eigen::kroneckerProduct(Eigen::MatrixXd::Identity(n, n),
 		FEigen.transpose() * FEigen ).eval();
 	AtA += beta * Eigen::kroneckerProduct(LEigen,
 		Eigen::MatrixXd::Identity(K, K)).eval();
@@ -300,8 +300,8 @@ double update_spatial_Q(double *Q, double *L, double *F, double * FtXt, unsigned
 	// test
 	//unitTest(Q, L, F, FtXt, n, Mp, K, beta, QtVec);
 
-	// Compute return as ||Q||^2 very bad criteria 
-	// TODO 
+	// Compute return as ||Q||^2 very bad criteria
+	// TODO
 	//cout << "here spatial \n";
 	return QtVec.squaredNorm();
 
@@ -312,5 +312,5 @@ void normalize_beta(double *beta, unsigned int n, unsigned int Mc, double * W) {
 
   Eigen::Map < Matrixd > WEigen(W, n, n);
   *beta *= n * Mc / ( 0.5 * WEigen.sum() );
-    
+
 }

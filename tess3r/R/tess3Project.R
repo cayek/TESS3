@@ -5,7 +5,8 @@ setClass("tess3Project",
          slots = c(tess3Project.file = "character", directory = "character",
                    input.file = "character", runs = "list", K="integer",
                    tess3Class.files = "vector", n="integer", L="integer",
-                   creationTime = "POSIXct")
+                   creationTime = "POSIXct",
+                   times="numeric")
 )
 
 # addRun

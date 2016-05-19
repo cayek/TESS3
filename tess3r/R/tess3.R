@@ -126,7 +126,7 @@ TESS3 <- function(input.file,
   ###########################
   # test arguments and init #
   ###########################
-
+  times = as.vector(rep(as.double(-1.0), iterations))
   # input file
   ## geno
   if( class( input.file ) == "matrix" ) {
@@ -299,9 +299,10 @@ TESS3 <- function(input.file,
                 all.ce = as.double(all.ce),
                 masked.ce = as.double(masked.ce),
                 n = as.integer(n),
-                L = as.integer(L)
+                L = as.integer(L),
+                times = times
       );
-
+      times = resC$times
       # calculate crossEntropy
       if (entropy) {
         ce = cross.entropy.estimation(input.file, k, masked.file,
@@ -340,7 +341,8 @@ TESS3 <- function(input.file,
       save.tess3Project(proj)
     }
   }
-
+  times[times == -1.0] = NA
+  proj@times = times
   return(proj);
 }
 
