@@ -121,9 +121,9 @@ void ALS(sNMF_param param, double *times)
 		}
 		end = clock();
 		times[k] = ((double) (end - start)) / CLOCKS_PER_SEC;
-		
+
 		// stopping criteria
-		if (k > 15 && fabs(prec2 - sum2) < param->tolerance) {
+		if (k > 15 && fabs(prec2 - sum2) / fabs(prec2) < param->tolerance) {
 			break;
 		}
 		prec2 = sum2;
