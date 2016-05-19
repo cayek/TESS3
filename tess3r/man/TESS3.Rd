@@ -12,20 +12,14 @@
 \alias{remove.snmfProject}
 \title{Estimates individual ancestry coefficients, ancestral allele frequencies and an ancestral allele frequency differentiation statistic.}
 \usage{
-TESS3(input.file, input.coord, K, project = "continue", repetitions = 1,
+TESS3(X, coord, W, K, project = "continue", repetitions = 1,
   alpha = 0.001, tolerance = 1e-05, entropy = FALSE, percentage = 0.05,
   I = 0, iterations = 200, ploidy = 1, seed = -1, CPU = 1,
-  Q.input.file = "", W.input.file = "")
+  Q.input.file = "", W.input.file = NULL)
 
 \S4method{plot}{tess3Project,ANY}(x, y, ...)
 }
 \arguments{
-\item{input.file}{A character string containing a the path to the input genotype file,
-a genotypic matrix in the \code{\link[LEA]{geno}} format.}
-
-\item{input.coord}{A character string containing a the path to the input coordinate file,
-a coordinate matrix in the \code{\link{coord}} format.}
-
 \item{K}{An integer vector corresponding to the number of ancestral populations for
 which the TESS3 algorithm estimates have to be calculated.}
 
@@ -63,6 +57,12 @@ up snmf estimation for very large data sets.}
 \item{CPU}{A number of CPUs to run the parallel version of the algorithm. By default, the number of CPUs is 1.}
 
 \item{Q.input.file}{A character string containing a path to an initialization file for Q, the individual admixture coefficient matrix.}
+
+\item{input.file}{A character string containing a the path to the input genotype file,
+a genotypic matrix in the \code{\link[LEA]{geno}} format.}
+
+\item{input.coord}{A character string containing a the path to the input coordinate file,
+a coordinate matrix in the \code{\link{coord}} format.}
 }
 \value{
 \code{TESS3} returns an object of class \code{tess3Project}.

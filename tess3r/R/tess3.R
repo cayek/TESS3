@@ -1,3 +1,14 @@
+
+ComputeMeanDist <- function(coord) {
+  W <- matrix(0,nrow(coord),nrow(coord))
+  for (i in 1:nrow(coord)) {
+    for (j in 1:nrow(coord)){
+      W[i,j] <- sqrt(sum((coord[i,]-coord[j,])^2))
+    }
+  }
+  return(mean(W))
+}
+
 #' Estimates individual ancestry coefficients, ancestral allele frequencies and an ancestral allele frequency differentiation statistic.
 #'
 #' \code{\link{TESS3}} estimates admixture coefficients using a graph based Non-Negative
@@ -105,8 +116,9 @@
 #'
 #' @useDynLib tess3rOldExperiment wrapper_tess3
 #' @export
-TESS3 <- function(input.file,
-                  input.coord,
+TESS3 <- function(X,
+                  coord,
+                  W,
                   K,
                   project = "continue",
                   repetitions = 1,
@@ -120,7 +132,7 @@ TESS3 <- function(input.file,
                   seed = -1,
                   CPU = 1,
                   Q.input.file = "",
-                  W.input.file = "")
+                  W.input.file = NULL)
 {
 
   ###########################
@@ -128,41 +140,15 @@ TESS3 <- function(input.file,
   ###########################
   times = as.vector(rep(as.double(-1.0), iterations))
   # input file
-  ## geno
-  if( class( input.file ) == "matrix" ) {
-    project = "new"
-    if ( !file.exists(file = "tess3r_workingDirectory") ) {
-      dir.create("tess3r_workingDirectory")
-    }
-    TESS3_workingDirectory = paste( getwd(), "/tess3r_workingDirectory/", sep="" )
-    #cat("---------------------WRITTING GENOTYPE-----------------------\n")
-    #write genotype and spatial data into file
-    genotype_file  = paste( TESS3_workingDirectory, "/genotype.geno", sep="" )
-    write.table(file = genotype_file,
-                t(input.file), row.names = F, col.names = F, quote = F, sep = "")
-    input.file = genotype_file
+  input.file <- paste0(tempfile(),".geno")
+  LEA::write.geno(X, input.file)
+  input.coord <- paste0(tempfile(),".coord")
+  write.table(coord, row.names = FALSE, col.names = FALSE, file = input.coord)
+  W.input.file = paste0(tempfile(),".W")
+  if (is.null(W)) {
+    W <- tess3r::ComputeHeatKernelWeight(coord, ComputeMeanDist(coord) * 0.05)
   }
-  input.file = test_character("input.file", input.file, NULL)
-  # check extension and convert if necessary
-  input.file = test_input_file(input.file, "geno")
-  input.file = normalizePath(input.file)
-  ## coord
-  if( class( input.coord ) == "matrix" ) {
-    project = "new"
-    if ( !file.exists(file = "tess3r_workingDirectory") ) {
-      dir.create("tess3r_workingDirectory")
-    }
-    TESS3_workingDirectory = paste( getwd(), "/tess3r_workingDirectory/", sep="" )
-    #cat("---------------------WRITTING GENOTYPE-----------------------\n")
-    #write genotype and spatial data into file
-    coordinates_file  = paste( TESS3_workingDirectory, "/coordinate.coord", sep="" )
-    write.table(file = coordinates_file,
-                input.coord, row.names = F, col.names = F, quote = F, sep = " ")
-    input.coord = coordinates_file
-  }
-  input.coord = test_character("input.coord", input.coord, NULL)
-  input.coord = normalizePath(input.coord)
-
+  write.table(W, row.names = FALSE, col.names = FALSE, file = W.input.file)
 
   # K
   for (k in 1:length(K)) {
